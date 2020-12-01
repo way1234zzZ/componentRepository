@@ -1,13 +1,13 @@
 <template>
   <svg class="g-icon">
-    <use :xlink:href="`#i-${icon}`"></use>
+    <use :xlink:href="`#i-${name}`"></use>
   </svg>
 </template>
 <script>
 export default {
   name: 'gIcon',
   props: {
-    icon: {
+    name: {
       default: '',
       type: String
     }

@@ -2,7 +2,7 @@
   <!-- 这里为什么要放进数组 -->
   <button class="gButton" :class="{[`icon-${iconPosition}`]:true}">
     <!-- :icon的icon为传给icon.vue的属性 “icon”为app.vue传来的icon属性（变量） -->
-    <g-icon v-if="icon" :icon="icon" class="icon"></g-icon>
+    <g-icon v-if="icon" :name="icon" class="icon" :class="{[`${icon}`]:true}"></g-icon>
     <div class="content">
       <slot></slot>
     </div>
@@ -34,6 +34,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .gButton {
   font-size: var(--font-size);
   height: var(--button-height);
@@ -79,5 +87,8 @@ export default {
 .icon {
   width: 1em;
   height: 1em;
+}
+.loading {
+  animation: spin 1s infinite linear;
 }
 </style>

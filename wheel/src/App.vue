@@ -6,20 +6,17 @@
     <g-button icon="settings">
       按钮
     </g-button>
-    <g-button icon="download" iconPosition="right">
+    <g-button icon="loading" iconPosition="right">
       按钮
     </g-button>
-    <g-icon icon="download"></g-icon>
   </div>
 </template>
 
 <script>
 import gButton from '@/components/button.vue'
-import gIcon from '@/components/icon.vue'
 export default {
   components: {
     gButton,
-    gIcon
   },
   data() {
     return {
