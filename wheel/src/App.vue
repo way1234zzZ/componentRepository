@@ -8,13 +8,13 @@
     </g-button>
     <g-button :loading="flag" icon="download" iconPosition="right" @click="flag = !flag">
       按钮
-    </g-button> |
+    </g-button>
     <button-group>
-      <div>
-        <g-button icon="left">
-          上一页
-        </g-button>
-      </div>
+
+      <g-button icon="left">
+        上一页
+      </g-button>
+
       <g-button>
         更多
       </g-button>
