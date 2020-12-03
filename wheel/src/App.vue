@@ -6,7 +6,7 @@
     <g-button icon="settings">
       按钮
     </g-button>
-    <g-button icon="loading" iconPosition="right">
+    <g-button :loading="flag" icon="download" iconPosition="right" @click="flag = !flag">
       按钮
     </g-button>
   </div>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       // iconName: 'settings'
+      flag: true
     }
   }
 }

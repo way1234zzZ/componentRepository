@@ -1,8 +1,9 @@
 <template>
   <!-- 这里为什么要放进数组 -->
-  <button class="gButton" :class="{[`icon-${iconPosition}`]:true}">
+  <button class="gButton" :class="{[`icon-${iconPosition}`]:true}" @click="switchLoading">
     <!-- :icon的icon为传给icon.vue的属性 “icon”为app.vue传来的icon属性（变量） -->
-    <g-icon v-if="icon" :name="icon" class="icon" :class="{[`${icon}`]:true}"></g-icon>
+    <g-icon v-if="icon && !loading" class="icon" :name="icon"></g-icon>
+    <g-icon v-if="loading" class="loading icon" name="loading"></g-icon>
     <div class="content">
       <slot></slot>
     </div>
@@ -15,13 +16,17 @@ import gIcon from './icon.vue'
 export default {
   name: "gButton",
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     icon: {
       type: String
     },
     iconPosition: {
       type: String,
       default: 'left',
-      //value可以随便取 prop的验证函数
+      //value可以随便取 prop的验证函数 iconPosition不为左或者右时报错
       validator(value) {
         return !(value != 'left' && value != 'right')
       }
@@ -29,6 +34,11 @@ export default {
   },
   components: {
     gIcon,
+  },
+  methods: {
+    switchLoading() {
+      this.$emit('click')
+    }
   }
 }
 </script>
