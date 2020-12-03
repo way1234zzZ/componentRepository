@@ -10,9 +10,11 @@
       按钮
     </g-button> |
     <button-group>
-      <g-button icon="left">
-        上一页
-      </g-button>
+      <div>
+        <g-button icon="left">
+          上一页
+        </g-button>
+      </div>
       <g-button>
         更多
       </g-button>
@@ -35,6 +37,16 @@ export default {
     return {
       // iconName: 'settings'
       flag: true
+    }
+  },
+  mounted() {
+    //防止用户在button外面包了div button-group的css选择器不起效
+    for (let node of this.$el.children) {
+      //nodeName都是大写
+      //console.log(node.nodeName)
+      if (node.nodeName.toLowerCase() !== 'button') {
+        console.warn(`g-button-group的子元素应该全是g-button，但是你写的是${node.nodeName.toLowerCase()}`)
+      }
     }
   }
 }
