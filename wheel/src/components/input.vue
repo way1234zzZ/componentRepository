@@ -3,7 +3,9 @@
   <!-- 如果存在error类 -->
   <div class="wrapper" :class="{error}">
     <!-- :value为 input原有属性value -->
-    <input :value="value" type="text" :disabled="disabled" :readonly="readonly">
+    <!-- $event当前事件对象，浏览器赋予 -->
+    <input :value="value" type="text" :disabled="disabled" :readonly="readonly" @change="$emit('change',$event.target.value,'hi')" @input="$emit('input',$event.target.value,'hi')" @focus="$emit('focus',$event.target.value,'hi')"
+      @blur="$emit('blur',$event.target.value,'hi')">
     <!-- 用template取代div 否则要给div加样式 -->
     <template v-if="error">
       <g-icon name="error" class="icon-error"></g-icon>

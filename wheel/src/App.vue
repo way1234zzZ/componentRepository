@@ -26,7 +26,9 @@
     </div>
 
     <div class="box">
-      <g-input value="王" error="姓名不能少于两个字"></g-input>
+      <g-input value="王" v-model="message"></g-input>
+      <p>{{message}}</p>
+      <button @click="message+=1">+1</button>
     </div>
     <div class="box">
       <g-input value="张三"></g-input>
@@ -51,7 +53,8 @@ export default {
   data() {
     return {
       // iconName: 'settings'
-      flag: true
+      flag: true,
+      message: 'hi'
     }
   },
   mounted() {
@@ -64,6 +67,14 @@ export default {
         console.warn(`g-button-group的子元素应该全是g-button，但是你写的是${node.nodeName.toLowerCase()}`)
       }
     }
+  },
+  methods: {
+    //xy说明形参可以随便取
+    // inputchange(xxxxx, yyyyy) {
+    //   console.log(xxxxx.target.value);
+    //   console.log(yyyyy)
+
+    // }
   }
 }
 </script>
