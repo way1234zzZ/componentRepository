@@ -1,6 +1,7 @@
 <template>
   <!-- 这里为什么要放进数组 -->
   <button class="gButton" :class="{[`icon-${iconPosition}`]:true}" @click="switchLoading">
+    <!-- <button class="gButton" :class="[`icon-${iconPosition}`]" @click="switchLoading"> -->
     <!-- :icon的icon为传给icon.vue的属性 “icon”为app.vue传来的icon属性（变量） -->
     <g-icon v-if="icon && !loading" class="icon" :name="icon"></g-icon>
     <g-icon v-if="loading" class="loading icon" name="loading"></g-icon>
@@ -44,6 +45,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+//spin:名称
 @keyframes spin {
   0% {
     transform: rotate(0deg);

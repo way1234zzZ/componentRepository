@@ -1,37 +1,52 @@
 <template>
-  <div id="app">
-    <g-button>
-      按钮
-    </g-button>
-    <g-button icon="settings">
-      按钮
-    </g-button>
-    <g-button :loading="flag" icon="download" iconPosition="right" @click="flag = !flag">
-      按钮
-    </g-button>
-    <button-group>
-
-      <g-button icon="left">
-        上一页
-      </g-button>
-
+  <div class="box">
+    <div id="app">
       <g-button>
-        更多
+        按钮
       </g-button>
-      <g-button icon="right" iconPosition="right">
-        下一页
+      <g-button icon="settings">
+        按钮
       </g-button>
-    </button-group>
+      <g-button :loading="flag" icon="download" iconPosition="right" @click="flag = !flag">
+        按钮
+      </g-button>
+      <button-group>
+
+        <g-button icon="left">
+          上一页
+        </g-button>
+
+        <g-button>
+          更多
+        </g-button>
+        <g-button icon="right" iconPosition="right">
+          下一页
+        </g-button>
+      </button-group>
+    </div>
+
+    <div class="box">
+      <g-input value="王" error="姓名不能少于两个字"></g-input>
+    </div>
+    <div class="box">
+      <g-input value="张三"></g-input>
+      <!-- 如果不加冒号 disabled绑定的是字符串不是变量 -->
+      <g-input value="李四" :disabled="true" :readonly="true"></g-input>
+      <g-input value="李四" readonly></g-input>
+      <g-input value="李四" disabled></g-input>
+    </div>
   </div>
 </template>
 
 <script>
 import gButton from '@/components/button.vue'
 import buttonGroup from '@/components/button-group.vue'
+import gInput from '@/components/input.vue'
 export default {
   components: {
     gButton,
-    buttonGroup
+    buttonGroup,
+    gInput
   },
   data() {
     return {
@@ -40,6 +55,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$el.children)
     //防止用户在button外面包了div button-group的css选择器不起效
     for (let node of this.$el.children) {
       //nodeName都是大写
@@ -53,6 +69,9 @@ export default {
 </script>
 <style scoped>
 #app {
+  margin: 20px;
+}
+.box {
   margin: 20px;
 }
 </style>
