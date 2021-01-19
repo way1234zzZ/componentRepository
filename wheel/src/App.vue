@@ -23,6 +23,15 @@
           下一页
         </g-button>
       </button-group>
+
+      <g-row>
+        <!-- span="2"此处的2是字符串不是数字 -->
+        <g-col span="2"></g-col>
+        <!--外面的引号是css的引号，里面的单引号是js的引号，这里的2就是字符串 也可以双引号在里面，单引号在外面或者用反引号-->
+        <!-- <g-col ：span="'2'"></g-col> -->
+        <g-col></g-col>
+        <g-col></g-col>
+      </g-row>
     </div>
 
     <div class="box">
@@ -37,20 +46,6 @@
       <g-input value="李四" readonly></g-input>
       <g-input value="李四" disabled></g-input>
     </div>
-
-    <div class="row">
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col" data-span="2"></div>
-      <div class="col" data-span="22"></div>
-    </div>
   </div>
 
 </template>
@@ -59,12 +54,15 @@
 import gButton from '@/components/button.vue'
 import buttonGroup from '@/components/button-group.vue'
 import gInput from '@/components/input.vue'
-
+import gRow from '@/components/row.vue'
+import gCol from '@/components/col.vue'
 export default {
   components: {
     gButton,
     buttonGroup,
-    gInput
+    gInput,
+    gRow,
+    gCol
   },
   data() {
     return {
@@ -100,20 +98,5 @@ export default {
 }
 .box {
   margin: 20px;
-}
-.row {
-  display: flex;
-}
-.col {
-  height: 100px;
-  background: grey;
-  border: 1px solid red;
-  width: 50%;
-}
-.col[data-span="2"] {
-  width: 8.33333%;
-}
-.col[data-span="22"] {
-  width: 91.6667%;
 }
 </style>
