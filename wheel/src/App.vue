@@ -37,13 +37,29 @@
       <g-input value="李四" readonly></g-input>
       <g-input value="李四" disabled></g-input>
     </div>
+
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col" data-span="2"></div>
+      <div class="col" data-span="22"></div>
+    </div>
   </div>
+
 </template>
 
 <script>
 import gButton from '@/components/button.vue'
 import buttonGroup from '@/components/button-group.vue'
 import gInput from '@/components/input.vue'
+
 export default {
   components: {
     gButton,
@@ -84,5 +100,20 @@ export default {
 }
 .box {
   margin: 20px;
+}
+.row {
+  display: flex;
+}
+.col {
+  height: 100px;
+  background: grey;
+  border: 1px solid red;
+  width: 50%;
+}
+.col[data-span="2"] {
+  width: 8.33333%;
+}
+.col[data-span="22"] {
+  width: 91.6667%;
 }
 </style>
