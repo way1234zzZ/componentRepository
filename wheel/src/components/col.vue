@@ -1,5 +1,6 @@
 <template>
-  <div class="col" :class="[`col-${span}`]">
+  <!-- 如果有offset -->
+  <div class="col" :class="[`col-${span}`, offset && `offset-${offset}`]">
     <slot></slot>
   </div>
 </template>
@@ -9,6 +10,9 @@ export default {
   props: {
     span: {
       //既可以传number，也可以传string
+      type: [Number, String]
+    },
+    offset: {
       type: [Number, String]
     }
   }
@@ -26,6 +30,13 @@ export default {
   @for $n from 1 through 24 {
     &.#{$class-prefix}#{$n} {
       width: ($n / 24) * 100%;
+    }
+  }
+
+  $class-prefix: offset-;
+  @for $n from 1 through 24 {
+    &.#{$class-prefix}#{$n} {
+      margin-left: ($n / 24) * 100%;
     }
   }
 }

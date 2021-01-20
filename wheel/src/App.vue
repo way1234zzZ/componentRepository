@@ -29,8 +29,7 @@
         <g-col span="2"></g-col>
         <!--外面的引号是css的引号，里面的单引号是js的引号，这里的2就是字符串 也可以双引号在里面，单引号在外面或者用反引号-->
         <!-- <g-col ：span="'2'"></g-col> -->
-        <g-col></g-col>
-        <g-col></g-col>
+        <g-col span="20" :offset="2"></g-col>
       </g-row>
     </div>
 
@@ -72,7 +71,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$el.children)
+    // console.log(this.$el.children)
     //防止用户在button外面包了div button-group的css选择器不起效
     for (let node of this.$el.children) {
       //nodeName都是大写
