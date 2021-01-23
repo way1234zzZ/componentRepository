@@ -24,13 +24,26 @@
         </g-button>
       </button-group>
 
-      <g-row>
-        <!-- span="2"此处的2是字符串不是数字 -->
-        <g-col span="2"></g-col>
-        <!--外面的引号是css的引号，里面的单引号是js的引号，这里的2就是字符串 也可以双引号在里面，单引号在外面或者用反引号-->
-        <!-- <g-col ：span="'2'"></g-col> -->
-        <g-col span="20" :offset="2"></g-col>
-      </g-row>
+      <div style="border: 1px solid black">
+        <g-row>
+          <!-- span="2"此处的2是字符串不是数字 -->
+          <g-col span="2">1</g-col>
+          <!--外面的引号是css的引号，里面的单引号是js的引号，这里的2就是字符串 也可以双引号在里面，单引号在外面或者用反引号-->
+          <!-- <g-col ：span="'2'"></g-col> -->
+          <g-col span="20" :offset="2">2</g-col>
+        </g-row>
+
+        <g-row gutter="20">
+          <g-col>1</g-col>
+          <g-col>2</g-col>
+          <g-col>3</g-col>
+        </g-row>
+        <g-row gutter="20">
+          <g-col>1</g-col>
+          <g-col>2</g-col>
+        </g-row>
+      </div>
+
     </div>
 
     <div class="box">
