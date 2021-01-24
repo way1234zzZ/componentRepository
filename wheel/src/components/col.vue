@@ -28,15 +28,16 @@ export default {
   computed: {
     colClasses() {
       //解构，快速获取this对象中的span offset
-      let { span, offset, phone, ipad, narrowPc, pc, widePc } = this
+      let { span, offset, ipad, narrowPc, pc, widePc } = this
+      console.log(ipad && [`col-ipad-${ipad.span}`])
       return [
         span && `col-${span}`,
         offset && `offset-${offset}`,
-        ...(phone && [`col-phone-${phone.span}`]),
-        ...(ipad && [`col-ipad-${ipad.span}`]),
-        ...(narrowPc && [`col-narrowPc-${narrowPc.span}`]),
-        ...(pc && [`col-pc-${pc.span}`]),
-        ...(widePc && [`col-widePc-${widePc.span}`]),
+        //...(phone && [`col-phone-${phone.span}`]),app没有写phone或者下面的iPad等，结果为undefined,扩展不了，报错
+        ...(ipad ? [`col-ipad-${ipad.span}`] : []),
+        ...(narrowPc ? [`col-narrowPc-${narrowPc.span}`] : []),
+        ...(pc ? [`col-pc-${pc.span}`] : []),
+        ...(widePc ? [`col-widePc-${widePc.span}`] : []),
       ]
       //return [this.span && `col-${this.span}`, this.offset && `offset-${this.offset}`]
 
@@ -56,11 +57,11 @@ export default {
     offset: {
       type: [Number, String]
     },
-    phone: {
-      type: Object,
-      validator: validator
-      //validator,
-    },
+    // phone: {
+    //   type: Object,
+    //   validator: validator
+    //   //validator,
+    // },
     ipad: {
       type: Object,
       validator,
@@ -109,21 +110,21 @@ export default {
   }
 
   //手机的写在下面 后写的权重更大
-  @media (max-width: 576px) {
-    $class-prefix: col-phone-;
-    @for $n from 1 through 24 {
-      &.#{$class-prefix}#{$n} {
-        width: ($n / 24) * 100%;
-      }
-    }
+  // @media (max-width: 576px) {
+  //   $class-prefix: col-phone-;
+  //   @for $n from 1 through 24 {
+  //     &.#{$class-prefix}#{$n} {
+  //       width: ($n / 24) * 100%;
+  //     }
+  //   }
 
-    $class-prefix: offset-phone;
-    @for $n from 1 through 24 {
-      &.#{$class-prefix}#{$n} {
-        margin-left: ($n / 24) * 100%;
-      }
-    }
-  }
+  //   $class-prefix: offset-phone;
+  //   @for $n from 1 through 24 {
+  //     &.#{$class-prefix}#{$n} {
+  //       margin-left: ($n / 24) * 100%;
+  //     }
+  //   }
+  // }
 
   @media (min-width: 577px) and (max-width: 768px) {
     $class-prefix: col-ipad-;

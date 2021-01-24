@@ -33,11 +33,12 @@
           <g-col span="20" :offset="2">2</g-col>
         </g-row>
         <g-row>
-          <g-col span="4"></g-col>
+          <g-col span="4">3</g-col>
         </g-row>
         <g-row gutter="20">
-          <g-col span="2" :phone="{span:24}" :ipad="{span:8}" :pc="{span:4}" :narrowPc="{span:2}" :widePc="{span:1}">1</g-col>
-          <g-col span="22" :phone="{span:24}" :ipad="{span:16}" :pc="{span:20}" :narrowPc="{span:22}" :widePc="{span:23}">2</g-col>
+          <!-- 默认phone样式 -->
+          <g-col span="24" :ipad="{span:8}" :pc="{span:4}" :narrowPc="{span:2}" :widePc="{span:1}">1</g-col>
+          <g-col span="24" :ipad="{span:16}" :pc="{span:20}" :narrowPc="{span:22}" :widePc="{span:23}">2</g-col>
         </g-row>
         <g-row gutter="20">
           <g-col>1</g-col>
