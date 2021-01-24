@@ -53,6 +53,8 @@ export default {
   //flex默认 nowrap不换行 所以默认col里默认50%在遇到三列的情况下会更新
   //shrink:noshrink不收缩 三个50%
   display: flex;
+  //手机会变成上下结构，不让换行会缩
+  flex-wrap: wrap;
   // margin: 0 -10px;
 
   &.align-left {
