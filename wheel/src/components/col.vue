@@ -25,22 +25,43 @@ export default {
 
     }
   },
+  methods: {
+    createClass(obj, str = '') {
+      let array = []
+      if (!obj) {
+        return array
+      }
+      if (obj.span) {
+        array.push(`col-${str}${obj.span}`)
+      }
+      if (obj.offset) {
+        array.push(`offset-${str}${obj.offset}`)
+      }
+      return array
+    }
+  },
   computed: {
     colClasses() {
       //解构，快速获取this对象中的span offset
       let { span, offset, ipad, narrowPc, pc, widePc } = this
-      console.log(ipad && [`col-ipad-${ipad.span}`])
+      let createClass = this.createClass
       return [
-        span && `col-${span}`,
-        offset && `offset-${offset}`,
-        //...(phone && [`col-phone-${phone.span}`]),app没有写phone或者下面的iPad等，结果为undefined,扩展不了，报错
-        ...(ipad ? [`col-ipad-${ipad.span}`] : []),
-        ...(narrowPc ? [`col-narrow-pc-${narrowPc.span}`] : []),
-        ...(pc ? [`col-pc-${pc.span}`] : []),
-        ...(widePc ? [`col-wide-pc-${widePc.span}`] : []),
+        ...createClass({ span, offset }),
+        ...createClass(ipad, 'ipad-'),
+        ...createClass(narrowPc, 'narrow-pc-'),
+        ...createClass(pc, 'pc-'),
+        ...createClass(widePc, 'wide-pc-')
       ]
+      //return [
+      // span && `col-${span}`,
+      // offset && `offset-${offset}`,
+      //...(phone && [`col-phone-${phone.span}`]),app没有写phone或者下面的iPad等，结果为undefined,扩展不了，报错
+      // ...(ipad ? [`col-ipad-${ipad.span}`] : []),
+      // ...(narrowPc ? [`col-narrow-pc-${narrowPc.span}`] : []),
+      // ...(pc ? [`col-pc-${pc.span}`] : []),
+      // ...(widePc ? [`col-wide-pc-${widePc.span}`] : []),
+      //]
       //return [this.span && `col-${this.span}`, this.offset && `offset-${this.offset}`]
-
     },
     colStyle() {
       return {
