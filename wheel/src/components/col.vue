@@ -35,9 +35,9 @@ export default {
         offset && `offset-${offset}`,
         //...(phone && [`col-phone-${phone.span}`]),app没有写phone或者下面的iPad等，结果为undefined,扩展不了，报错
         ...(ipad ? [`col-ipad-${ipad.span}`] : []),
-        ...(narrowPc ? [`col-narrowPc-${narrowPc.span}`] : []),
+        ...(narrowPc ? [`col-narrow-pc-${narrowPc.span}`] : []),
         ...(pc ? [`col-pc-${pc.span}`] : []),
-        ...(widePc ? [`col-widePc-${widePc.span}`] : []),
+        ...(widePc ? [`col-wide-pc-${widePc.span}`] : []),
       ]
       //return [this.span && `col-${this.span}`, this.offset && `offset-${this.offset}`]
 
@@ -95,6 +95,8 @@ export default {
   // background: grey;
   // border: 1px solid red;
   //width: 50%;
+
+  //mobile first移动端优先
   $class-prefix: col-;
   @for $n from 1 through 24 {
     &.#{$class-prefix}#{$n} {
@@ -126,7 +128,7 @@ export default {
   //   }
   // }
 
-  @media (min-width: 577px) and (max-width: 768px) {
+  @media (min-width: 577px) {
     $class-prefix: col-ipad-;
     @for $n from 1 through 24 {
       &.#{$class-prefix}#{$n} {
@@ -142,7 +144,7 @@ export default {
     }
   }
 
-  @media (min-width: 769px) and (max-width: 992px) {
+  @media (min-width: 769px) {
     $class-prefix: col-narrow-pc-;
     @for $n from 1 through 24 {
       &.#{$class-prefix}#{$n} {
@@ -158,7 +160,7 @@ export default {
     }
   }
 
-  @media (min-width: 993px) and (max-width: 1200px) {
+  @media (min-width: 993px) {
     $class-prefix: col-pc-;
     @for $n from 1 through 24 {
       &.#{$class-prefix}#{$n} {
