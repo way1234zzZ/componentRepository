@@ -60,6 +60,7 @@
       <g-input value="李四" readonly></g-input>
       <g-input value="李四" disabled></g-input>
     </div>
+
     <router-view />
   </div>
 
@@ -78,7 +79,8 @@ export default {
     buttonGroup,
     gInput,
     gRow,
-    gCol
+    gCol,
+
   },
   data() {
     return {
