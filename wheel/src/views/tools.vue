@@ -113,7 +113,9 @@ export default {
     // }
 
     showToast() {
-      this.$toast("当前功能不稳定")
+      this.$toast("<strong>当前功能不稳定</strong>", {
+        enableHtml: true
+      })
     }
   }
 }
