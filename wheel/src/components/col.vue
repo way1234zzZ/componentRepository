@@ -102,11 +102,11 @@ export default {
 
   },
   created() {
-    console.log('col created');
+    // console.log('col created');
   },
   //相当于document.body.appendChild
   mounted() {
-    console.log('col mounted');
+    //console.log('col mounted');
   }
 }
 </script>

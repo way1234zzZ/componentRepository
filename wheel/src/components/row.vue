@@ -32,7 +32,7 @@ export default {
   },
   //created相当于docunmet.createElement
   created() {
-    console.log('row created');
+    //console.log('row created');
   },
   //相当于document.body.appendChild
   mounted() {

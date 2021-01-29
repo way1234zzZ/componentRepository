@@ -60,7 +60,7 @@
       <g-input value="李四" readonly></g-input>
       <g-input value="李四" disabled></g-input>
     </div>
-
+    <button @click="showToast">click</button>
     <router-view />
   </div>
 
@@ -72,6 +72,7 @@ import buttonGroup from '@/components/button-group.vue'
 import gInput from '@/components/input.vue'
 import gRow from '@/components/row.vue'
 import gCol from '@/components/col.vue'
+//import gToast from '@/components/toast.vue'
 export default {
   name: 'tools',
   components: {
@@ -80,7 +81,7 @@ export default {
     gInput,
     gRow,
     gCol,
-
+    //gToast
   },
   data() {
     return {
@@ -100,6 +101,9 @@ export default {
       }
     }
   },
+  created() {
+    // this.$toast("我是message")
+  },
   methods: {
     //xy说明形参可以随便取
     // inputchange(xxxxx, yyyyy) {
@@ -107,6 +111,10 @@ export default {
     //   console.log(yyyyy)
 
     // }
+
+    showToast() {
+      this.$toast("当前功能不稳定")
+    }
   }
 }
 </script>
