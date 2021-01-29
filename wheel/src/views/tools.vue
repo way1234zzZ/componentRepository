@@ -114,7 +114,15 @@ export default {
 
     showToast() {
       this.$toast("<strong>当前功能不稳定</strong>", {
-        enableHtml: true
+        enableHtml: true,
+        position: 'bottom',
+        autoClose: false,
+        closeButton: {
+          text: '知道了',
+          callBack: () => {
+            console.log('用户说他知道了')
+          }
+        }
       })
     }
   }

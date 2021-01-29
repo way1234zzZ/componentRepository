@@ -1,5 +1,5 @@
 <template>
-  <div class="toast" ref="toast">
+  <div class="toast" ref="toast" :class="toastClasses">
     <div class="message">
       <slot v-if="!enableHtml"></slot>
       <div v-else v-html="$slots.default[0]"></div>
@@ -21,7 +21,7 @@ export default {
     },
     autoCloseDelay: {
       type: Number,
-      default: 50
+      default: 5
     },
     closeButton: {
       type: Object,
@@ -37,6 +37,15 @@ export default {
     enableHtml: {
       type: Boolean,
       default: false
+    },
+    position: {
+      type: String,
+      default: 'top',
+      validator(value) {
+        //includes可能浏览器不支持
+        //return ['top', 'bottom', 'middle'].includes(value)
+        return ['top', 'bottom', 'middle'].indexOf(value) >= 0
+      }
     }
   },
   created() {
@@ -45,6 +54,13 @@ export default {
   mounted() {
     this.executeAutoClose();
     this.updateStyle();
+  },
+  computed: {
+    toastClasses() {
+      return {
+        [`position-${this.position}`]: true
+      }
+    }
   },
   methods: {
     //style只获取内联元素，不获取css元素
@@ -89,7 +105,6 @@ $toast-bg: rgba(0, 0, 0, 0.75);
   border-radius: 4px;
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
   left: 50%; //左边线坐50%
-  transform: translateX(-50%); //针对这个元素的宽度左移50%
   font-size: $font-size;
   min-height: $toast-min-height;
   line-height: 1.8;
@@ -113,6 +128,18 @@ $toast-bg: rgba(0, 0, 0, 0.75);
   }
   .message {
     padding: 8px 0;
+  }
+  &.position-top {
+    top: 0;
+    transform: translateX(-50%); //针对这个元素的宽度左移50%
+  }
+  &.position-bottom {
+    bottom: 0;
+    transform: translateX(-50%); //针对这个元素的宽度左移50%
+  }
+  &.position-middle {
+    top: 50%;
+    transform: translate(-50%, -50%); //针对这个元素的宽度左移50%
   }
 }
 </style>
