@@ -80,6 +80,7 @@ export default {
     close() {
       //把元素从body里拿出来
       this.$el.remove()
+      this.$emit('beforeClose')
       this.$destroy()
     },
     onClickClose() {
@@ -98,7 +99,18 @@ export default {
 $font-size: 14px;
 $toast-min-height: 40px;
 $toast-bg: rgba(0, 0, 0, 0.75);
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
 .toast {
+  animation: fade-in 1s;
   color: white;
   background: $toast-bg;
   position: fixed;
