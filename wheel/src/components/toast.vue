@@ -106,6 +106,7 @@ $toast-bg: rgba(0, 0, 0, 0.75);
   }
   100% {
     opacity: 1;
+    //存在bug此处的translateY覆盖了默认的translateX 因为都是transform
     transform: translateY(0%);
   }
 }
