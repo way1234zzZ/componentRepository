@@ -63,6 +63,38 @@
     <button @click="showToast1">top</button>
     <button @click="showToast2">middle</button>
     <button @click="showToast3">bottom</button>
+
+    <g-tabs>
+      <!-- 自组件不能改父组件的数据，所以这里要添加事件 -->
+      <!-- 语法糖 -->
+      <g-tabs-head :selected.sync="selectedTab">
+        <template slot="actions">
+          <button>设置</button>
+        </template>
+        <!-- 这两个语法相同 -->
+        <!-- <g-tabs-head selected="selectedTab" @update:selected="selectedTab = $event"> -->
+        <g-tabs-item name="woman">
+          <g-icon name="settings"></g-icon>美女
+        </g-tabs-item>
+        <g-tabs-item name="finance" disabled>
+          财经
+        </g-tabs-item>
+        <g-tabs-item name="sports">
+          体育
+        </g-tabs-item>
+      </g-tabs-head>
+      <g-tabs-body>
+        <g-tabs-panel name="woman">
+          美女相关资讯
+        </g-tabs-panel>
+        <g-tabs-panel name="finance">
+          财经相关资讯
+        </g-tabs-panel>
+        <g-tabs-panel name="sports">
+          体育相关资讯
+        </g-tabs-panel>
+      </g-tabs-body>
+    </g-tabs>
     <router-view />
   </div>
 
@@ -74,6 +106,12 @@ import buttonGroup from '@/components/button-group.vue'
 import gInput from '@/components/input.vue'
 import gRow from '@/components/row.vue'
 import gCol from '@/components/col.vue'
+import gTabs from '@/components/tabs.vue'
+import gTabsBody from '@/components/tabs-body.vue'
+import gTabsHead from '@/components/tabs-head.vue'
+import gTabsItem from '@/components/tabs-item.vue'
+import gTabsPanel from '@/components/tabs-panel.vue'
+import gIcon from '@/components/icon.vue'
 //import gToast from '@/components/toast.vue'
 export default {
   name: 'tools',
@@ -83,13 +121,19 @@ export default {
     gInput,
     gRow,
     gCol,
-    //gToast
+    gTabs,
+    gTabsBody,
+    gTabsHead,
+    gTabsItem,
+    gTabsPanel,
+    gIcon,
   },
   data() {
     return {
       // iconName: 'settings'
       flag: true,
-      message: 'hi'
+      message: 'hi',
+      selectedTab: "sports"
     }
   },
   mounted() {
