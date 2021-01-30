@@ -1,13 +1,15 @@
 <template>
-  <div class="toast" ref="toast" :class="toastClasses">
-    <div class="message">
-      <slot v-if="!enableHtml"></slot>
-      <div v-else v-html="$slots.default[0]"></div>
+  <div class="wrapper" :class="toastClasses">
+    <div class="toast" ref="toast">
+      <div class="message">
+        <slot v-if="!enableHtml"></slot>
+        <div v-else v-html="$slots.default[0]"></div>
+      </div>
+      <div class="line" ref="line"></div>
+      <span v-if="closeButton" class="close" @click="onClickClose">
+        {{closeButton.text}}
+      </span>
     </div>
-    <div class="line" ref="line"></div>
-    <span v-if="closeButton" class="close" @click="onClickClose">
-      {{closeButton.text}}
-    </span>
   </div>
 </template>
 <script>
@@ -99,7 +101,8 @@ export default {
 $font-size: 14px;
 $toast-min-height: 40px;
 $toast-bg: rgba(0, 0, 0, 0.75);
-@keyframes fade-in {
+$animation-duration: 300ms;
+@keyframes slide-up {
   0% {
     opacity: 0;
     transform: translateY(100%);
@@ -110,14 +113,58 @@ $toast-bg: rgba(0, 0, 0, 0.75);
     transform: translateY(0%);
   }
 }
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    //存在bug此处的translateY覆盖了默认的translateX 因为都是transform
+    transform: translateY(0%);
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.wrapper {
+  position: fixed;
+  left: 50%; //左边线坐50%
+  //针对这个元素的宽度左移50%
+  transform: translateX(-50%);
+  &.position-top {
+    top: 0;
+    //transform: translateX(-50%); //针对这个元素的宽度左移50%
+    .toast {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      animation: slide-down $animation-duration;
+    }
+  }
+  &.position-bottom {
+    bottom: 0;
+    .toast {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      animation: slide-up $animation-duration;
+    }
+  }
+  &.position-middle {
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%); //针对这个元素的宽度左移50%
+    animation: fade-in $animation-duration;
+  }
+}
 .toast {
-  animation: fade-in 1s;
   color: white;
   background: $toast-bg;
-  position: fixed;
   border-radius: 4px;
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
-  left: 50%; //左边线坐50%
   font-size: $font-size;
   min-height: $toast-min-height;
   line-height: 1.8;
@@ -141,18 +188,6 @@ $toast-bg: rgba(0, 0, 0, 0.75);
   }
   .message {
     padding: 8px 0;
-  }
-  &.position-top {
-    top: 0;
-    transform: translateX(-50%); //针对这个元素的宽度左移50%
-  }
-  &.position-bottom {
-    bottom: 0;
-    transform: translateX(-50%); //针对这个元素的宽度左移50%
-  }
-  &.position-middle {
-    top: 50%;
-    transform: translate(-50%, -50%); //针对这个元素的宽度左移50%
   }
 }
 </style>

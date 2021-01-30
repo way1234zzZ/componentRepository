@@ -60,7 +60,9 @@
       <g-input value="李四" readonly></g-input>
       <g-input value="李四" disabled></g-input>
     </div>
-    <button @click="showToast">click</button>
+    <button @click="showToast1">top</button>
+    <button @click="showToast2">middle</button>
+    <button @click="showToast3">bottom</button>
     <router-view />
   </div>
 
@@ -111,11 +113,20 @@ export default {
     //   console.log(yyyyy)
 
     // }
+    showToast1() {
+      this.showToast('top')
+    },
+    showToast2() {
+      this.showToast('middle')
+    },
+    showToast3() {
+      this.showToast('bottom')
+    },
 
-    showToast() {
+    showToast(position) {
       this.$toast("<strong>当前功能不稳定</strong>", {
         enableHtml: true,
-        position: 'bottom',
+        position,
         autoClose: false,
         closeButton: {
           text: '知道了',
