@@ -76,10 +76,10 @@
         </template>
         <!-- 这两个语法相同 -->
         <!-- <g-tabs-head selected="selectedTab" @update:selected="selectedTab = $event"> -->
-        <g-tabs-item name="woman">
+        <g-tabs-item name="woman" disabled>
           <g-icon name="settings"></g-icon>美女
         </g-tabs-item>
-        <g-tabs-item name="finance" disabled>
+        <g-tabs-item name="finance">
           财经
         </g-tabs-item>
         <g-tabs-item name="sports">
