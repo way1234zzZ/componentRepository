@@ -25,11 +25,10 @@ $tab-height: 40px;
   display: flex;
   height: $tab-height;
   justify-content: flex-start;
-  align-items: center;
+
   border: 1px solid red;
   > .actions-wrapper {
     //前面三个item都是flex往左，这里加left auto就能实现在右边的效果
-    //为什么
     margin-left: auto;
   }
 }
