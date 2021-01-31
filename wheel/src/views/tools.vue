@@ -64,10 +64,11 @@
     <button @click="showToast2">middle</button>
     <button @click="showToast3">bottom</button>
 
-    <g-tabs>
+    <!-- yyy监听的是g-tab的事件 如果要触发eventbus的事件 触发的应该是new Vue的事件，所以要在tabs里emit -->
+    <g-tabs :selected.sync="selectedTab" @update:selected="yyy">
       <!-- 自组件不能改父组件的数据，所以这里要添加事件 -->
       <!-- 语法糖 -->
-      <g-tabs-head :selected.sync="selectedTab">
+      <g-tabs-head>
         <template slot="actions">
           <button>设置</button>
         </template>
@@ -157,6 +158,9 @@ export default {
     //   console.log(yyyyy)
 
     // }
+    yyy(data) {
+      console.log(data)
+    },
     showToast1() {
       this.showToast('top')
     },
