@@ -43,9 +43,14 @@ $blue: blue;
   height: $tab-height;
   justify-content: flex-start;
   position: relative;
+  border-bottom: 1px solid #ddd;
   > .actions-wrapper {
     //前面三个item都是flex往左，这里加left auto就能实现在右边的效果
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1em;
   }
   > .line {
     position: absolute;

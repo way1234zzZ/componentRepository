@@ -41,9 +41,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.tabls-panel {
+.tabs-panel {
+  padding: 1em;
   &.active {
-    background: red;
   }
 }
 </style>
