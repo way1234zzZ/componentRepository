@@ -33,11 +33,11 @@ export default {
   mounted() {
     this.$children.forEach((vm) => {
       if (vm.$options.name === 'gTabsHead') {
-        vm.$children.forEach((item) => {
-          //item.name是item里props里的name
-          if (item.$options.name === "gTabsItem" && item.name === this.selected) {
-            console.log(item.$el)
-            this.eventBus.$emit('update:selected', this.selected, item)
+        vm.$children.forEach((childVm) => {
+          //childVm.name是childVm里props里的name
+          if (childVm.$options.name === "gTabsItem" && childVm.name === this.selected) {
+            //console.log(childVm.$el)
+            this.eventBus.$emit('update:selected', this.selected, childVm)
           }
         })
       }

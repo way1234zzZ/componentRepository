@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-head">
     <slot></slot>
-    <div class="line" ref="line"></div>
+    <div class="line" ref="line" v-show="x"></div>
     <!-- slot上不能加class -->
     <div class="actions-wrapper">
       <slot name="actions"></slot>
@@ -12,14 +12,25 @@
 export default {
   name: 'gTabsHead',
   inject: ['eventBus'],
-  created() {
+  data() {
+    return {
+      x: false
+    }
+  },
+  mounted() {
     // console.log('爷爷给爸爸的eventbus')
     // console.log(this.eventBus)
     //vue的事件系统不会冒泡 不会触发父级tab组件的update事件
     //this.$emit('update:selected', '这是this $emit出来的数据')
     this.eventBus.$on('update:selected', (item, vm) => {
-      console.log(vm);
-      console.log(item)
+      //对象的解构赋值
+      //getBoundingClientRect是距离浏览器的可视范围的距离 不是父元素
+      this.x = true
+      let { width, left } = vm.$el.getBoundingClientRect();
+      // console.log(typeof vm.$el.getBoundingClientRect())
+      //console.log(width, height, top, left)
+      this.$refs.line.style.width = `${width}px`
+      this.$refs.line.style.transform = `translateX(${left}px)`
     })
   }
 }
@@ -32,7 +43,6 @@ $blue: blue;
   height: $tab-height;
   justify-content: flex-start;
   position: relative;
-  border: 1px solid red;
   > .actions-wrapper {
     //前面三个item都是flex往左，这里加left auto就能实现在右边的效果
     margin-left: auto;
@@ -40,8 +50,8 @@ $blue: blue;
   > .line {
     position: absolute;
     bottom: 0;
-    width: 100px;
     border-bottom: 1px solid $blue;
+    transition: all 350ms;
   }
 }
 </style>
