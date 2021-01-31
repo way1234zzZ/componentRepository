@@ -31,11 +31,22 @@ export default {
     }
   },
   mounted() {
+    this.$children.forEach((vm) => {
+      if (vm.$options.name === 'gTabsHead') {
+        vm.$children.forEach((item) => {
+          //item.name是item里props里的name
+          if (item.$options.name === "gTabsItem" && item.name === this.selected) {
+            console.log(item.$el)
+            this.eventBus.$emit('update:selected', this.selected, item)
+          }
+        })
+      }
+    })
     //这是emit事件
     //this.$emit('update:selected', '这是this $emit出来的数据')
     //这是eventBus事件 不一样
     //告诉子孙们选中的是哪个
-    this.eventBus.$emit('update:selected', this.selected)
+    //this.eventBus.$emit('update:selected', this.selected)
     // console.log(this.eventBus)
     // console.log(this)y
 
