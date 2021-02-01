@@ -21,9 +21,11 @@ export default {
       if (this.visible) {
         //点击后再监听document的事件
         this.$nextTick(() => {
+          //绑定事件名称，不然如果卸载add remove内部类里，虽然同名 但是每次的都不一样
           let eventHandler = () => {
             this.visible = false
             console.log('document隐藏popOver')
+            //不remove 每次都会创建一个eventlistener
             document.removeEventListener('click', eventHandler)
           }
           //不用body是因为不知道body的大小
