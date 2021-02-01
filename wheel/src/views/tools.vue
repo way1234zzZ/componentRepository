@@ -67,6 +67,7 @@
 
       <router-view />
     </div>
+    <!-- yyy监听的是g-tab的事件 如果要触发eventbus的事件 触发的应该是new Vue的事件，所以要在tabs里emit -->
     <g-tabs :selected.sync="selectedTab" @update:selected="yyy">
       <!-- 自组件不能改父组件的数据，所以这里要添加事件 -->
       <!-- 语法糖 -->
@@ -98,8 +99,15 @@
         </g-tabs-panel>
       </g-tabs-body>
     </g-tabs>
+    <div style="padding-top : 100px;padding-left:100px">
+      <g-pop-over>
+        <template slot="content">
+          <div>popOver内容</div>
+        </template>
+        <button>点我</button>
+      </g-pop-over>
+    </div>
 
-    <!-- yyy监听的是g-tab的事件 如果要触发eventbus的事件 触发的应该是new Vue的事件，所以要在tabs里emit -->
   </div>
 
 </template>
@@ -116,6 +124,7 @@ import gTabsHead from '@/components/tabs-head.vue'
 import gTabsItem from '@/components/tabs-item.vue'
 import gTabsPanel from '@/components/tabs-panel.vue'
 import gIcon from '@/components/icon.vue'
+import gPopOver from '@/components/popOver.vue'
 //import gToast from '@/components/toast.vue'
 export default {
   name: 'tools',
@@ -131,6 +140,7 @@ export default {
     gTabsItem,
     gTabsPanel,
     gIcon,
+    gPopOver
   },
   data() {
     return {
