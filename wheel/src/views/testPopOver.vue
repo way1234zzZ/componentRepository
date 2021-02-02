@@ -1,6 +1,6 @@
 <template>
-  <div style="overflow:hidden;padding:50px">
-    <g-pop-over>
+  <div style="overflow:hidden;padding:200px">
+    <g-pop-over position="right">
       <template slot="content">
         <div>popOver内容</div>
       </template>

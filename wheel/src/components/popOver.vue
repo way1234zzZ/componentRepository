@@ -2,7 +2,7 @@
   <div class="popOver" @click="onClick">
     <!-- 防止冒泡 点content不会取消 content之外的document才行 -->
     <!-- v-show只改变样式 v-if改变是否存在在dom树中 -->
-    <div ref="contentWrapper" class="content-wrapper" v-if="visible">
+    <div ref="contentWrapper" class="content-wrapper" v-if="visible" :class="{[`position-${position}`]:true}">
       <slot name="content"></slot>
     </div>
     <span ref="triggerWrapper" class="triggerWrapper">
@@ -18,15 +18,42 @@ export default {
       visible: false
     }
   },
+  props: {
+    position: {
+      type: String,
+      default: 'top',
+      validator(value) {
+        return ['top', 'bottom', 'left', 'right'].indexOf(value) >= 0
+      }
+    }
+  },
   methods: {
     postionContent() {
       //把contentWrapper放到body的最后，解决父元素overflow:hidden的问题
       document.body.appendChild(this.$refs.contentWrapper)
-      let { top, left } = this.$refs.triggerWrapper.getBoundingClientRect()
+      const { contentWrapper } = this.$refs
+      let { top, left, height, width } = this.$refs.triggerWrapper.getBoundingClientRect()
       //console.log(height, width, top, left)
-      this.$refs.contentWrapper.style.left = left + window.scrollX + 'px'
-      //window.scrollY是滚动时滚完的部分
-      this.$refs.contentWrapper.style.top = top + window.scrollY + 'px'
+      if (this.position === 'top') {
+        contentWrapper.style.left = left + window.scrollX + 'px'
+        //window.scrollY是滚动时滚完的部分
+        contentWrapper.style.top = top + window.scrollY + 'px'
+      } else if (this.position === 'bottom') {
+        contentWrapper.style.left = left + window.scrollX + 'px'
+        //window.scrollY是滚动时滚完的部分
+        contentWrapper.style.top = top + height + window.scrollY + 'px'
+      } else if (this.position === 'left') {
+        contentWrapper.style.left = left + window.scrollX + 'px'
+        //window.scrollY是滚动时滚完的部分
+        let { height: height2 } = contentWrapper.getBoundingClientRect()
+        contentWrapper.style.top = top + window.scrollY + (height - height2) / 2 + 'px'
+      } else if (this.position === 'right') {
+        contentWrapper.style.left = left + window.scrollX + width + 'px'
+        //window.scrollY是滚动时滚完的部分
+        let { height: height2 } = contentWrapper.getBoundingClientRect()
+        contentWrapper.style.top = top + window.scrollY + (height - height2) / 2 + 'px'
+      }
+
     },
     listenDocument() {
       //绑定事件名称，不然如果卸载add remove内部类里，虽然同名 但是每次的都不一样
@@ -52,7 +79,7 @@ export default {
     onClick(event) {
       //contains只能判断dom关系
       if (this.$refs.triggerWrapper.contains(event.target)) {
-        console.log('button')
+        //console.log('button')
         this.visible = !this.visible
         //console.log(this.visible)
         if (this.visible === true) {
@@ -86,8 +113,6 @@ $border-radiius: 4px;
   //解决三角形没有阴影的问题
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.75));
   background: white;
-  transform: translateY(-100%);
-  margin-top: -10px;
   padding: 0.5em 1em;
   max-width: 20em;
   //一大串的英文识别为单词 换行
@@ -103,17 +128,91 @@ $border-radiius: 4px;
     width: 0;
     height: 0;
     position: absolute;
-    left: 10px;
   }
-  &::before {
-    border-top-color: black;
-    top: 100%;
+  &.position-top {
+    transform: translateY(-100%);
+    margin-top: -10px;
+    &::before,
+    &::after {
+      left: 10px;
+    }
+    &::before {
+      border-top-color: black;
+      top: 100%;
+    }
+    &::after {
+      border-top-color: white;
+      //一定要有空格 100% - 1px
+      top: calc(100% - 1px);
+    }
   }
-  &::after {
-    border-top-color: white;
-    //一定要有空格 100% - 1px
-    top: calc(100% - 1px);
+  &.position-bottom {
+    margin-top: 10px;
+    &::before,
+    &::after {
+      left: 10px;
+    }
+    &::before {
+      border-bottom-color: black;
+      bottom: 100%;
+    }
+    &::after {
+      border-bottom-color: white;
+      //一定要有空格 100% - 1px
+      bottom: calc(100% - 1px);
+    }
   }
+  &.position-left {
+    transform: translateX(-100%);
+    margin-left: -10px;
+    &::before,
+    &::after {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &::before {
+      border-left-color: black;
+      left: 100%;
+    }
+    &::after {
+      border-left-color: white;
+      //一定要有空格 100% - 1px
+      left: calc(100% - 1px);
+    }
+  }
+  &.position-right {
+    margin-left: 10px;
+    &::before,
+    &::after {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &::before {
+      border-right-color: black;
+      right: 100%;
+    }
+    &::after {
+      border-right-color: white;
+      //一定要有空格 100% - 1px
+      right: calc(100% - 1px);
+    }
+  }
+  // &.position-right {
+  //   margin-top: 10px;
+  //   &::before,
+  //   &::after {
+  //     left: 10px;
+  //   }
+  //   &::before {
+  //     border-bottom-color: black;
+  //     bottom: 100%;
+  //   }
+  //   &::after {
+  //     border-bottom-color: white;
+  //     //一定要有空格 100% - 1px
+  //     bottom: calc(100% - 1px);
+  //   }
+  // }
 }
 .triggerWrapper {
   //解决button比span高 inline-flex兼容性会差一点
