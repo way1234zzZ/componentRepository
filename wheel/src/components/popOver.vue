@@ -5,7 +5,7 @@
     <div ref="contentWrapper" class="content-wrapper" v-if="visible">
       <slot name="content"></slot>
     </div>
-    <span ref="triggerWrapper">
+    <span ref="triggerWrapper" class="triggerWrapper">
       <slot></slot>
     </span>
   </div>
@@ -71,6 +71,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+$border-color: #333;
+$border-radiius: 4px;
 .popOver {
   display: inline-block;
   position: relative;
@@ -78,8 +80,43 @@ export default {
 }
 .content-wrapper {
   position: absolute;
-  border: 1px solid red;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.75);
+  border: 1px solid $border-color;
+  border-radius: $border-radiius;
+  // box-shadow: 0 0 3px rgba(0, 0, 0, 0.75);
+  //解决三角形没有阴影的问题
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.75));
+  background: white;
   transform: translateY(-100%);
+  margin-top: -10px;
+  padding: 0.5em 1em;
+  max-width: 20em;
+  //一大串的英文识别为单词 换行
+  word-break: break-all;
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    border: 10px solid transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 10px;
+  }
+  &::before {
+    border-top-color: black;
+    top: 100%;
+  }
+  &::after {
+    border-top-color: white;
+    //一定要有空格 100% - 1px
+    top: calc(100% - 1px);
+  }
+}
+.triggerWrapper {
+  //解决button比span高 inline-flex兼容性会差一点
+  display: inline-block;
 }
 </style>

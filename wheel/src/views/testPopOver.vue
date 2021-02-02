@@ -1,26 +1,24 @@
 <template>
-  <div style="padding-top : 100px;padding-left:100px">
-    <div style="padding:5px" @click="xxx2">
-      <g-pop-over>
-        <template slot="content">
-          <div>popOver内容</div>
-        </template>
-        <button>点我</button>
-      </g-pop-over>
-    </div>
+  <div style="overflow:hidden;padding:50px">
+    <g-pop-over>
+      <template slot="content">
+        <div>popOver内容</div>
+      </template>
+      <g-button>点我</g-button>
+    </g-pop-over>
   </div>
 </template>
 <script>
+import gButton from '@/components/button.vue'
 import gPopOver from '@/components/popOver.vue'
 export default {
   name: 'testPopOver',
   components: {
-    gPopOver
+    gPopOver,
+    gButton
   },
   methods: {
-    xxx2() {
-      console.log('xxx')
-    }
+
   }
 }
 </script>
