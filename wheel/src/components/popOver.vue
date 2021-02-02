@@ -3,7 +3,7 @@
     <!-- 防止冒泡 点content不会取消 content之外的document才行 -->
     <!-- v-show只改变样式 v-if改变是否存在在dom树中 -->
     <div ref="contentWrapper" class="content-wrapper" v-if="visible" :class="{[`position-${position}`]:true}">
-      <slot name="content"></slot>
+      <slot name="content" :close="close"></slot>
     </div>
     <span ref="triggerWrapper" class="triggerWrapper">
       <slot></slot>
@@ -35,21 +35,12 @@ export default {
     }
   },
   mounted() {
-    if (this.trigger === 'click') {
-      this.$refs.popOver.addEventListener('click', this.onClick)
-    } else {
-      this.$refs.popOver.addEventListener('mouseenter', this.open)
-      this.$refs.popOver.addEventListener('mouseleave', this.close)
-    }
+    this.addPopoverListeners()
   },
-  destroyed() {
+  beforeDestroy() {
     //@click自动删 原生要自己删
-    if (this.trigger === 'click') {
-      this.$refs.popOver.removeEventListener('click', this.onClick)
-    } else {
-      this.$refs.popOver.removeEventListener('mouseenter', this.open)
-      this.$refs.popOver.removeEventListener('mouseleave', this.close)
-    }
+    this.putBackContent()
+    this.removePopoverListeners()
   },
   props: {
     position: {
@@ -68,6 +59,27 @@ export default {
     }
   },
   methods: {
+    addPopoverListeners() {
+      if (this.trigger === 'click') {
+        this.$refs.popOver.addEventListener('click', this.onClick)
+      } else {
+        this.$refs.popOver.addEventListener('mouseenter', this.open)
+        this.$refs.popOver.addEventListener('mouseleave', this.close)
+      }
+    },
+    removePopoverListeners() {
+      if (this.trigger === 'click') {
+        this.$refs.popOver.removeEventListener('click', this.onClick)
+      } else {
+        this.$refs.popOver.removeEventListener('mouseenter', this.open)
+        this.$refs.popOver.removeEventListener('mouseleave', this.close)
+      }
+    },
+    putBackContent() {
+      const { contentWrapper, popOver } = this.$refs
+      if (!contentWrapper) { return }
+      popOver.appendChild(contentWrapper)
+    },
     postionContent() {
       //把contentWrapper放到body的最后，解决父元素overflow:hidden的问题
       const { contentWrapper } = this.$refs
@@ -171,10 +183,12 @@ $border-radiius: 4px;
     }
     &::before {
       border-top-color: black;
+      border-bottom: none;
       top: 100%;
     }
     &::after {
       border-top-color: white;
+      border-bottom: none;
       //一定要有空格 100% - 1px
       top: calc(100% - 1px);
     }
@@ -187,10 +201,12 @@ $border-radiius: 4px;
     }
     &::before {
       border-bottom-color: black;
+      border-top: none;
       bottom: 100%;
     }
     &::after {
       border-bottom-color: white;
+      border-top: none;
       //一定要有空格 100% - 1px
       bottom: calc(100% - 1px);
     }
@@ -205,10 +221,12 @@ $border-radiius: 4px;
     }
     &::before {
       border-left-color: black;
+      border-right: none;
       left: 100%;
     }
     &::after {
       border-left-color: white;
+      border-right: none;
       //一定要有空格 100% - 1px
       left: calc(100% - 1px);
     }
@@ -222,10 +240,12 @@ $border-radiius: 4px;
     }
     &::before {
       border-right-color: black;
+      border-left: none;
       right: 100%;
     }
     &::after {
       border-right-color: white;
+      border-left: none;
       //一定要有空格 100% - 1px
       right: calc(100% - 1px);
     }
