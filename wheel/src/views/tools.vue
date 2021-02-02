@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="box">
-      <div id="app">
+      <div id="app1">
         <g-button>
           按钮
         </g-button>
@@ -100,12 +100,14 @@
       </g-tabs-body>
     </g-tabs>
     <div style="padding-top : 100px;padding-left:100px">
-      <g-pop-over>
-        <template slot="content">
-          <div>popOver内容</div>
-        </template>
-        <button>点我</button>
-      </g-pop-over>
+      <div style="border:1px solid green;padding:5px" @click="xxx">
+        <g-pop-over>
+          <template slot="content">
+            <div>popOver内容</div>
+          </template>
+          <button>点我</button>
+        </g-pop-over>
+      </div>
     </div>
   </div>
 
@@ -170,6 +172,9 @@ export default {
     //   console.log(yyyyy)
 
     // }
+    xxx() {
+      //console.log('xxx')
+    },
     yyy(data) {
       console.log(data)
     },
@@ -200,7 +205,7 @@ export default {
 }
 </script>
 <style scoped>
-#app {
+#app1 {
   margin: 20px;
 }
 .box {
