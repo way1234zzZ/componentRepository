@@ -1,5 +1,5 @@
 <template>
-  <div class="popOver" @click="onClick">
+  <div class="popOver" ref="popOver">
     <!-- 防止冒泡 点content不会取消 content之外的document才行 -->
     <!-- v-show只改变样式 v-if改变是否存在在dom树中 -->
     <div ref="contentWrapper" class="content-wrapper" v-if="visible" :class="{[`position-${position}`]:true}">
@@ -18,12 +18,52 @@ export default {
       visible: false
     }
   },
+  computed: {
+    openEvent() {
+      if (this.trigger === 'click') {
+        return 'click'
+      } else {
+        return 'mouseenter'
+      }
+    },
+    closeEvent() {
+      if (this.trigger === 'click') {
+        return 'click'
+      } else {
+        return 'mouseleave'
+      }
+    }
+  },
+  mounted() {
+    if (this.trigger === 'click') {
+      this.$refs.popOver.addEventListener('click', this.onClick)
+    } else {
+      this.$refs.popOver.addEventListener('mouseenter', this.open)
+      this.$refs.popOver.addEventListener('mouseleave', this.close)
+    }
+  },
+  destroyed() {
+    //@click自动删 原生要自己删
+    if (this.trigger === 'click') {
+      this.$refs.popOver.removeEventListener('click', this.onClick)
+    } else {
+      this.$refs.popOver.removeEventListener('mouseenter', this.open)
+      this.$refs.popOver.removeEventListener('mouseleave', this.close)
+    }
+  },
   props: {
     position: {
       type: String,
       default: 'top',
       validator(value) {
         return ['top', 'bottom', 'left', 'right'].indexOf(value) >= 0
+      }
+    },
+    trigger: {
+      type: String,
+      default: 'click',
+      validator(value) {
+        return ['click', 'hover'].indexOf(value) >= 0
       }
     }
   },
@@ -56,42 +96,34 @@ export default {
       contentWrapper.style.top = x[this.position].top + 'px'
 
     },
-    listenDocument() {
-      //绑定事件名称，不然如果卸载add remove内部类里，虽然同名 但是每次的都不一样
-      let eventHandler = (e) => {
-        if (this.$refs.triggerWrapper.contains(e.target)) {
-          //console.log('阻止button')
-          //不加这个多次点击再点击document取消 是同时remove多个eventListener 所以在button取消后就要取消
-          document.removeEventListener('click', eventHandler)
-        } else if (this.visible && this.$refs.contentWrapper.contains(e.target)) {
-          return
-        } else {
-          this.visible = false
-          //console.log('document隐藏popOver')
-          //不remove 每次都会创建一个eventlistener
-          //console.log('销毁eventListener')
-          document.removeEventListener('click', eventHandler)
-        }
+    onClickDocument(e) {
+      if (this.$refs.triggerWrapper.contains(e.target) || this.visible && this.$refs.contentWrapper.contains(e.target)) {
+        return
       }
-      //不用body是因为不知道body的大小
-      //console.log('添加eventListener')
-      document.addEventListener('click', eventHandler)
+      this.close()
+    },
+    open() {
+      this.visible = true
+      console.log('打开')
+      setTimeout(() => {
+        this.postionContent();
+        console.log('添加事件')
+        document.addEventListener('click', this.onClickDocument)
+      })
+    },
+    close() {
+      this.visible = false
+      console.log('关闭')
+      console.log('移除事件')
+      document.removeEventListener('click', this.onClickDocument)
     },
     onClick(event) {
       //contains只能判断dom关系
       if (this.$refs.triggerWrapper.contains(event.target)) {
-        //console.log('button')
-        this.visible = !this.visible
-        //console.log(this.visible)
         if (this.visible === true) {
-          //点击后再监听document的事件 不然一出来就没了
-          setTimeout(() => {
-            //console.log('hiTimenout')
-            this.postionContent();
-            this.listenDocument();
-          })
+          this.close()
         } else {
-          //console.log('button取消显示')
+          this.open()
         }
       }
     }
