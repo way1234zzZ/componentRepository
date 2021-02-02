@@ -30,29 +30,30 @@ export default {
   methods: {
     postionContent() {
       //把contentWrapper放到body的最后，解决父元素overflow:hidden的问题
-      document.body.appendChild(this.$refs.contentWrapper)
       const { contentWrapper } = this.$refs
+      document.body.appendChild(contentWrapper)
       let { top, left, height, width } = this.$refs.triggerWrapper.getBoundingClientRect()
-      //console.log(height, width, top, left)
-      if (this.position === 'top') {
-        contentWrapper.style.left = left + window.scrollX + 'px'
-        //window.scrollY是滚动时滚完的部分
-        contentWrapper.style.top = top + window.scrollY + 'px'
-      } else if (this.position === 'bottom') {
-        contentWrapper.style.left = left + window.scrollX + 'px'
-        //window.scrollY是滚动时滚完的部分
-        contentWrapper.style.top = top + height + window.scrollY + 'px'
-      } else if (this.position === 'left') {
-        contentWrapper.style.left = left + window.scrollX + 'px'
-        //window.scrollY是滚动时滚完的部分
-        let { height: height2 } = contentWrapper.getBoundingClientRect()
-        contentWrapper.style.top = top + window.scrollY + (height - height2) / 2 + 'px'
-      } else if (this.position === 'right') {
-        contentWrapper.style.left = left + window.scrollX + width + 'px'
-        //window.scrollY是滚动时滚完的部分
-        let { height: height2 } = contentWrapper.getBoundingClientRect()
-        contentWrapper.style.top = top + window.scrollY + (height - height2) / 2 + 'px'
+      let { height: height2 } = contentWrapper.getBoundingClientRect()
+      let x = {
+        top: {
+          top: top + window.scrollY,
+          left: left + window.scrollX
+        },
+        bottom: {
+          top: top + height + window.scrollY,
+          left: left + window.scrollX
+        },
+        left: {
+          top: top + window.scrollY + (height - height2) / 2,
+          left: left + window.scrollX
+        },
+        right: {
+          top: top + window.scrollY + (height - height2) / 2,
+          left: left + window.scrollX + width
+        },
       }
+      contentWrapper.style.left = x[this.position].left + 'px'
+      contentWrapper.style.top = x[this.position].top + 'px'
 
     },
     listenDocument() {
@@ -197,22 +198,6 @@ $border-radiius: 4px;
       right: calc(100% - 1px);
     }
   }
-  // &.position-right {
-  //   margin-top: 10px;
-  //   &::before,
-  //   &::after {
-  //     left: 10px;
-  //   }
-  //   &::before {
-  //     border-bottom-color: black;
-  //     bottom: 100%;
-  //   }
-  //   &::after {
-  //     border-bottom-color: white;
-  //     //一定要有空格 100% - 1px
-  //     bottom: calc(100% - 1px);
-  //   }
-  // }
 }
 .triggerWrapper {
   //解决button比span高 inline-flex兼容性会差一点
