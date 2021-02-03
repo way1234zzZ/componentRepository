@@ -100,11 +100,12 @@
       </g-tabs-body>
     </g-tabs>
 
-    <g-collapse selected="2" single>
+    <g-collapse :selected.sync="selectedNums" single>
       <g-collapse-item title="标题1" name="1">内容1</g-collapse-item>
       <g-collapse-item title="标题2" name="2">内容2</g-collapse-item>
       <g-collapse-item title="标题3" name="3">内容3</g-collapse-item>
     </g-collapse>
+    {{selectedNums}}
   </div>
 
 </template>
@@ -145,7 +146,8 @@ export default {
       // iconName: 'settings'
       flag: true,
       message: 'hi',
-      selectedTab: "sports"
+      selectedTab: "sports",
+      selectedNums: ['2', '1']
     }
   },
   mounted() {

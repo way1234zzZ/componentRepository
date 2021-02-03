@@ -13,7 +13,7 @@ export default {
   name: 'gCollapseItem',
   data() {
     return {
-      open: false
+      open: false,
     }
   },
   props: {
@@ -26,30 +26,29 @@ export default {
       required: true
     }
   },
+  method: {
+    // inject() {
+    //   return
+    // }
+  },
   inject: ['eventBus'],
   mounted() {
-    this.eventBus && this.eventBus.$on('update:selected', (name) => {
-      if (name !== this.name) {
-        this.close()
+    this.eventBus && this.eventBus.$on('update:selected', (names) => {
+      if (names.indexOf(this.name) >= 0) {
+        this.open = true
       } else {
-        this.show()
+        this.open = false
       }
     })
   },
   methods: {
     toggle() {
       if (this.open) {
-        this.open = false
+        this.eventBus && this.eventBus.$emit('update:removeSelected', this.name)
       } else {
-        this.eventBus && this.eventBus.$emit('update:selected', this.name)
+        this.eventBus && this.eventBus.$emit('update:addSelected', this.name)
       }
     },
-    close() {
-      this.open = false
-    },
-    show() {
-      this.open = true
-    }
   }
 }
 </script>
