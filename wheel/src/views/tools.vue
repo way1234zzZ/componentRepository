@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:80%;margin:auto">
     <div class="box">
       <div id="app1">
         <g-button>
@@ -99,16 +99,12 @@
         </g-tabs-panel>
       </g-tabs-body>
     </g-tabs>
-    <div style="padding-top : 100px;padding-left:100px">
-      <div style="border:1px solid green;padding:5px" @click="xxx">
-        <g-pop-over>
-          <template slot="content">
-            <div>popOver内容</div>
-          </template>
-          <button>点我</button>
-        </g-pop-over>
-      </div>
-    </div>
+
+    <g-collapse>
+      <g-collapse-item title="标题1">内容1</g-collapse-item>
+      <g-collapse-item title="标题2">内容2</g-collapse-item>
+      <g-collapse-item title="标题3">内容3</g-collapse-item>
+    </g-collapse>
   </div>
 
 </template>
@@ -125,8 +121,8 @@ import gTabsHead from '@/components/tabs-head.vue'
 import gTabsItem from '@/components/tabs-item.vue'
 import gTabsPanel from '@/components/tabs-panel.vue'
 import gIcon from '@/components/icon.vue'
-import gPopOver from '@/components/popOver.vue'
-//import gToast from '@/components/toast.vue'
+import gCollapse from '@/components/collapse.vue'
+import gCollapseItem from '@/components/collapse-item.vue'
 export default {
   name: 'tools',
   components: {
@@ -141,7 +137,8 @@ export default {
     gTabsItem,
     gTabsPanel,
     gIcon,
-    gPopOver
+    gCollapse,
+    gCollapseItem
   },
   data() {
     return {

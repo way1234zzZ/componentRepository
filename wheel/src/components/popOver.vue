@@ -36,6 +36,7 @@ export default {
   },
   mounted() {
     this.addPopoverListeners()
+
   },
   beforeDestroy() {
     //@click自动删 原生要自己删
