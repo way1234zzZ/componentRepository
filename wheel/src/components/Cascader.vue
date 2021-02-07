@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <div class="popOver" v-if="popoverVisible">
-      <g-cascader-item :items="source" :height="popoverHeight"></g-cascader-item>
+      <g-cascader-item :items="source" :height="popoverHeight" :selected="selected" @update:selected="onUpdateSelected"></g-cascader-item>
     </div>
   </div>
 </template>
@@ -18,6 +18,12 @@ export default {
     },
     popoverHeight: {
       Type: String,
+    },
+    selected: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
@@ -29,6 +35,11 @@ export default {
   },
   components: {
     gCascaderItem
+  },
+  methods: {
+    onUpdateSelected(newSelected) {
+      this.$emit('update:selected', newSelected)
+    }
   }
 }
 </script>

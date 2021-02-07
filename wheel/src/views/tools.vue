@@ -107,7 +107,7 @@
     </g-collapse>
     {{selectedNums}}
 
-    <g-cascader :source="source" popover-height="200px">
+    <g-cascader :source="source" popover-height="200px" :selected="selected" @update:selected="selected = $event">
 
     </g-cascader>
   </div>
@@ -149,6 +149,7 @@ export default {
   },
   data() {
     return {
+      selected: [],
       // iconName: 'settings'
       flag: true,
       message: 'hi',
