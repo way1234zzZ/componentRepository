@@ -107,7 +107,7 @@
     </g-collapse>
     {{selectedNums}}
 
-    <g-cascader :source="source">
+    <g-cascader :source="source" popover-height="200px">
 
     </g-cascader>
   </div>
@@ -188,9 +188,17 @@ export default {
           ]
         },
         {
-          name: '福建',
+          name: '福州',
           children: [
-            { name: '福州' },
+            {
+              name: '嘉兴',
+              children:
+                [
+                  { name: '上城' },
+                  { name: '上城' },
+                  { name: '上城' }
+                ]
+            },
             { name: '厦门' },
             { name: '莆田' },
             { name: '三明' },

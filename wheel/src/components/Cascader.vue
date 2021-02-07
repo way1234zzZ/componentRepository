@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <div class="popOver" v-if="popoverVisible">
-      <g-cascader-item :items="source"></g-cascader-item>
+      <g-cascader-item :items="source" :height="popoverHeight"></g-cascader-item>
     </div>
   </div>
 </template>
@@ -15,6 +15,9 @@ export default {
   props: {
     source: {
       type: Array
+    },
+    popoverHeight: {
+      Type: String,
     }
   },
   data() {
@@ -31,19 +34,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .cascader {
+  position: relative;
   .trigger {
-    border: 1px solid red;
+    border: 1px solid black;
     height: 32px;
     width: 100px;
   }
   .popOver {
-    border: 2px solid green;
-    height: 200px;
+    position: absolute;
+    top: 100%;
+    //弹出窗加颜色盖住原本的字体 不然弹出窗的内容与本来的重叠
+    background: white;
+    left: 0;
     display: flex;
-    .label {
-      //不要换行
-      white-space: nowrap;
-    }
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   }
 }
 </style>
