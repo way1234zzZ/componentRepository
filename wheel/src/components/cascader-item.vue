@@ -52,6 +52,8 @@ export default {
       //this.$set(this.selected, this.level, item)
       let copy = JSON.parse(JSON.stringify(this.selected))
       copy[this.level] = item
+      //把level之后的值删掉 实现重新点击后面的隐藏
+      copy.splice(this.level + 1)
       this.$emit('update:selected', copy)
     },
     onUpdateSelected(newSelected) {
