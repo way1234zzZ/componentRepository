@@ -69,6 +69,7 @@ export default {
   justify-content: flex-start;
   .left {
     padding: 0.3em 0;
+    overflow: auto;
   }
   .right {
     //margin-top: -1px;

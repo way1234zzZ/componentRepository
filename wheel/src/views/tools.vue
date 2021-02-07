@@ -107,7 +107,7 @@
     </g-collapse>
     {{selectedNums}}
 
-    <g-cascader :source="source" popover-height="200px" :selected="selected" @update:selected="selected = $event">
+    <g-cascader :source="source" popover-height="200px" :selected.sync="selected">
 
     </g-cascader>
   </div>
@@ -129,6 +129,11 @@ import gIcon from '@/components/icon.vue'
 import gCollapse from '@/components/collapse.vue'
 import gCollapseItem from '@/components/collapse-item.vue'
 import gCascader from '@/components/Cascader.vue'
+import db from '@/assets/js/db.js'
+function ajax(parent_id = 0) {
+  return db.filter((item) => item.parent_id == parent_id)
+}
+//console.log(ajax())
 export default {
   name: 'tools',
   components: {
@@ -155,58 +160,7 @@ export default {
       message: 'hi',
       selectedTab: "sports",
       selectedNums: ['2', '1'],
-      source: [
-        {
-          name: '浙江',
-          children: [
-            {
-              name: '杭州',
-              children:
-                [
-                  { name: '上城' },
-                  { name: '上城' },
-                  { name: '上城' }
-                ]
-            },
-            {
-              name: '湖州',
-              children:
-                [
-                  { name: '上城' },
-                  { name: '上城' },
-                  { name: '上城' }
-                ]
-            },
-            {
-              name: '嘉兴',
-              children:
-                [
-                  { name: '上城' },
-                  { name: '上城' },
-                  { name: '上城' }
-                ]
-            },
-          ]
-        },
-        {
-          name: '福州',
-          children: [
-            {
-              name: '嘉兴',
-              children:
-                [
-                  { name: '上城' },
-                  { name: '上城' },
-                  { name: '上城' }
-                ]
-            },
-            { name: '厦门' },
-            { name: '莆田' },
-            { name: '三明' },
-            { name: '泉州' },
-          ]
-        }
-      ]
+      source: ajax()
     }
   },
   mounted() {
