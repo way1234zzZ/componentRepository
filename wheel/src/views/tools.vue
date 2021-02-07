@@ -106,6 +106,10 @@
       <g-collapse-item title="标题3" name="3">内容3</g-collapse-item>
     </g-collapse>
     {{selectedNums}}
+
+    <g-cascader :source="source">
+
+    </g-cascader>
   </div>
 
 </template>
@@ -124,6 +128,7 @@ import gTabsPanel from '@/components/tabs-panel.vue'
 import gIcon from '@/components/icon.vue'
 import gCollapse from '@/components/collapse.vue'
 import gCollapseItem from '@/components/collapse-item.vue'
+import gCascader from '@/components/Cascader.vue'
 export default {
   name: 'tools',
   components: {
@@ -139,7 +144,8 @@ export default {
     gTabsPanel,
     gIcon,
     gCollapse,
-    gCollapseItem
+    gCollapseItem,
+    gCascader
   },
   data() {
     return {
@@ -147,7 +153,51 @@ export default {
       flag: true,
       message: 'hi',
       selectedTab: "sports",
-      selectedNums: ['2', '1']
+      selectedNums: ['2', '1'],
+      source: [
+        {
+          name: '浙江',
+          children: [
+            {
+              name: '杭州',
+              children:
+                [
+                  { name: '上城' },
+                  { name: '上城' },
+                  { name: '上城' }
+                ]
+            },
+            {
+              name: '湖州',
+              children:
+                [
+                  { name: '上城' },
+                  { name: '上城' },
+                  { name: '上城' }
+                ]
+            },
+            {
+              name: '嘉兴',
+              children:
+                [
+                  { name: '上城' },
+                  { name: '上城' },
+                  { name: '上城' }
+                ]
+            },
+          ]
+        },
+        {
+          name: '福建',
+          children: [
+            { name: '福州' },
+            { name: '厦门' },
+            { name: '莆田' },
+            { name: '三明' },
+            { name: '泉州' },
+          ]
+        }
+      ]
     }
   },
   mounted() {
