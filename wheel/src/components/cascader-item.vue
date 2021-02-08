@@ -2,8 +2,9 @@
   <div class="cascader-item" :style="{height:height}">
     <div class="left">
       <div class="label" v-for="(item,index) in items" :key="item+index" @click="onClickLabel(item)">
-        {{item.name}}
-        <g-icon v-if="item.children" name="right" class="icon"> </g-icon>
+        <span class="name">{{item.name}}</span>
+
+        <g-icon v-if="rightArrowVisible(item)" name="right" class="icon"> </g-icon>
       </div>
     </div>
     <div class="right" v-if="rightItems">
@@ -31,6 +32,9 @@ export default {
         return []
       }
     },
+    loadData: {
+      type: Function
+    },
     level: {
       type: Number,
       default: 0
@@ -38,15 +42,22 @@ export default {
   },
   computed: {
     rightItems() {
-      let currentSelected = this.selected[this.level]
-      if (currentSelected && currentSelected.children) {
-        return currentSelected.children
+      if (this.selected[this.level]) {
+        let selected = this.items.filter((item) => item.name === this.selected[this.level].name)
+        if (selected && selected[0].children && selected[0].children.length > 0) {
+          return selected[0].children
+        } else {
+          return null
+        }
       } else {
         return null
       }
-    }
+    },
   },
   methods: {
+    rightArrowVisible(item) {
+      return this.loadData ? !item.isLeaf : item.children
+    },
     onClickLabel(item) {
       //object key value
       //this.$set(this.selected, this.level, item)
@@ -76,12 +87,21 @@ export default {
     border-left: 1px solid #ddd;
   }
   .label {
-    padding: 0.3em 1em;
+    padding: 0.5em 1em;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #eee;
+    }
+    > .name {
+      margin-right: 1em;
+      //不让选中，即不能全选复制那种
+      user-select: none;
+    }
   }
   .icon {
-    margin-left: 1em;
+    margin-left: auto;
     //缩小0.5
     transform: scale(0.5);
   }
