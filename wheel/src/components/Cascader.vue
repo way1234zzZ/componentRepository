@@ -1,17 +1,21 @@
 <template>
-  <div class="cascader">
+  <div class="cascader" v-click-outside="close">
     <div class="trigger" @click="toggle">
       {{result || '请选择'}}
     </div>
     <div class="popOver" v-if="popoverVisible">
-      <g-cascader-item :items="source" :height="popoverHeight" :selected="selected" @update:selected="onUpdateSelected" :loadData="loadData"></g-cascader-item>
+      <g-cascader-item :loadingItem="loadingItem" :items="source" :height="popoverHeight" :selected="selected" @update:selected="onUpdateSelected" :loadData="loadData"></g-cascader-item>
     </div>
   </div>
 </template>
 <script>
 import gCascaderItem from './cascader-item'
+import ClickOutside from '@/click-outside.js'
 export default {
   name: 'gCascader',
+  directives: {
+    ClickOutside
+  },
   props: {
     source: {
       type: Array
@@ -31,7 +35,8 @@ export default {
   },
   data() {
     return {
-      popoverVisible: false
+      popoverVisible: false,
+      loadingItem: {}
     }
   },
   computed: {
@@ -126,6 +131,7 @@ export default {
     left: 0;
     display: flex;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1;
   }
 }
 </style>

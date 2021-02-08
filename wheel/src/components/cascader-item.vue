@@ -3,12 +3,19 @@
     <div class="left">
       <div class="label" v-for="(item,index) in items" :key="item+index" @click="onClickLabel(item)">
         <span class="name">{{item.name}}</span>
+        <span class="icons">
+          <template v-if="item.name === loadingItem.name">
+            <g-icon class="loading" name="loading"></g-icon>
+          </template>
+          <template v-else>
+            <g-icon class="next" v-if="rightArrowVisible(item)" name="right"></g-icon>
+          </template>
+        </span>
 
-        <g-icon v-if="rightArrowVisible(item)" name="right" class="icon"> </g-icon>
       </div>
     </div>
     <div class="right" v-if="rightItems">
-      <g-cascader-item :items="rightItems" :height="height" :level="level+1" :selected="selected" @update:selected="onUpdateSelected"></g-cascader-item>
+      <g-cascader-item :loading-item="loadingItem" :items="rightItems" :height="height" :level="level+1" :selected="selected" @update:selected="onUpdateSelected" :loadData="loadData"></g-cascader-item>
     </div>
   </div>
 </template>
@@ -25,6 +32,11 @@ export default {
     },
     height: {
       Type: String,
+    },
+    loadingItem: {
+      type: Object,
+      //返回空对象要有括号
+      default: () => ({})
     },
     selected: {
       type: Array,
@@ -74,6 +86,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .cascader-item {
   display: flex;
   //align-items: flex-start;
@@ -100,10 +120,15 @@ export default {
       user-select: none;
     }
   }
-  .icon {
+  .icons {
     margin-left: auto;
-    //缩小0.5
-    transform: scale(0.5);
+    .loading {
+      animation: spin 2s infinite linear;
+    }
+    .next {
+      //缩小0.5
+      transform: scale(0.5);
+    }
   }
 }
 </style>

@@ -220,15 +220,15 @@ export default {
         callBack(result)
       })
     },
-    xxx() {
-      //console.log('xxx')
-      //console.log(this.selected)
-      ajax(this.selected[0].id).then(result => {
-        let lastLevelSelected = this.source.filter(item => item.id === this.selected[0].id)[0]
-        //lastLevelSelected.children = result
-        this.$set(lastLevelSelected, 'children', result)
-      })
-    },
+    // xxx() {
+    //   //console.log('xxx')
+    //   //console.log(this.selected)
+    //   ajax(this.selected[0].id).then(result => {
+    //     let lastLevelSelected = this.source.filter(item => item.id === this.selected[0].id)[0]
+    //     //lastLevelSelected.children = result
+    //     this.$set(lastLevelSelected, 'children', result)
+    //   })
+    // },
     yyy(data) {
       console.log(data)
     },
