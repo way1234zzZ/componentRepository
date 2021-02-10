@@ -191,7 +191,7 @@ export default {
   },
   data() {
     return {
-      selected: '2',
+      selected: undefined,
       //selected: [],
       // iconName: 'settings'
       flag: true,
@@ -286,6 +286,9 @@ export default {
   width: 100%;
   height: 150px;
   background: #ddd;
-  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 }
 </style>
