@@ -85,7 +85,7 @@
         </g-tabs-item>
         <g-tabs-item name="sports">
           体育
-        </g-tabs-item>
+        </g-tabs-item>``
       </g-tabs-head>
       <g-tabs-body>
         <g-tabs-panel name="woman">
@@ -107,9 +107,21 @@
     </g-collapse>
     {{selectedNums}}
 
-    <g-cascader :source.sync="source" popover-height="200px" :selected.sync="selected" :load-data="loadData">
+    <!-- <g-cascader :source.sync="source" popover-height="200px" :selected.sync="selected" :load-data="loadData">
 
-    </g-cascader>
+    </g-cascader> -->
+
+    <g-slides :selected.sync="selected">
+      <g-slides-item name="1">
+        <div class="slides">1</div>
+      </g-slides-item>
+      <g-slides-item name="2">
+        <div class="slides">2</div>
+      </g-slides-item>
+      <g-slides-item name="3">
+        <div class="slides">3</div>
+      </g-slides-item>
+    </g-slides>
   </div>
 
 </template>
@@ -128,8 +140,10 @@ import gTabsPanel from '@/components/tabs-panel.vue'
 import gIcon from '@/components/icon.vue'
 import gCollapse from '@/components/collapse.vue'
 import gCollapseItem from '@/components/collapse-item.vue'
-import gCascader from '@/components/Cascader.vue'
+//import gCascader from '@/components/Cascader.vue'
 import db from '@/assets/js/db.js'
+import gSlides from '@/components/slides.vue'
+import gSlidesItem from '@/components/slidesItem.vue'
 // function ajax(parent_id = 0, success) {
 //   let id = setTimeout(() => {
 //     let result = db.filter((item) => item.parent_id == parent_id)
@@ -171,11 +185,14 @@ export default {
     gIcon,
     gCollapse,
     gCollapseItem,
-    gCascader
+    //gCascader,
+    gSlides,
+    gSlidesItem
   },
   data() {
     return {
-      selected: [],
+      selected: '2',
+      //selected: [],
       // iconName: 'settings'
       flag: true,
       message: 'hi',
@@ -264,5 +281,11 @@ export default {
 }
 .box {
   margin: 20px;
+}
+.slides {
+  width: 100%;
+  height: 150px;
+  background: #ddd;
+  border: 1px solid red;
 }
 </style>
