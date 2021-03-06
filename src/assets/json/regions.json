@@ -1,0 +1,32 @@
+[
+  {
+    "name": "China",
+    "itemStyle": {
+      "normal": {}
+    }
+  },
+  {
+    "name": "Japan",
+    "itemStyle": {
+      "normal": {}
+    }
+  },
+  {
+    "name": "Australia",
+    "itemStyle": {
+      "normal": {}
+    }
+  },
+  {
+    "name": "United States",
+    "itemStyle": {
+      "normal": {}
+    }
+  },
+  {
+    "name": "United Kingdom",
+    "itemStyle": {
+      "normal": {}
+    }
+  }
+]
