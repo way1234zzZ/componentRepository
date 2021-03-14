@@ -7,52 +7,49 @@
       <h2>区域地图</h2>
     </el-header>
     <el-container id="mainbox">
-      <el-aside id="map">
-        <div id="left">
-          <div class="title">区域：{{$store.state.area}}</div>
-
-          <div ref="myEchart" id="myEchart">
-            <div class="back" v-if="display" ref="back" @click.stop="backTo">返回全国</div>
-          </div>
-          <div class="summary">
-            <el-table class="table" :data="tableData" :header-cell-style="{backgroundColor:'#3f5c6d2c',color:'#ffffff',textAlign:'center'}" :cell-style="{color: '#fff',backgroundColor:'#3f5c6d2c',textAlign:'center'}"
-              :row-style="{color: '#fff',backgroundColor:'transparent',textAlign:'center'}">
-              <el-table-column prop="ipNum" label="IP数">
-              </el-table-column>
-              <el-table-column prop="needle" label="探针数">
-              </el-table-column>
-              <el-table-column prop="taskNum" label="任务数">
-              </el-table-column>
-              <el-table-column prop="dkTimes" label="DK成功次数">
-              </el-table-column>
-              <el-table-column prop="capacity" label="采集容量">
-              </el-table-column>
-              <el-table-column prop="taken" label="采集数量">
-              </el-table-column>
-            </el-table>
-          </div>
+      <el-aside id="left">
+        <div class="panel top">
+          <h2 class="head">资源类</h2>
+          <lifetime />
+        </div>
+        <div class="panel">
+          <!-- <h2>服务器采集容量和数量</h2> -->
+          <collection />
+        </div>
+        <div class="panel">
+          <dataType />
         </div>
       </el-aside>
       <el-main>
         <el-row>
-          <el-col :span="12">
-            <div class="main left">
-              <div class="panel">
-                <h2 class="head">资源类</h2>
-                <lifetime />
+          <el-col :span="14">
+            <div id="map">
+              <div class="title">区域：{{$store.state.area}}</div>
+              <div ref="myEchart" id="myEchart">
+                <div class="back" v-if="display" ref="back" @click.stop="backTo">返回全国</div>
               </div>
-              <div class="panel">
-                <!-- <h2>服务器采集容量和数量</h2> -->
-                <collection />
-              </div>
-              <div class="panel">
-                <dataType />
+              <div class="summary">
+                <el-table class="table" :data="tableData" :header-cell-style="{backgroundColor:'#3f5c6d2c',color:'#ffffff',textAlign:'center'}" :cell-style="{color: '#fff',backgroundColor:'#3f5c6d2c',textAlign:'center'}"
+                  :row-style="{color: '#fff',backgroundColor:'transparent',textAlign:'center'}">
+                  <el-table-column prop="ipNum" label="IP数">
+                  </el-table-column>
+                  <el-table-column prop="needle" label="探针数">
+                  </el-table-column>
+                  <el-table-column prop="taskNum" label="任务数">
+                  </el-table-column>
+                  <el-table-column prop="dkTimes" label="DK成功次数">
+                  </el-table-column>
+                  <el-table-column prop="capacity" label="采集容量">
+                  </el-table-column>
+                  <el-table-column prop="taken" label="采集数量">
+                  </el-table-column>
+                </el-table>
               </div>
             </div>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="10">
             <div class="main right">
-              <div class="panel">
+              <div class="panel top">
                 <h2 class="head">目标类</h2>
                 <targetCapacity />
               </div>
@@ -243,11 +240,11 @@ h2 {
   display: flex;
 }
 .el-aside {
-  flex: 3;
+  flex: 1;
   margin: 0.125rem 0.0625rem;
   box-shadow: inset 0 0 0.0625rem 0.0125rem rgb(20, 74, 122);
 }
-#left {
+#map {
   height: 98%;
   display: flex;
   flex-direction: column;
@@ -274,13 +271,20 @@ h2 {
   height: 0px;
 }
 .el-main {
-  flex: 4;
+  flex: 3;
   margin: 0.125rem 0.0625rem;
 }
-
+#left {
+  display: flex;
+  flex-direction: column;
+}
 .panel {
-  height: 3.4rem;
+  width: 98%;
   flex: 1;
+}
+.top {
+  display: flex;
+  flex-direction: column;
 }
 .el-row,
 .el-col {

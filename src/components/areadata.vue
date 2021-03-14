@@ -257,10 +257,11 @@ export default {
 <style scoped>
 .areadata-container {
   position: relative;
+  height: 100%;
 }
 .chart {
   /* position: relative; */
-  height: 3.5rem;
+  height: 100%;
   /* width: 5rem; */
   /* padding-left: 1.125rem; */
 }

@@ -234,15 +234,17 @@ export default {
 
 <style scoped>
 #scrollArea {
-  height: 3rem;
+  /* height: 100%; */
 }
 .demonstration {
   height: 0.35rem;
+  width: 100%;
   margin-top: 0.1875rem;
+  display: flex;
+  justify-content: space-between;
 }
 .demonstration span {
-  float: left;
-  color: #fff;
+  color: red;
   padding: 0.125rem 0.05rem 0;
   font-size: 0.2rem;
   text-align: center;

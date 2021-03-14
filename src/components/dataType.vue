@@ -39,7 +39,7 @@ export default {
         color: ['#00ffff', '#00cfff', '#006ced', '#ffe000'],
         title: {
           text: '数据分类',
-          top: '48%',
+          top: '36%',
           textAlign: "center",
           left: "49%",
           textStyle: {
@@ -57,8 +57,8 @@ export default {
               width: 100,
               height: 100
             },
-            left: 'center',
-            top: 'center',
+            left: '39.5%',
+            top: '23%',
             position: [100, 100]
           }]
         },
@@ -71,7 +71,7 @@ export default {
           // x: 'left',
           data: ['新闻数据类', '热点事件类', '社交类', '其他'],
           right: 30,
-          bottom: 0,
+          bottom: 20,
           align: 'left',
           textStyle: {
             color: "#fff"
@@ -86,6 +86,7 @@ export default {
           type: 'pie',
           clockWise: false,
           radius: [58, 63],
+          center: ["50%", "40%"],
           hoverAnimation: false,
           itemStyle: {
             normal: {
@@ -136,8 +137,11 @@ export default {
 </script>
 
 <style scoped>
+.dataType-container {
+  height: 100%;
+}
 .chart {
-  height: 2.8rem;
+  height: 100%;
   /* width: 7.75rem; */
 }
 </style>

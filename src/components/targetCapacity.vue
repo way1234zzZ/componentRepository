@@ -226,11 +226,11 @@ export default {
 <style scoped>
 .target-container {
   position: relative;
-  height: 100%;
+  flex: 1;
 }
 .chart {
   /* position: relative; */
-  height: 90%;
+  height: 100%;
   /* width: 5rem; */
   /* padding-left: 1.125rem; */
 }

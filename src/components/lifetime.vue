@@ -1,7 +1,7 @@
 <template>
   <div class="lifetime-container">
     <div class="chart" id="chart_middle1"></div>
-    <div>
+    <div class="bottom">
       <span style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;">平均存活时长：20h</span>
       <i class="el-icon-top" style="color: red;font-size: 0.3rem; font-weight: bolder;" @click="trend"></i>
     </div>
@@ -252,9 +252,16 @@ export default {
 </script>
 
 <style scoped>
+.lifetime-container {
+  flex: 1;
+  position: relative;
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+}
 .chart {
-  height: 2.8rem;
-  /* width: 7.75rem; */
+  height: 100%;
 }
 .el-icon-top {
   position: relative;
