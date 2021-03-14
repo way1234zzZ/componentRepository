@@ -65,7 +65,7 @@
       <button @click="showToast2">middle</button>
       <button @click="showToast3">bottom</button>
 
-      <router-view />
+      <!-- <router-view /> -->
     </div>
     <!-- yyy监听的是g-tab的事件 如果要触发eventbus的事件 触发的应该是new Vue的事件，所以要在tabs里emit -->
     <g-tabs :selected.sync="selectedTab" @update:selected="yyy">
@@ -85,7 +85,7 @@
         </g-tabs-item>
         <g-tabs-item name="sports">
           体育
-        </g-tabs-item>``
+        </g-tabs-item>
       </g-tabs-head>
       <g-tabs-body>
         <g-tabs-panel name="woman">
@@ -191,7 +191,7 @@ export default {
   },
   data() {
     return {
-      selected: undefined,
+      selected: '1',
       //selected: [],
       // iconName: 'settings'
       flag: true,

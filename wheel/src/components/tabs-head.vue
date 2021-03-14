@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-head">
+  <div class="tabs-head" ref="head">
     <slot></slot>
     <div class="line" ref="line" v-show="x"></div>
     <!-- slot上不能加class -->
@@ -22,15 +22,19 @@ export default {
     // console.log(this.eventBus)
     //vue的事件系统不会冒泡 不会触发父级tab组件的update事件
     //this.$emit('update:selected', '这是this $emit出来的数据')
-    this.eventBus.$on('update:selected', (item, vm) => {
+    this.eventBus.$on('update:selected', (item, selectedVm) => {
       //对象的解构赋值
       //getBoundingClientRect是距离浏览器的可视范围的距离 不是父元素
       this.x = true
-      let { width, left } = vm.$el.getBoundingClientRect();
-      // console.log(typeof vm.$el.getBoundingClientRect())
-      //console.log(width, height, top, left)
+      // let { width, left } = vm.$el.getBoundingClientRect();
+      // // console.log(typeof vm.$el.getBoundingClientRect())
+      // //console.log(width, height, top, left)
+      // this.$refs.line.style.width = `${width}px`
+      // this.$refs.line.style.transform = `translateX(${left}px)`
+      let { width, left } = selectedVm.$el.getBoundingClientRect()
+      let { left: left2 } = this.$refs.head.getBoundingClientRect()
       this.$refs.line.style.width = `${width}px`
-      this.$refs.line.style.transform = `translateX(${left}px)`
+      this.$refs.line.style.left = `${left - left2}px`
     })
   }
 }

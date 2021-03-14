@@ -6,15 +6,26 @@
       </div>
     </div>
     <div class="g-slides-dots">
+      <span @click="onClickPre">
+        <g-icon name="left"></g-icon>
+      </span>
+
       <span v-for="n in childrenLength" :key="n" :class="{active: selectedIndex === n-1}" @click="select(n-1)">
         {{n}}
+      </span>
+      <span @click="onClickNext">
+        <g-icon name="right"></g-icon>
       </span>
     </div>
   </div>
 </template>
 <script>
+import gIcon from '@/components/icon.vue'
 export default {
   name: 'gSlides',
+  components: {
+    gIcon
+  },
   data() {
     return {
       childrenLength: 0,
@@ -29,7 +40,10 @@ export default {
       return index == -1 ? 0 : index
     },
     names() {
-      return this.$children.map(vm => vm.name) || 0
+      return this.items.map(vm => vm.name) || 0
+    },
+    items() {
+      return this.$children.filter(vm => vm.$options.name === 'gSlidesItem')
     }
   },
   props: {
@@ -44,23 +58,26 @@ export default {
   mounted() {
     this.playAutomatically()
     // this.updateChildren()
-    this.childrenLength = this.$children.length
-
+    this.childrenLength = this.items.length
   },
   updated() {
     this.updateChildren()
   },
   methods: {
+    onClickPre() {
+      this.select(this.selectedIndex - 1)
+    },
+    onClickNext() {
+      this.select(this.selectedIndex + 1)
+    },
     onTouchStart(e) {
-      console.log('start')
       this.pause()
       this.startTouch = e.touches[0]
     },
     onTouchMove() {
-      console.log('move')
     },
     onTouchEnd(e) {
-      console.log('摸完了')
+      //两个指头滑动等
       if (e.touches.length > 1) {
         return
       }
@@ -71,12 +88,9 @@ export default {
       let deltaY = Math.abs(y2 - y1)
       let rate = distance / deltaY
       if (rate > 2) {
-        console.log('滑')
         if (x2 > x1) {
-          console.log('右')
           this.select(this.selectedIndex - 1)
         } else {
-          console.log('左')
           this.select(this.selectedIndex + 1)
         }
       } else {
@@ -88,6 +102,7 @@ export default {
     },
     onMouseLeave() {
       this.playAutomatically()
+      console.log('leave')
     },
     onMouseEnter() {
       this.pause()
@@ -103,19 +118,19 @@ export default {
       this.$emit("update:selected", this.names[newIndex])
     },
     getSelected() {
-      let first = this.$children[0]
+      let first = this.items[0]
       let selected = this.selected || first.name
       return selected
     },
     updateChildren() {
       //children找子组件
-      this.$children.forEach((vm) => {
+      this.items.forEach((vm) => {
         vm.reverse = this.selectedIndex > this.lastSelectedIndex ? false : true
         if (this.timerId) {
-          if (this.lastSelectedIndex === this.$children.length - 1 && this.selectedIndex === 0) {
+          if (this.lastSelectedIndex === this.items.length - 1 && this.selectedIndex === 0) {
             vm.reverse = false
           }
-          if (this.lastSelectedIndex === 0 && this.selectedIndex === this.$children.length - 1) {
+          if (this.lastSelectedIndex === 0 && this.selectedIndex === this.items.length - 1) {
             vm.reverse = true
           }
         }
