@@ -42,7 +42,7 @@ export default {
         graphic: {
           elements: [{
             type: "image",
-            z: 3,
+            // z: 3,
             style: {
               image: '',
               width: '100',

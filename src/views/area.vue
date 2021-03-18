@@ -240,6 +240,7 @@ h2 {
   display: flex;
 }
 .el-aside {
+  overflow: visible;
   flex: 1;
   margin: 0.125rem 0.0625rem;
   box-shadow: inset 0 0 0.0625rem 0.0125rem rgb(20, 74, 122);
@@ -318,7 +319,7 @@ h2 {
   color: rgb(222, 222, 222);
   font-size: 0.1875rem;
   cursor: pointer;
-  z-index: 100;
+  /* z-index: 100; */
 }
 #myEchart {
   position: relative;
