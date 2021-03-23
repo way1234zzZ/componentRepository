@@ -124,6 +124,7 @@ export default {
 .headers {
   flex: 1;
   margin: 0.25rem 0.375rem;
+  display: flex;
 }
 
 .el-main {

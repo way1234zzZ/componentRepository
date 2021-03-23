@@ -1,5 +1,5 @@
 <template>
-  <div class="dataType-container">
+  <div class="dataType-container" ref="chart">
     <div class="chart" id="chart_middle3"></div>
   </div>
 </template>
@@ -11,7 +11,9 @@ export default {
   name: 'lifetime',
   data() {
     return {
-      timer: null
+      timer: null,
+      width: 0,
+      width2: 0
     }
   },
   mounted() {
@@ -20,7 +22,6 @@ export default {
     //   this.showTrend();
     // }, 20)
 
-    this.getDataType();
     // this.timer = setInterval(() => {
     //   this.getDataType();
     // }, 5000)
@@ -29,6 +30,11 @@ export default {
     // this.timer = setInterval(() => {
     //   this.getLifetime();
     // }, 5000)
+    this.width = this.$refs.chart.clientWidth / 20;
+    this.width2 = this.$refs.chart.clientWidth / 20;
+    this.getDataType();
+    // console.log(this.width)
+
   },
   methods: {
     getDataType() {
@@ -101,15 +107,13 @@ export default {
                 }
                 percent = ((params.value / total) * 100).toFixed(0);
                 if (params.name !== '') {
-                  return params.name + '\n' + '\n' + '占百分比：' + percent + '%';
+                  return params.name + '\n' + percent + '%';
                 } else {
                   return '';
                 }
               },
             },
             labelLine: {
-              length: 30,
-              length2: 30,
               show: true,
               color: '#00ffff'
             }
@@ -117,6 +121,8 @@ export default {
         },
         data: data
       }];
+      this.$set(seriesOption[0].itemStyle.normal.labelLine, 'length', this.width)
+      this.$set(seriesOption[0].itemStyle.normal.labelLine, 'length2', this.width2)
       var option = {
         //backgroundColor: '#0A2E5D',
         color: color,
@@ -150,11 +156,11 @@ export default {
         legend: {
           icon: "circle",
           orient: 'horizontal',
-          show: false,
+          show: true,
           // x: 'left',
           data: ['新闻数据类', '热点事件类', '社交类', '其他'],
           right: 30,
-          bottom: 20,
+          bottom: 10,
           align: 'left',
           textStyle: {
             color: "#fff"
@@ -166,7 +172,9 @@ export default {
         },
         series: seriesOption
       }
-
+      if (this.width <= 20) {
+        this.$set(option.legend, 'show', false)
+      }
       myChart.setOption(option);
       window.addEventListener("resize", function () {
         myChart.resize();
