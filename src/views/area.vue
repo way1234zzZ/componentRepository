@@ -24,15 +24,38 @@
         <el-row>
           <el-col :span="14">
             <div id="map">
-              <div class="title">区域：{{$store.state.area}}</div>
+              <div class="title">区域：{{ $store.state.area }}</div>
               <div ref="myEchart" id="myEchart">
-                <div class="back" v-if="display" ref="back" @click.stop="backTo">返回全国</div>
+                <div
+                  class="back"
+                  v-if="display"
+                  ref="back"
+                  @click.stop="backTo"
+                >
+                  返回全国
+                </div>
               </div>
               <div class="summary">
-                <el-table class="table" :data="tableData" :header-cell-style="{backgroundColor:'#3f5c6d2c',color:'#ffffff',textAlign:'center'}" :cell-style="{color: '#fff',backgroundColor:'#3f5c6d2c',textAlign:'center'}"
-                  :row-style="{color: '#fff',backgroundColor:'transparent',textAlign:'center'}">
-                  <el-table-column prop="ipNum" label="IP数">
-                  </el-table-column>
+                <el-table
+                  class="table"
+                  :data="tableData"
+                  :header-cell-style="{
+                    backgroundColor: '#3f5c6d2c',
+                    color: '#ffffff',
+                    textAlign: 'center',
+                  }"
+                  :cell-style="{
+                    color: '#fff',
+                    backgroundColor: '#3f5c6d2c',
+                    textAlign: 'center',
+                  }"
+                  :row-style="{
+                    color: '#fff',
+                    backgroundColor: 'transparent',
+                    textAlign: 'center',
+                  }"
+                >
+                  <el-table-column prop="ipNum" label="IP数"> </el-table-column>
                   <el-table-column prop="needle" label="探针数">
                   </el-table-column>
                   <el-table-column prop="taskNum" label="任务数">
@@ -69,38 +92,39 @@
     <div ref="myEchart" id="myEchart"></div>
     <div class="back" v-if="display" ref="back" @click.stop="backTo">返回全国</div>
   </div> -->
-
 </template>
 
 <script>
-import echarts from 'echarts'
+import echarts from "echarts";
 //import jquery from 'jquery'
-import axios from 'axios'
+import axios from "axios";
 
-import lifetime from '@/components/lifetime.vue'
-import collection from '@/components/collection.vue'
-import targetCapacity from '@/components/targetCapacity.vue'
-import scroll from '@/components/scroll.vue'
-import areadata from '@/components/areadata.vue'
-import dataType from '@/components/dataType.vue'
+import lifetime from "@/components/lifetime.vue";
+import collection from "@/components/collection.vue";
+import targetCapacity from "@/components/targetCapacity.vue";
+import scroll from "@/components/scroll.vue";
+import areadata from "@/components/areadata.vue";
+import dataType from "@/components/dataType.vue";
+import areaMap from "@/https/areaMap.js";
 //import { mapState } from 'vuex'
 //import chinaJson from '../../node_modules/echarts/map/json/china.json'
 export default {
   data() {
     return {
-      myChart: '',
-      mapname: '',
+      myChart: "",
+      mapname: "",
       display: false,
-      tableData: [{
-        ipNum: 2457,
-        needle: 2173,
-        taskNum: 14,
-        dkTimes: 145,
-        capacity: 5345,
-        taken: 4565
-      }
-      ]
-    }
+      tableData: [
+        {
+          ipNum: 2457,
+          needle: 2173,
+          taskNum: 14,
+          dkTimes: 145,
+          capacity: 5345,
+          taken: 4565,
+        },
+      ],
+    };
   },
   components: {
     lifetime,
@@ -108,7 +132,7 @@ export default {
     targetCapacity,
     scroll,
     areadata,
-    dataType
+    dataType,
   },
   methods: {
     // getRowClass({ rowIndex }) {
@@ -143,77 +167,74 @@ export default {
       //   myChart.setOption(this.option);
       //   window.onresize = myChart.resize;
       // })
-      this.mapname = this.$store.state.usmap
+      this.mapname = this.$store.state.usmap;
       var mapJson = [
         {
           name: "北京",
-          json: this.$store.state.bjmap
+          json: this.$store.state.bjmap,
         },
         {
           name: "新疆",
-          json: this.$store.state.xjmap
+          json: this.$store.state.xjmap,
         },
         {
           name: "甘肃",
-          json: this.$store.state.gsmap
+          json: this.$store.state.gsmap,
         },
         {
           name: "内蒙古",
-          json: this.$store.state.nmgmap
+          json: this.$store.state.nmgmap,
         },
         {
           name: "黑龙江",
-          json: this.$store.state.hljmap
+          json: this.$store.state.hljmap,
         },
-      ]
-      this.$store.commit('setPoints')
+      ];
+      this.$store.commit("setPoints");
       this.mapInit();
-      let _this = this
-      this.myChart.on('click', function (e) {
+      let _this = this;
+      this.myChart.on("click", function(e) {
         // console.log(this)
         // console.log(_this)
         _this.display = true;
-        _this.$store.commit('setArea', e.name)
-        _this.$store.commit('cancelPoints')
+        _this.$store.commit("setArea", e.name);
+        _this.$store.commit("cancelPoints");
         //console.log(e.name)
-        var chooseName = mapJson.filter(item => {
-          return item.name == e.name
-        })
+        var chooseName = mapJson.filter((item) => {
+          return item.name == e.name;
+        });
         //console.log(chooseName)
-        _this.mapname = chooseName[0].json
+        _this.mapname = chooseName[0].json;
         //console.log(_this.mapname, '选择地图')
         _this.mapInit();
-      })
+      });
     },
     backTo() {
-      this.mapname = this.$store.state.cnmap
-      this.display = false
-      this.$store.commit('setArea', '中国')
-      this.$store.commit('setPoints');
+      this.mapname = this.$store.state.cnmap;
+      this.display = false;
+      this.$store.commit("setArea", "中国");
+      this.$store.commit("setPoints");
       this.mapInit();
     },
     mapInit() {
-      axios.get(this.mapname).then((geoJson) => {
-        echarts.registerMap('cn', geoJson.data);
+      areaMap.getMap().then((geoJson) => {
+        echarts.registerMap("cn", geoJson.data);
         this.myChart.hideLoading();
         this.myChart.setOption(this.$store.state.option);
         window.onresize = this.myChart.resize;
-      })
+      });
     },
-
-
   },
   mounted() {
     this.$nextTick(() => {
       this.showMap();
-    })
+    });
 
     // setTimeout(() => {
     //   this.showMap();
     // }, 20)
-  }
-
-}
+  },
+};
 </script>
 
 <style scoped>
