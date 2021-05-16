@@ -5,11 +5,15 @@
         <span>目标系统</span>
       </div>
       <ul class="demonstration">
-        <span v-for="(item,index) in title" :key="index">{{ item }}</span>
+        <span v-for="(item, index) in title" :key="index">{{ item }}</span>
       </ul>
-      <vue-seamless-scroll :data="leftContents" class="leftContents" :class-option="optionSetting">
+      <vue-seamless-scroll
+        :data="leftContents"
+        class="leftContents"
+        :class-option="optionSetting"
+      >
         <ul class="item">
-          <li v-for="(item,index) in leftContents" :key="index">
+          <li v-for="(item, index) in leftContents" :key="index">
             <span v-text="item.aim"></span>
             <span v-text="item.type"></span>
             <span v-text="item.capacity"></span>
@@ -24,74 +28,88 @@
 </template>
 
 <script>
-import vueSeamlessScroll from 'vue-seamless-scroll'
+import vueSeamlessScroll from "vue-seamless-scroll";
 export default {
   computed: {
     optionSetting() {
       return {
-        step: 2
-      }
-    }
+        step: 1, // 数值越大速度滚动越快
+        limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
+        hoverStop: true, // 是否开启鼠标悬停stop
+        direction: 1, // 0向下 1向上 2向左 3向右
+        openWatch: true, // 开启数据实时监控刷新dom
+        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        waitTime: 0, // 单步运动停止的时间(默认值1000ms)
+      };
+    },
   },
   data() {
     return {
-      title: ['目标系统', '类型', '采集容量(MB)', '采集数量(条)', '探针数(个)', '当前任务数(个)'],
+      title: [
+        "目标系统",
+        "类型",
+        "采集容量(MB)",
+        "采集数量(条)",
+        "探针数(个)",
+        "当前任务数(个)",
+      ],
       leftContents: [
         {
-          aim: 'Twitter',
-          type: '应用',
+          aim: "Twitter",
+          type: "应用",
           capacity: 78,
           number: 546,
           probe: 45,
-          task: 74
+          task: 74,
         },
         {
-          aim: 'YouTube',
-          type: 'B/S',
+          aim: "YouTube",
+          type: "B/S",
           capacity: 43,
           number: 664,
           probe: 23,
-          task: 6
+          task: 6,
         },
         {
-          aim: 'Google',
-          type: 'B/S',
+          aim: "Google",
+          type: "B/S",
           capacity: 34,
           number: 654,
           probe: 99,
-          task: 90
+          task: 90,
         },
         {
-          aim: 'TikTok',
-          type: '应用',
+          aim: "TikTok",
+          type: "应用",
           capacity: 32,
           number: 53,
           probe: 12,
-          task: 4
+          task: 4,
         },
         {
-          aim: 'instagram',
-          type: 'B/S',
+          aim: "instagram",
+          type: "B/S",
           capacity: 5654,
           number: 4565,
           probe: 6644,
-          task: 568
+          task: 568,
         },
         {
-          aim: 'weibo',
-          type: 'B/S',
+          aim: "weibo",
+          type: "B/S",
           capacity: 43,
           number: 55,
           probe: 48,
-          task: 208
+          task: 208,
         },
       ],
-    }
+    };
   },
   components: {
-    vueSeamlessScroll
-  }
-}
+    vueSeamlessScroll,
+  },
+};
 </script>
 
 <style scoped>

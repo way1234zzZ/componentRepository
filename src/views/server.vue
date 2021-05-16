@@ -1,187 +1,138 @@
 <template>
-  <el-container>
-    <el-header>
-      <div class="headers"></div>
-      <div class="headers">
-        <targetCapacity />
-      </div>
-    </el-header>
-    <el-main>
-      <div class="table">
-        <el-table :data="tableData" border ref="table">
-          <el-table-column prop="server" label="服务器">
-          </el-table-column>
-          <el-table-column prop="monthTarget" label="当月目标">
-          </el-table-column>
-          <el-table-column prop="monthDone" label="当月实际完成">
-          </el-table-column>
+  <div class="root">
+    <div class="head">
+      <img src="../../public/top_title.png" />
+    </div>
+    <div class="firstRow">
+      <el-row :gutter="20">
+        <el-col :span="7">
+          <div class="content"></div>
+        </el-col>
+        <el-col :span="10">
+          <div class="content"></div>
+        </el-col>
+        <el-col :span="7">
+          <div class="content"></div>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="secondRow">
+      <el-row :gutter="20">
+        <el-col :span="6" class="divided">
+          <el-row>
+            <el-col>
+              <div class="content"></div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <div class="content"></div>
+            </el-col>
+          </el-row>
+        </el-col>
 
-          <el-table-column label="当月完成率">
-            <template slot-scope="scope">
-              <el-progress :percentage="Math.ceil(scope.row.monthDone/scope.row.monthTarget*100)"></el-progress>
-            </template>
-          </el-table-column>
+        <el-col :span="12">
+          <div class="content"></div>
+        </el-col>
 
-          <el-table-column prop="yearTarget" label="年度计划目标">
-          </el-table-column>
-          <el-table-column prop="yearDone" label="年度实际完成">
-          </el-table-column>
-          <el-table-column label="年度达成率">
-            <el-progress :percentage="50"></el-progress>
-          </el-table-column>
-        </el-table>
-      </div>
-
-    </el-main>
-  </el-container>
+        <el-col :span="6" class="divided">
+          <el-row>
+            <el-col>
+              <div class="content"></div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <div class="content"></div>
+            </el-col>
+          </el-row>
+        </el-col>
+      </el-row>
+    </div>
+  </div>
 </template>
 
 <script>
-import targetCapacity from '@/components/targetCapacity.vue'
 export default {
-  computed: {
-    // percentage: function () {
-    //   var percentageMonth = new Array(5)
-    //   for (let i = 0; i < this.tableData.length; i++) {
-    //     percentageMonth = this.tableData[i].monthDone / this.tableData[i].monthTarget
-    //   }
-    //   return percentageMonth
-
-    // }
-  },
+  computed: {},
   data() {
-    return {
-      tableData: [{
-        server: '香港',
-        monthTarget: 8000000,
-        monthDone: 4723463,
-        //monthPercent: "1500000 / 8000000",
-        yearTarget: 20000000,
-        yearDone: 17000000,
-        //yearPercent: ''
-      }, {
-        server: '墨尔本',
-        monthTarget: 8000000,
-        monthDone: 2453345,
-        //monthPercent: '',
-        yearTarget: 20000000,
-        yearDone: 17000000,
-        //yearPercent: ''
-      }, {
-        server: '伦敦',
-        monthTarget: 8000000,
-        monthDone: 2454671,
-        //monthPercent: '',
-        yearTarget: 20000000,
-        yearDone: 17000000,
-        //yearPercent: ''
-      }, {
-        server: '纽约',
-        monthTarget: 8000000,
-        monthDone: 2457214,
-        //monthPercent: '',
-        yearTarget: 20000000,
-        yearDone: 17000000,
-        //yearPercent: ''
-      },
-      {
-        server: '东京',
-        monthTarget: 8000000,
-        monthDone: 6575728,
-        //monthPercent: '',
-        yearTarget: 20000000,
-        yearDone: 17000000,
-        //yearPercent: ''
-      }
-      ],
-      tableheight: 0
-    }
+    return {};
   },
-  components: {
-    targetCapacity
-  }
-  // mounted() {
-  //   this.$nextTick(function () {
-  //     console.log(this.$refs.table.$el.offsetTop)
-  //     this.tableheight = this.$refs.table.$el.offsetTop - 50;
-  //   })
-
-  // }
-}
+  components: {},
+};
 </script>
 
-<style scoped>
-.el-container {
-  background: url(../../public/bg.jpg) no-repeat;
-  background-size: cover;
-  min-height: 100vh;
-}
-.el-header {
+<style lang="scss" scoped>
+.root {
+  height: 100vh;
+  width: 100vw;
+  background: url(../../public/bgg.jpg) no-repeat 100%;
+  background-size: 100% 100%;
   display: flex;
-  height: 50vh !important;
+  flex-direction: column;
 }
-
-.headers {
+.head {
+  height: 1.1rem;
+  flex-grow: 0;
+  > img {
+    width: 100%;
+    padding-top: 0.1rem;
+  }
+}
+.firstRow {
   flex: 1;
-  margin: 0.25rem 0.375rem;
-  display: flex;
+  > .el-row {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    > .el-col {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      > .content {
+        flex: 1;
+      }
+    }
+  }
 }
-
-.el-main {
+.secondRow {
   flex: 1;
-  color: skyblue;
-  /* font-size: 0.25rem; */
-  /* position: relative;
-  overflow: hidden; */
-  /* position: relative; */
-  /* 这个200px会被flex自动放大 所以是不是随便设？ */
-  height: 2.5rem;
+  > .el-row {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    > .el-col {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      > .content {
+        flex: 1;
+        margin-top: 0.125rem;
+      }
+    }
+  }
 }
-
-.table {
-  height: 100%;
-  width: 100%;
-  position: relative;
+.divided {
+  > .el-row {
+    > .el-col {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      > .content {
+        flex: 1;
+        margin-top: 0.125rem;
+      }
+    }
+  }
+  > .el-row:nth-child(1) {
+    flex: 1.2;
+  }
+  > .el-row:nth-child(2) {
+    flex: 1;
+  }
 }
-
-.table /deep/ .el-table {
-  font-size: 0.25rem;
-  bottom: 0;
-  left: 0;
-  position: absolute;
+.content {
+  border: 1px solid rgba(25, 186, 139, 0.17);
+  background: rgba(255, 255, 255, 0.04);
 }
-
-.table /deep/ .el-table,
-.el-table__expanded-cell {
-  background-color: transparent;
-}
-
-.table /deep/ .el-table tr,
-.table /deep/ .el-table th {
-  background-color: transparent !important;
-  padding: 0.25rem;
-}
-
-.table /deep/ .el-table td {
-  padding: 0.25rem;
-}
-
-/* .el-row,
-.el-col {
-  height: 100%;
-  display: flex;
-} */
-/* .header {
-  margin: 0.25rem 0.25rem;
-  flex: 1;
-  border: 1px solid skyblue;
-  display: flex;
-} */
-
-/* 为什么要flex下的margin：auto才有效 */
-/* .introduction {
-  color: skyblue;
-  font-size: 0.375rem;
-  margin: auto;
-} */
 </style>
