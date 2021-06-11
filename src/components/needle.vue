@@ -6,56 +6,41 @@
         <span id="neddleNumsTitle">
           探针数量（个）
         </span>
-        <span id="neddleNumber">644</span>
+        <span id="neddleNumber">{{ accountData.accountNum }}</span>
       </div>
       <div id="IpNums">
         <span id="IpTitle">
           IP数量（个）：
         </span>
-        <span id="IpNumber">419</span>
+        <span id="IpNumber">{{ accountData.ipNum }}</span>
       </div>
     </div>
     <div id="state"></div>
     <div id="hiddenDom">
       <span
         style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;"
-        >平均存活时长：20h</span
+        >{{ `平均存活时长：${lifeTime}h` }}</span
       >
-      <i
+      <!-- <i
         class="el-icon-top"
         style="color: red;font-size: 0.3rem; font-weight: bolder;"
         onclick="trend1()"
-      ></i>
+      ></i> -->
     </div>
   </div>
 </template>
 
 <script>
 import echarts from "echarts";
+import getMainpage from "@/https/mainPage.js";
 export default {
   data() {
     return {
+      accountData: {},
+      lifeTime: 0,
       myChart: "",
       needleOption: {
         animation: true,
-        title: {
-          text: "探针状态",
-          left: "44%",
-          top: "30%",
-          textStyle: {
-            color: "#fff",
-            fontSize: 13,
-            fontWeight: "normal",
-            align: "center",
-            width: "200px",
-          },
-          subtextStyle: {
-            color: "#fff",
-            fontSize: 20,
-            fontWeight: "normal",
-            align: "center",
-          },
-        },
         series: [
           {
             type: "pie",
@@ -71,15 +56,15 @@ export default {
               "#01A4F7",
               "#FE2C8A",
             ],
-            startAngle: 135,
+            startAngle: 150,
             labelLine: {
               normal: {
-                length: 25,
+                length: 10,
               },
             },
             label: {
               normal: {
-                formatter: "{b|{b}:}  {per|{d}%} ",
+                formatter: "{b|{b}: }  {per|{d}%} ",
                 backgroundColor: "rgba(255, 147, 38, 0)",
                 borderColor: "transparent",
                 borderRadius: 4,
@@ -154,20 +139,7 @@ export default {
                 },
               },
             },
-            data: [
-              {
-                name: "活跃探针",
-                value: 55,
-              },
-              {
-                name: "失效探针",
-                value: 25,
-              },
-              {
-                name: "空闲探针",
-                value: 20,
-              },
-            ],
+            data: [],
           },
           {
             type: "pie",
@@ -223,16 +195,33 @@ export default {
   },
   methods: {
     initChart() {
-      this.myChart = echarts.init(document.getElementById("state"));
-      this.myChart.setOption(this.needleOption);
-      window.addEventListener("resize", () => {
-        this.myChart.resize();
+      getMainpage.getAccount().then((response) => {
+        this.accountData = response.data;
+        this.$set(this.needleOption.series[0], "data", [
+          {
+            name: "活跃探针",
+            value: this.accountData.activeAccount,
+          },
+          {
+            name: "失效探针",
+            value: this.accountData.invalidAccount,
+          },
+        ]);
+        this.myChart = echarts.init(document.getElementById("state"));
+        this.myChart.setOption(this.needleOption);
+        window.addEventListener("resize", () => {
+          this.myChart.resize();
+        });
       });
     },
   },
   mounted() {
     this.initChart();
+    getMainpage.getLiveTime().then((response) => {
+      this.lifeTime = response.data.liveTime;
+    });
   },
+  created() {},
 };
 </script>
 

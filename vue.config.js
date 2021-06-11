@@ -1,11 +1,11 @@
 module.exports = {
   // 部署应用包时的基本 URL
-  publicPath: '/',
+  publicPath : process.env.NODE_ENV === 'production'? '/cugb_display/': '/',
   filenameHashing: false,
   devServer: {
     host: '10.1.1.157',
-   // host: 'localhost',
-    port:'8080',
+    //host: 'localhost',
+    //port:'8080',
     proxy: {
       "/api": {
         target: "http://10.10.11.163:8080/",

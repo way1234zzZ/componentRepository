@@ -7,11 +7,7 @@
       <el-aside>
         <div id="earth"></div>
         <div id="selections">
-          <el-select
-            v-model="value"
-            placeholder="全球(ALL)"
-            @change="selectBox"
-          >
+          <el-select v-model="value" placeholder="全球" @change="selectBox">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -21,7 +17,7 @@
             </el-option>
           </el-select>
         </div>
-        <div id="lineSwitch">
+        <!-- <div id="lineSwitch">
           <label @click.stop>
             <el-switch
               v-model="switchLine"
@@ -32,7 +28,7 @@
             >
             </el-switch>
           </label>
-        </div>
+        </div> -->
         <targetScroll />
       </el-aside>
       <el-main>
@@ -69,11 +65,10 @@ import worldGeoCoordMap from "@/assets/json/worldGeoCoordMap.json";
 import dataSize from "@/components/dataSize.vue";
 import needle from "@/components/needle.vue";
 import collectionTask from "@/components/collectionTask.vue";
-import getManpage from "@/https/mainPage.js";
+
 export default {
   data() {
     return {
-      accountData: null,
       dser: [],
       mapChart: "",
       myChart: "",
@@ -81,27 +76,11 @@ export default {
       options: [
         {
           value: "全球",
-          label: "全球(ALL)",
+          label: "全球",
         },
         {
-          value: "美国",
-          label: "美国(USA)",
-        },
-        {
-          value: "中国",
-          label: "中国(CN)",
-        },
-        {
-          value: "澳大利亚",
-          label: "澳大利亚(AUS)",
-        },
-        {
-          value: "英国",
-          label: "英国(UK)",
-        },
-        {
-          value: "日本",
-          label: "日本(JP)",
+          value: "Mongolia",
+          label: "G国",
         },
       ],
       attackMap: {
@@ -156,7 +135,7 @@ export default {
       pOp: {
         backgroundColor: "rgba(0, 0, 33, 0.6)",
         geo: {
-          regions: regions,
+          regions: [],
           map: "world",
           roam: "scale",
           zoom: 1,
@@ -187,18 +166,16 @@ export default {
       },
     };
   },
+  provide() {
+    return {
+      selected: () => this.value,
+    };
+  },
   components: {
     targetScroll,
     dataSize,
     needle,
     collectionTask,
-  },
-  mounted() {
-    getManpage.getAccount().then((data) => (this.accountData = data));
-    console.log(this.accountData);
-    // setTimeout(() => {
-    //   this.initEarth();
-    // }, 20);
   },
   methods: {
     putScatters(country) {
@@ -333,9 +310,7 @@ export default {
       for (var i = 0; i < data.length; i++) {
         var dataItem = data[i];
         var fromCoord = geoCoordMap[dataItem[0].name];
-        //console.log("from"+dataItem[0].name);
         var toCoord = geoCoordMap[dataItem[1].name];
-        //console.log("to"+dataItem[1].name);
 
         if (fromCoord && toCoord) {
           res.push({
@@ -349,8 +324,8 @@ export default {
       return res;
     },
     initEarth() {
-      this.putScatters(world);
-      this.putFlags();
+      // this.putScatters(world);
+      // this.putFlags();
       this.initMap();
       this.initBall();
     },
@@ -384,21 +359,27 @@ export default {
       this.myChart.setOption(this.earthOption, true);
     },
     selectBox() {
-      regions.map((item) => {
-        if (this.value === nameMap[item.name]) {
-          item.itemStyle.normal.areaColor = "rgb(255, 203, 0)";
-        } else {
-          item.itemStyle.normal.areaColor = "";
-        }
-      });
       if (this.value !== "全球") {
+        this.$set(this.pOp.geo, "regions", [
+          {
+            name: this.value,
+            itemStyle: {
+              areaColor: "rgb(255, 203, 0)",
+            },
+            label: {
+              show: true,
+              color: "red",
+            },
+          },
+        ]);
         this.earthOption.globe.viewControl = {
           autoRotate: false,
-          targetCoord: worldGeoCoordMap[this.value],
+          targetCoord: worldGeoCoordMap[nameMap[this.value]],
           distance: 150,
           autoRotateSpeed: 0,
         };
       } else {
+        this.$set(this.pOp.geo, "regions", []);
         this.earthOption.globe.viewControl = {
           autoRotate: true,
           targetCoord: [104.195397, 35.86166],
@@ -412,6 +393,9 @@ export default {
     },
   },
   created() {},
+  mounted() {
+    this.initEarth();
+  },
 };
 </script>
 <style>

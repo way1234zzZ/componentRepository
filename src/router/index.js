@@ -23,12 +23,17 @@ const routes = [
     path: '/server',
     name: 'server',
     component: () => import("@/views/server")
+  },
+  {
+    path: '/target/:country/:project',
+    name: 'target',
+    component: () => import("@/views/target")
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/dist/',
+  base: '/cugb_display/',
   routes
 })
 
