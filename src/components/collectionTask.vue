@@ -1,22 +1,29 @@
 <template>
   <div id="scrollArea" class="block">
+    <h2>采集任务（个）：{{ dataNums.task }}</h2>
     <div id="scrollFlow" ref="scrollFlow">
       <div class="demonstration" ref="demonstration">
-        <span v-for="(item, index) in title" :key="index">{{ item }}</span>
+        <span v-for="(item, index) in title" :key="index" class="titles">{{
+          item
+        }}</span>
       </div>
       <div class="seamless-warp">
         <vue-seamless-scroll
           :data="rightContents"
           :class-option="optionSetting"
-          class="scroll"
+          class="rightContents"
           ref="seamless"
         >
           <ul class="item">
-            <li v-for="(item, index) in rightContents" :key="index">
-              <span v-text="item.name"></span>
-              <span v-text="item.aim"></span>
-              <span v-text="item.count"></span>
-              <span v-text="item.num"></span>
+            <li
+              v-for="(item, index) in rightContents"
+              :key="index"
+              class="itemLi"
+            >
+              <span v-text="item.taskName"></span>
+              <span v-text="item.projectName"></span>
+              <span v-text="item.dataCapacity"></span>
+              <span v-text="item.dataNum"></span>
             </li>
           </ul>
         </vue-seamless-scroll>
@@ -27,11 +34,13 @@
 
 <script>
 import vueSeamlessScroll from "vue-seamless-scroll";
+import getMainpage from "@/https/mainPage.js";
+import countryMap from "@/assets/json/countryMap.json";
 export default {
   computed: {
     optionSetting() {
       return {
-        step: 1, // 数值越大速度滚动越快
+        step: 0.1, // 数值越大速度滚动越快
         limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
         direction: 1, // 0向下 1向上 2向左 3向右
@@ -41,10 +50,15 @@ export default {
         waitTime: 0, // 单步运动停止的时间(默认值1000ms)
       };
     },
+    computedSelected() {
+      return this.selected();
+    },
   },
+  inject: ["selected"],
   data() {
     return {
-      title: ["任务名称", "目标系统", "数据容量(TB)", "数据数量(条)"],
+      dataNums: [],
+      title: ["任务名称", "目标系统", "数据容量(MB)", "数据数量(条)"],
       numTemp: {
         全球: 455221,
         美国: 74574,
@@ -53,79 +67,37 @@ export default {
         澳大利亚: 55540,
         中国: 74553,
       },
-      rightContents: [
-        {
-          name: "a3123",
-          aim: "instagram",
-          count: "4545",
-          num: "45462",
-        },
-        {
-          name: "v4562",
-          aim: "weibo",
-          count: "343",
-          num: "32",
-        },
-        {
-          name: "f7548",
-          aim: "youtube",
-          count: "233",
-          num: "5462",
-        },
-        {
-          name: "s1477",
-          aim: "zhihu",
-          count: "34553",
-          num: "12544",
-        },
-        {
-          name: "z4552",
-          aim: "instagram",
-          count: "7411",
-          num: "1457",
-        },
-        {
-          name: "p6564",
-          aim: "tiktok",
-          count: "45455",
-          num: "145",
-        },
-        {
-          name: "q4155",
-          aim: "google",
-          count: "74",
-          num: "4152",
-        },
-        {
-          name: "p1123",
-          aim: "weibo",
-          count: "3743",
-          num: "342",
-        },
-      ],
+      rightContents: [],
     };
+  },
+  methods: {
+    initChart() {
+      getMainpage.getTasks(countryMap[this.selected()]).then((response) => {
+        this.rightContents = response.data;
+      });
+      getMainpage
+        .getNumCapTask(countryMap[this.selected()])
+        .then((response) => {
+          this.dataNums = response.data;
+        });
+    },
   },
   // components: {
   //   vueSeamlessScroll,
   // },
+  mounted() {
+    this.initChart();
+  },
+  watch: {
+    computedSelected() {
+      this.initChart();
+    },
+  },
 };
 </script>
 
 <style scoped>
-#scrollArea {
-  height: 100%;
-}
-#scrollFlow {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.scrollTitle {
-  color: white;
-  font-size: 0.2rem;
-  letter-spacing: 0.05rem;
-}
-.scrollTitle span {
+h2 {
   position: relative;
   height: 0.5rem;
   top: 0.05rem;
@@ -136,42 +108,42 @@ export default {
   font-weight: 400;
   width: 50%;
 }
-.demonstration {
-  height: 0.35rem;
-  margin-top: 0.1875rem;
+#scrollArea {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.demonstration span {
-  float: left;
+#scrollFlow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.demonstration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.titles {
+  flex: 1;
+  text-align: center;
   color: #fff;
   padding-top: 5px;
   font-size: 16px;
-  text-align: center;
   font-family: "KaiTi";
 }
-.demonstration span:nth-child(1) {
-  height: 100%;
-  width: 25%;
-}
-.demonstration span:nth-child(2) {
-  height: 100%;
-  width: 25%;
-}
-.demonstration span:nth-child(3) {
-  height: 100%;
-  width: 25%;
-}
-.demonstration span:nth-child(4) {
-  height: 100%;
-  width: 25%;
+.seamless-warp {
+  flex: 1;
 }
 .rightContents {
-  /* flex: 1; */
-  height: 2.4125rem;
+  height: 2.525rem;
   line-height: 0.3rem;
   overflow: hidden;
 }
-.item span {
-  float: left;
+.itemLi {
+  display: flex;
+}
+.itemLi span {
+  flex: 1;
   color: #fff;
   padding-top: 0.1875rem;
   font-size: 0.1875rem;
@@ -180,24 +152,5 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.item span:nth-child(1) {
-  width: 25%;
-}
-.item span:nth-child(2) {
-  width: 25%;
-}
-.item span:nth-child(3) {
-  width: 25%;
-}
-.item span:nth-child(4) {
-  width: 25%;
-}
-.seamless-warp {
-  flex: 1;
-  overflow: hidden;
-}
-.scroll {
-  height: 2.5rem;
 }
 </style>
