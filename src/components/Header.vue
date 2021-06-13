@@ -33,7 +33,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #header {
   height: 80px;
   /* 使行高等于dom元素高度以实现垂直居中 */

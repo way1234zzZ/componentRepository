@@ -398,7 +398,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 #mainpage {
   height: 100vh;
   background: url(../../public/bgg.jpg) no-repeat 100%;
@@ -430,7 +430,7 @@ export default {
 .el-switch__label * {
   color: #fff;
 }
-.el-input__inner {
+#selections /deep/ .el-input__inner {
   border: 1px solid rgba(25, 186, 139, 0.17);
   background: rgba(255, 255, 255, 0.04);
   color: #fff;
@@ -477,20 +477,5 @@ export default {
   width: 98%;
   margin: 0.0625rem;
   /* background-color: pink; */
-}
-h2 {
-  position: relative;
-  height: 0.5rem;
-  top: 0.05rem;
-  left: 0.2rem;
-  line-height: 0.5rem;
-  color: #fff;
-  font-size: 0.25rem;
-  font-weight: 400;
-  width: 50%;
-}
-.topBox {
-  width: 100%;
-  display: flex;
 }
 </style>

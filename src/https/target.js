@@ -16,6 +16,30 @@ const getTarget = {
         'project':project
       }
     })
-  }
+  },
+  getNewTask(country,project){
+    return Vue.$http.get('/getNewTask',{
+      params:{
+        'terr':country,
+        'project':project
+      }
+    })
+  },
+  getCollectionCap(country,project){
+    return Vue.$http.get('/getCollectionCap',{
+      params:{
+        'terr':country,
+        'project':project
+      }
+    })
+  },
+  getCollectionNum(country,project){
+    return Vue.$http.get('/getCollectionNum',{
+      params:{
+        'terr':country,
+        'project':project
+      }
+    })
+  },
 }
 export default getTarget

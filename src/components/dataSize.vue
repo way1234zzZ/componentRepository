@@ -140,6 +140,21 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  position: relative;
+  height: 0.5rem;
+  top: 0.05rem;
+  left: 0.2rem;
+  line-height: 0.5rem;
+  color: #fff;
+  font-size: 0.25rem;
+  font-weight: 400;
+  width: 50%;
+}
+.topBox {
+  width: 100%;
+  display: flex;
+}
 .chart {
   height: 100%;
   width: 100%;
