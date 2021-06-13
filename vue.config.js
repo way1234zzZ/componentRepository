@@ -1,11 +1,11 @@
 module.exports = {
   // 部署应用包时的基本 URL
-  publicPath : process.env.NODE_ENV === 'production'? '/': '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   filenameHashing: false,
   devServer: {
     host: '10.1.1.157',
     //host: 'localhost',
-    port:'8080',
+    port: '8080',
     proxy: {
       "/api": {
         target: "http://10.10.11.163:8080/",

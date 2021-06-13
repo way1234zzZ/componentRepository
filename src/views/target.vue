@@ -1,9 +1,9 @@
 <template>
-  <el-container direction="vertical">
+  <el-container direction="vertical" id="el-container">
     <el-header style="height:80px">
       <Header />
     </el-header>
-    <el-container>
+    <el-container id="main">
       <el-aside id="aside">
         <Aside />
       </el-aside>
@@ -29,14 +29,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-container {
+#el-container {
   height: 100vh;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background: rgba(29, 32, 38, 1);
-  .el-container:nth-child(1) {
+  #main {
     flex: 1;
   }
 }

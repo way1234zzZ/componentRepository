@@ -227,7 +227,7 @@ export default {
         this.$set(this.option1.xAxis, "data", this.date);
         this.$set(this.option1.series[0], "data", this.count);
         myChart1.setOption(this.option1);
-        window.addEventListener("resize", function() {
+        window.addEventListener("resize", function () {
           myChart1.resize();
         });
       });
@@ -245,7 +245,7 @@ export default {
 
         this.$set(this.option2.series[0], "data", this.capData);
         myChart2.setOption(this.option2);
-        window.addEventListener("resize", function() {
+        window.addEventListener("resize", function () {
           myChart2.resize();
         });
       });
@@ -262,7 +262,7 @@ export default {
         this.$set(this.option3.series[0], "data", this.taskNum);
         this.$set(this.option3.xAxis, "data", this.sevenDate1);
         myChart3.setOption(this.option3);
-        window.addEventListener("resize", function() {
+        window.addEventListener("resize", function () {
           myChart3.resize();
         });
       });
@@ -310,7 +310,7 @@ export default {
     border: 2px solid rgba(20, 20, 20, 1);
     position: relative;
     .chart {
-      height: 100%;
+      height: 95%;
     }
     .title {
       position: absolute;

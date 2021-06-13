@@ -8,12 +8,7 @@
         <div id="earth"></div>
         <div id="selections">
           <el-select v-model="value" placeholder="全球" @change="selectBox">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -392,7 +387,7 @@ export default {
       this.myChart.setOption(this.earthOption, true);
     },
   },
-  created() {},
+  created() { },
   mounted() {
     this.initEarth();
   },
@@ -437,7 +432,7 @@ export default {
 }
 .el-main {
   flex: 1;
-  height: 100%;
+  /* height: 100%; */
   padding: 0 !important;
   display: flex !important;
   flex-direction: column;
@@ -445,7 +440,7 @@ export default {
 .panel {
   margin: 0.0625rem auto;
   flex: 1;
-  height: 0.0125rem;
+  /* height: 0.0125rem; */
   width: 98%;
   background: rgba(255, 255, 255, 0.04);
   background-size: 100% auto;
