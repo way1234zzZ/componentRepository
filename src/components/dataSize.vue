@@ -43,7 +43,7 @@ export default {
             name: "",
             type: "pie",
             clockWise: false,
-            radius: "75%",
+            radius: "68%",
             hoverAnimation: false,
             itemStyle: {
               normal: {
@@ -57,8 +57,8 @@ export default {
                   formatter: "{b}: {c} ({d}%)",
                 },
                 labelLine: {
-                  length: 8,
-                  length2: 10,
+                  length: 4,
+                  length2: 4,
                   show: true,
                   // color: "#00ffff",
                 },
