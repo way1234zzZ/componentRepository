@@ -31,35 +31,7 @@ export default {
       dataNums: [],
       myChart: "",
       dataSizeOption: {
-        //backgroundColor: '#0A2E5D',
         color: ["#F76F01", "rgb(0,255,255)", "#9F17FF", "#ffe000"],
-        // title: {
-        //   text: "数据分类",
-        //   top: "44%",
-        //   textAlign: "center",
-        //   left: "49%",
-        //   textStyle: {
-        //     color: "#fff",
-        //     fontSize: 15,
-        //     fontWeight: "400",
-        //   },
-        // },
-        // graphic: {
-        //   elements: [
-        //     {
-        //       type: "image",
-        //       // z: 3,
-        //       style: {
-        //         image: "",
-        //         width: "auto",
-        //         height: "auto",
-        //       },
-        //       left: "center",
-        //       top: "center",
-        //       // position: [100, 100]
-        //     },
-        //   ],
-        // },
         tooltip: {
           show: false,
         },
@@ -71,7 +43,7 @@ export default {
             name: "",
             type: "pie",
             clockWise: false,
-            radius: '75%',
+            radius: "75%",
             hoverAnimation: false,
             itemStyle: {
               normal: {

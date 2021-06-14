@@ -41,7 +41,7 @@ export default {
   }
 }
 aside {
-  width: 9.5rem !important;
+  width: 12rem !important;
   height: 100%;
 }
 .el-main {

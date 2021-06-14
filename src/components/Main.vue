@@ -2,16 +2,12 @@
   <div id="main">
     <div class="top">
       <div class="left topWrapper">
-        <div class="title1">近七天采集容量</div>
-        <div class="chart1" ref="cap"></div>
-      </div>
-      <div class="right topWrapper">
         <div class="title1">近七天采集数量</div>
         <div class="chart1" ref="taskNum"></div>
       </div>
     </div>
     <div class="bottom">
-      <div class="title">14天内采集任务数</div>
+      <div class="title">14天内新增任务</div>
       <div class="chart" ref="tasks"></div>
     </div>
   </div>
@@ -68,68 +64,6 @@ export default {
             data: [],
             smooth: 0.8,
             type: "line",
-          },
-        ],
-      },
-      option2: {
-        color: ["#ff8000", "#999966"],
-        itemStyle: {
-          barBorderRadius: 3,
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "cross",
-          },
-        },
-        grid: {
-          right: "10%",
-          top: "30%",
-          bottom: 40,
-        },
-        xAxis: {
-          type: "category",
-          axisTick: {
-            interval: 0,
-            alignWithLabel: true,
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#ffffff",
-            },
-          },
-          data: [],
-        },
-
-        yAxis: {
-          scale: true,
-          type: "value",
-          name: "采集容量(MB)",
-          position: "left",
-          axisLine: {
-            lineStyle: {
-              color: "#ffffff",
-            },
-          },
-          splitLine: {
-            show: false,
-          },
-          axisLabel: {
-            fontsize: 10,
-            formatter: "{value}",
-          },
-        },
-
-        series: [
-          {
-            name: "数据量",
-            type: "bar",
-            data: [],
-            barWidth: "50%",
-            itemStyle: {
-              color: "rgba(42, 165, 224 ,1)",
-              barBorderRadius: [7, 7, 0, 0],
-            },
           },
         ],
       },
@@ -227,26 +161,8 @@ export default {
         this.$set(this.option1.xAxis, "data", this.date);
         this.$set(this.option1.series[0], "data", this.count);
         myChart1.setOption(this.option1);
-        window.addEventListener("resize", function () {
+        window.addEventListener("resize", function() {
           myChart1.resize();
-        });
-      });
-    var myChart2 = echarts.init(this.$refs.cap);
-    getTarget
-      .getCollectionCap(this.$route.params.country, this.$route.params.project)
-      .then((res) => {
-        res.data.forEach((item) => {
-          this.sevenDate.push(item.sDate);
-          this.capData.push(item.cap);
-        });
-        this.sevenDate.reverse();
-        this.capData.reverse();
-        this.$set(this.option2.xAxis, "data", this.sevenDate);
-
-        this.$set(this.option2.series[0], "data", this.capData);
-        myChart2.setOption(this.option2);
-        window.addEventListener("resize", function () {
-          myChart2.resize();
         });
       });
     var myChart3 = echarts.init(this.$refs.taskNum);
@@ -262,7 +178,7 @@ export default {
         this.$set(this.option3.series[0], "data", this.taskNum);
         this.$set(this.option3.xAxis, "data", this.sevenDate1);
         myChart3.setOption(this.option3);
-        window.addEventListener("resize", function () {
+        window.addEventListener("resize", function() {
           myChart3.resize();
         });
       });
@@ -297,10 +213,6 @@ export default {
       }
     }
     .left {
-      flex: 1;
-      border: 2px solid rgba(20, 20, 20, 1);
-    }
-    .right {
       flex: 1;
       border: 2px solid rgba(20, 20, 20, 1);
     }
