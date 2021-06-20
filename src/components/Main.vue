@@ -39,12 +39,22 @@ export default {
           },
           data: [],
         },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            label: {
+              show: false,
+            },
+            type: "cross",
+          },
+        },
         grid: {
           top: "30%",
           bottom: 30,
         },
         yAxis: {
           type: "value",
+          name: "采集数量(条)",
           scale: true,
           splitLine: {
             show: false,
@@ -67,7 +77,7 @@ export default {
           },
         ],
       },
-      option3: {
+      option2: {
         color: ["#ff8000", "#999966"],
         itemStyle: {
           barBorderRadius: 3,
@@ -75,6 +85,9 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
+            label: {
+              show: false,
+            },
             type: "cross",
           },
         },
@@ -95,13 +108,14 @@ export default {
               color: "#ffffff",
             },
           },
+
           data: [],
         },
 
         yAxis: {
           scale: true,
           type: "value",
-          name: "采集数量(条)",
+          minInterval: 1,
           position: "left",
           axisLine: {
             lineStyle: {
@@ -148,24 +162,7 @@ export default {
     },
   },
   mounted() {
-    var myChart1 = echarts.init(this.$refs.tasks);
-    getTarget
-      .getNewTask(this.$route.params.country, this.$route.params.project)
-      .then((res) => {
-        res.data.forEach((item) => {
-          this.date.push(item.sDate);
-          this.count.push(item.count);
-        });
-        this.date.reverse();
-        this.count.reverse();
-        this.$set(this.option1.xAxis, "data", this.date);
-        this.$set(this.option1.series[0], "data", this.count);
-        myChart1.setOption(this.option1);
-        window.addEventListener("resize", function() {
-          myChart1.resize();
-        });
-      });
-    var myChart3 = echarts.init(this.$refs.taskNum);
+    var myChart1 = echarts.init(this.$refs.taskNum);
     getTarget
       .getCollectionNum(this.$route.params.country, this.$route.params.project)
       .then((res) => {
@@ -175,11 +172,28 @@ export default {
         });
         this.taskNum.reverse();
         this.sevenDate1.reverse();
-        this.$set(this.option3.series[0], "data", this.taskNum);
-        this.$set(this.option3.xAxis, "data", this.sevenDate1);
-        myChart3.setOption(this.option3);
+        this.$set(this.option1.series[0], "data", this.taskNum);
+        this.$set(this.option1.xAxis, "data", this.sevenDate1);
+        myChart1.setOption(this.option1);
         window.addEventListener("resize", function() {
-          myChart3.resize();
+          myChart1.resize();
+        });
+      });
+    var myChart2 = echarts.init(this.$refs.tasks);
+    getTarget
+      .getNewTask(this.$route.params.country, this.$route.params.project)
+      .then((res) => {
+        res.data.forEach((item) => {
+          this.date.push(item.sDate);
+          this.count.push(item.count);
+        });
+        this.date.reverse();
+        this.count.reverse();
+        this.$set(this.option2.xAxis, "data", this.date);
+        this.$set(this.option2.series[0], "data", this.count);
+        myChart2.setOption(this.option2);
+        window.addEventListener("resize", function() {
+          myChart2.resize();
         });
       });
   },

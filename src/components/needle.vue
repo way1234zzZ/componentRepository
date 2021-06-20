@@ -15,7 +15,7 @@
         <span id="IpNumber">{{ accountData.ipNum }}</span>
       </div>
     </div>
-    <div id="state"></div>
+    <div id="state" ref="chart"></div>
     <div id="hiddenDom">
       <span
         style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;"
@@ -58,13 +58,12 @@ export default {
             ],
             startAngle: 150,
             labelLine: {
-              normal: {
-                length: 10,
-              },
+              length: "",
+              length2: "",
             },
             label: {
               normal: {
-                formatter: "{b|{b}: }  {per|{d}%} ",
+                formatter: "{b}:{c}个 \n{per|{d}%} ",
                 backgroundColor: "rgba(255, 147, 38, 0)",
                 borderColor: "transparent",
                 borderRadius: 4,
@@ -102,43 +101,7 @@ export default {
                 },
               },
             },
-            emphasis: {
-              label: {
-                show: true,
-                formatter: "{b|{b}:}  {per|{d}%}  ",
-                backgroundColor: "rgba(255, 147, 38, 0)",
-                borderColor: "transparent",
-                borderRadius: 4,
-                rich: {
-                  a: {
-                    color: "#999",
-                    lineHeight: 22,
-                    align: "center",
-                  },
-                  hr: {
-                    borderColor: "#aaa",
-                    width: "100%",
-                    borderWidth: 1,
-                    height: 0,
-                  },
-                  b: {
-                    color: "#fff",
-                    fontSize: 18,
-                    lineHeight: 33,
-                  },
-                  c: {
-                    fontSize: 14,
-                    color: "#eee",
-                  },
-                  per: {
-                    color: "#FDF44E",
-                    fontSize: 25,
-                    padding: [5, 6],
-                    borderRadius: 2,
-                  },
-                },
-              },
-            },
+
             data: [],
           },
           {
@@ -207,6 +170,16 @@ export default {
             value: this.accountData.invalidAccount,
           },
         ]);
+        this.$set(
+          this.needleOption.series[0].labelLine,
+          "length",
+          this.$refs.chart.clientWidth / 30
+        );
+        this.$set(
+          this.needleOption.series[0].labelLine,
+          "length2",
+          this.$refs.chart.clientWidth / 30
+        );
         this.myChart = echarts.init(document.getElementById("state"));
         this.myChart.setOption(this.needleOption);
         window.addEventListener("resize", () => {

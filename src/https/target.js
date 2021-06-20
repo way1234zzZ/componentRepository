@@ -41,5 +41,13 @@ const getTarget = {
       }
     })
   },
+  getRunningCount(country,project){
+    return Vue.$http.get('/getRunningCount',{
+      params:{
+        'terr':country,
+        'project':project
+      }
+    })
+  },
 }
 export default getTarget

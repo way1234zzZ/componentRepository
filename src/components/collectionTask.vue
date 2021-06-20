@@ -131,11 +131,15 @@ h2 {
   font-size: 16px;
   font-family: "KaiTi";
 }
+.titles:nth-child(1),
+.titles:nth-child(2) {
+  text-align: left;
+}
 .seamless-warp {
   flex: 1;
 }
 .rightContents {
-  height: 2.525rem;
+  height: 3.125rem;
   line-height: 0.3rem;
   overflow: hidden;
 }
@@ -152,5 +156,9 @@ h2 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.itemLi span:nth-child(1),
+.itemLi span:nth-child(2) {
+  text-align: left;
 }
 </style>

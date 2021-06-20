@@ -15,7 +15,7 @@
         <span id="collectionNumNum">{{ dataNums.num }}</span>
       </div>
     </div>
-    <div id="DataClassification"></div>
+    <div id="DataClassification" ref="chart"></div>
   </div>
 </template>
 
@@ -54,11 +54,11 @@ export default {
                   show: true,
                   position: "outside",
                   color: "#ddd",
-                  formatter: "{b}: {c} ({d}%)",
+                  formatter: "{b}: {c}条 ({d}%)",
                 },
                 labelLine: {
-                  length: 4,
-                  length2: 4,
+                  length: 0,
+                  length2: 0,
                   show: true,
                   // color: "#00ffff",
                 },
@@ -80,6 +80,16 @@ export default {
       getMainpage.getData(countryMap[this.selected()]).then((response) => {
         this.typeData = response.data;
         this.$set(this.dataSizeOption.series[0], "data", this.typeData);
+        this.$set(
+          this.dataSizeOption.series[0].itemStyle.normal.labelLine,
+          "length",
+          this.$refs.chart.clientWidth / 75
+        );
+        this.$set(
+          this.dataSizeOption.series[0].itemStyle.normal.labelLine,
+          "length2",
+          this.$refs.chart.clientWidth / 30
+        );
         this.myChart = echarts.init(
           document.getElementById("DataClassification")
         );

@@ -4,8 +4,8 @@
       <div id="scrollTitle">
         <span>任务名称</span>
         <span>国家</span>
-        <span>采集容量</span>
-        <span>采集数量</span>
+        <span>采集容量(MB)</span>
+        <span>采集数量(个)</span>
       </div>
       <div id="scrollArea">
         <vue-seamless-scroll
@@ -30,11 +30,15 @@
     </div>
     <div id="bottom" class="common-color">
       <el-row>
-        <el-col :span="12">
+        <el-col :span="8">
           <div id="probe" class="circles"></div>
           <div class="midAligned">探针数</div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
+          <div id="activeTask" class="circles"></div>
+          <div class="midAligned">正在运行任务数</div>
+        </el-col>
+        <el-col :span="8">
           <div id="task" class="circles"></div>
           <div class="midAligned">任务数</div>
         </el-col>
@@ -51,6 +55,7 @@ export default {
     return {
       listData: [],
       ballData: null,
+      cou: null,
     };
   },
   computed: {
@@ -73,6 +78,7 @@ export default {
     getTarget
       .getAITC(this.$route.params.country, this.$route.params.project)
       .then((data2) => {
+        console.log("3");
         this.ballData = data2.data;
         var myChart1 = echarts.init(document.querySelector("#probe"));
         let angle = 0; //角度，用来做简单的动画效果的
@@ -722,24 +728,347 @@ export default {
             },
           ],
         };
+        var myChart3 = echarts.init(document.querySelector("#activeTask"));
+        let value3 = this.cou;
+        let option3 = {
+          title: {
+            text: "{a|" + value3 + "}",
+            x: "center",
+            y: "center",
+            textStyle: {
+              rich: {
+                a: {
+                  fontSize: 30,
+                  color: "#d35161",
+                },
+
+                c: {
+                  fontSize: 20,
+                  color: "#d35161",
+                  // padding: [5,0]
+                },
+              },
+            },
+          },
+          series: [
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                return {
+                  type: "arc",
+                  shape: {
+                    cx: api.getWidth() / 2,
+                    cy: api.getHeight() / 2,
+                    r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.7,
+                    startAngle: ((5 + angle) * Math.PI) / 180,
+                    endAngle: ((175 + angle) * Math.PI) / 180,
+                  },
+                  style: {
+                    stroke: "#d35161",
+                    fill: "transparent",
+                    lineWidth: 1.5,
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                return {
+                  type: "arc",
+                  shape: {
+                    cx: api.getWidth() / 2,
+                    cy: api.getHeight() / 2,
+                    r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.7,
+                    startAngle: ((185 + angle) * Math.PI) / 180,
+                    endAngle: ((355 + angle) * Math.PI) / 180,
+                  },
+                  style: {
+                    stroke: "#d35161",
+                    fill: "transparent",
+                    lineWidth: 1.5,
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                return {
+                  type: "arc",
+                  shape: {
+                    cx: api.getWidth() / 2,
+                    cy: api.getHeight() / 2,
+                    r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65,
+                    startAngle: ((275 + -angle) * Math.PI) / 180,
+                    endAngle: ((-5 + -angle) * Math.PI) / 180,
+                  },
+                  style: {
+                    stroke: "#84888a",
+                    fill: "transparent",
+                    lineWidth: 1.5,
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                return {
+                  type: "arc",
+                  shape: {
+                    cx: api.getWidth() / 2,
+                    cy: api.getHeight() / 2,
+                    r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65,
+                    startAngle: ((5 + -angle) * Math.PI) / 180,
+                    endAngle: ((85 + -angle) * Math.PI) / 180,
+                  },
+                  style: {
+                    stroke: "#84888a",
+                    fill: "transparent",
+                    lineWidth: 1.5,
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                return {
+                  type: "arc",
+                  shape: {
+                    cx: api.getWidth() / 2,
+                    cy: api.getHeight() / 2,
+                    r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65,
+                    startAngle: ((95 + -angle) * Math.PI) / 180,
+                    endAngle: ((175 + -angle) * Math.PI) / 180,
+                  },
+                  style: {
+                    stroke: "#84888a",
+                    fill: "transparent",
+                    lineWidth: 1.5,
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                return {
+                  type: "arc",
+                  shape: {
+                    cx: api.getWidth() / 2,
+                    cy: api.getHeight() / 2,
+                    r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65,
+                    startAngle: ((185 + -angle) * Math.PI) / 180,
+                    endAngle: ((265 + -angle) * Math.PI) / 180,
+                  },
+                  style: {
+                    stroke: "#84888a",
+                    fill: "transparent",
+                    lineWidth: 1.5,
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                //console.log(api.getHeight)
+                let x0 = api.getWidth() / 2;
+                let y0 = api.getHeight() / 2.05;
+                let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
+                let point = getCirlPoint(x0, y0, r, 85 + -angle);
+                return {
+                  type: "rect",
+                  shape: {
+                    x: point.x,
+                    y: point.y,
+                    width: 3,
+                    height: 10,
+                  },
+                  style: {
+                    stroke: "#84888a", //粉
+                    fill: "#84888a",
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5",
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                let x0 = api.getWidth() / 2;
+                let y0 = api.getHeight() / 2.05;
+                let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
+                let point = getCirlPoint(x0, y0, r, 95.5 + -angle);
+                return {
+                  type: "rect",
+                  shape: {
+                    x: point.x,
+                    y: point.y,
+                    width: 3,
+                    height: 10,
+                  },
+                  style: {
+                    stroke: "#84888a", //粉
+                    fill: "#84888a",
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5", //绿点
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                let x0 = api.getWidth() / 2;
+                let y0 = api.getHeight() / 2;
+                let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
+                let point = getCirlPoint(x0, y0, r, 275 + -angle);
+                return {
+                  type: "rect",
+                  shape: {
+                    x: point.x,
+                    y: point.y,
+                    width: 3,
+                    height: 10,
+                  },
+                  style: {
+                    stroke: "#84888a", //绿
+                    fill: "#84888a",
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "ring5", //绿点
+              type: "custom",
+              coordinateSystem: "none",
+              renderItem: function(params, api) {
+                let x0 = api.getWidth() / 2;
+                let y0 = api.getHeight() / 2;
+                let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
+                let point = getCirlPoint(x0, y0, r, 265 + -angle);
+                return {
+                  type: "rect",
+                  shape: {
+                    x: point.x,
+                    y: point.y,
+                    width: 3,
+                    height: 10,
+                  },
+                  style: {
+                    stroke: "#84888a", //绿
+                    fill: "#84888a",
+                  },
+                  silent: true,
+                };
+              },
+              data: [0],
+            },
+            {
+              name: "攻击次数",
+              type: "pie",
+              radius: ["58%", "45%"],
+              silent: true,
+              clockwise: true,
+              startAngle: 90,
+              z: 0,
+              zlevel: 0,
+              label: {
+                normal: {
+                  position: "center",
+                },
+              },
+              data: [
+                {
+                  value3: value3,
+                  name: "",
+                  itemStyle: {
+                    normal: {
+                      color: "#373a41",
+                    },
+                  },
+                },
+                {
+                  value3: 100000 - value3,
+                  name: "",
+                  label: {
+                    normal: {
+                      show: false,
+                    },
+                  },
+                  itemStyle: {
+                    normal: {
+                      color: "#373a41",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        };
         setInterval(function() {
           //用setInterval做动画感觉有问题
           draw(myChart1, option1);
           draw(myChart2, option2);
+          draw(myChart3, option3);
         }, 100);
         window.addEventListener("resize", function() {
           myChart2.resize();
         });
+        window.addEventListener("resize", function() {
+          myChart3.resize();
+        });
       });
   },
   created() {
-    this.$nextTick(() => {
-      getTarget
-        .getPageTask(this.$route.params.country, this.$route.params.project)
-        .then((data1) => {
-          this.listData = data1.data;
-        });
-    });
+    getTarget
+      .getPageTask(this.$route.params.country, this.$route.params.project)
+      .then((data1) => {
+        console.log("1");
+        this.listData = data1.data;
+      });
+    getTarget
+      .getRunningCount(this.$route.params.country, this.$route.params.project)
+      .then((res) => {
+        console.log("2");
+        this.cou = res.data.cou;
+      });
   },
 };
 </script>
@@ -774,7 +1103,7 @@ export default {
   font-size: 0.3125rem;
   font-family: "YouYuan";
   .seamless-warp-aside {
-    height: 6.557625rem;
+    height: 7.877125rem;
     overflow: hidden;
     line-height: 0.3rem;
   }

@@ -165,4 +165,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.item span:nth-child(1) {
+  cursor: pointer;
+}
 </style>
