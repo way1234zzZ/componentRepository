@@ -8,18 +8,9 @@
         }}</span>
       </div>
       <div class="seamless-warp">
-        <vue-seamless-scroll
-          :data="rightContents"
-          :class-option="optionSetting"
-          class="rightContents"
-          ref="seamless"
-        >
+        <vue-seamless-scroll :data="rightContents" :class-option="optionSetting" class="rightContents" ref="seamless">
           <ul class="item">
-            <li
-              v-for="(item, index) in rightContents"
-              :key="index"
-              class="itemLi"
-            >
+            <li v-for="(item, index) in rightContents" :key="index" class="itemLi">
               <span v-text="item.taskName"></span>
               <span v-text="item.projectName"></span>
               <span v-text="item.dataCapacity"></span>
@@ -139,7 +130,7 @@ h2 {
   flex: 1;
 }
 .rightContents {
-  height: 3.125rem;
+  height: 3.12rem;
   line-height: 0.3rem;
   overflow: hidden;
 }

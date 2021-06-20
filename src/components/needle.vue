@@ -17,10 +17,7 @@
     </div>
     <div id="state" ref="chart"></div>
     <div id="hiddenDom">
-      <span
-        style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;"
-        >{{ `平均存活时长：${lifeTime}h` }}</span
-      >
+      <span style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;">{{ `平均存活时长：${lifeTime}h` }}</span>
       <!-- <i
         class="el-icon-top"
         style="color: red;font-size: 0.3rem; font-weight: bolder;"
@@ -44,7 +41,7 @@ export default {
         series: [
           {
             type: "pie",
-            center: ["50%", "35%"],
+            center: ["50%", "45%"],
             radius: ["40%", "53%"],
             color: [
               "#F76F01",
@@ -106,7 +103,7 @@ export default {
           },
           {
             type: "pie",
-            center: ["50%", "35%"],
+            center: ["50%", "45%"],
             radius: ["33%", "34%"],
             label: {
               show: false,
@@ -194,7 +191,7 @@ export default {
       this.lifeTime = response.data.liveTime;
     });
   },
-  created() {},
+  created() { },
 };
 </script>
 

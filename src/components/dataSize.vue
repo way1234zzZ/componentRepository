@@ -43,7 +43,7 @@ export default {
             name: "",
             type: "pie",
             clockWise: false,
-            radius: "68%",
+            radius: "60%",
             hoverAnimation: false,
             itemStyle: {
               normal: {
@@ -83,12 +83,12 @@ export default {
         this.$set(
           this.dataSizeOption.series[0].itemStyle.normal.labelLine,
           "length",
-          this.$refs.chart.clientWidth / 75
+          this.$refs.chart.clientWidth / 100
         );
         this.$set(
           this.dataSizeOption.series[0].itemStyle.normal.labelLine,
           "length2",
-          this.$refs.chart.clientWidth / 30
+          this.$refs.chart.clientWidth / 40
         );
         this.myChart = echarts.init(
           document.getElementById("DataClassification")
