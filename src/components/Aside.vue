@@ -72,7 +72,12 @@ export default {
       };
     },
   },
-  mounted() {
+  async mounted() {
+    let res = await getTarget.getRunningCount(
+      this.$route.params.country,
+      this.$route.params.project
+    );
+    this.cou = res.data.cou;
     /* Echarts脚本 */
     /**********************探针数*****************************/
     getTarget
@@ -1062,12 +1067,6 @@ export default {
       .then((data1) => {
         console.log("1");
         this.listData = data1.data;
-      });
-    getTarget
-      .getRunningCount(this.$route.params.country, this.$route.params.project)
-      .then((res) => {
-        console.log("2");
-        this.cou = res.data.cou;
       });
   },
 };

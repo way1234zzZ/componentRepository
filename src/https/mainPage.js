@@ -18,6 +18,9 @@ const getMainpage = {
   },
   getNumCapTask(params){
     return Vue.$http.get('/getNumCapTask?terr='+params)
+  },
+  getIps(){
+    return Vue.$http.get('/getIps?')
   }
 }
 export default getMainpage

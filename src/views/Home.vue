@@ -8,7 +8,12 @@
         <div id="earth"></div>
         <div id="selections">
           <el-select v-model="value" placeholder="全球" @change="selectBox">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
             </el-option>
           </el-select>
         </div>
@@ -60,10 +65,13 @@ import worldGeoCoordMap from "@/assets/json/worldGeoCoordMap.json";
 import dataSize from "@/components/dataSize.vue";
 import needle from "@/components/needle.vue";
 import collectionTask from "@/components/collectionTask.vue";
+import getMainpage from "@/https/mainPage.js";
 
 export default {
   data() {
     return {
+      mapData: [],
+      scatterData: [],
       dser: [],
       mapChart: "",
       myChart: "",
@@ -173,8 +181,8 @@ export default {
     collectionTask,
   },
   methods: {
-    putScatters(country) {
-      [["全球", country]].forEach((item) => {
+    putScatters() {
+      [this.scatterData].forEach((item) => {
         this.dser.push({
           // 散点效果
           type: "effectScatter",
@@ -196,14 +204,7 @@ export default {
               color: "#fff",
             },
           },
-          data: item[1].map((dataItem) => {
-            return {
-              name: dataItem[0].name,
-              value: geoCoordMap[dataItem[0].name].concat([dataItem[1].value]), // 起点的位置
-              symbolSize: 2, // 散点的大小，通过之前设置的权重来计算，val的值来自data返回的value
-              //symbol:'',
-            };
-          }),
+          data: item,
         });
       });
     },
@@ -231,48 +232,8 @@ export default {
         },
         data: [
           {
-            name: "香港",
-            value: [114.1, 22.2],
-            label: {
-              normal: {
-                position: "right",
-                color: "red",
-              },
-            },
-          },
-          {
-            name: "东京",
-            value: [139.663702, 35.798331],
-            label: {
-              normal: {
-                position: "right",
-                color: "red",
-              },
-            },
-          },
-          {
-            name: "伦敦",
-            value: [-0.147305, 51.527257],
-            label: {
-              normal: {
-                position: "right",
-                color: "red",
-              },
-            },
-          },
-          {
-            name: "墨尔本",
-            value: [144.959034, -37.791959],
-            label: {
-              normal: {
-                position: "right",
-                color: "red",
-              },
-            },
-          },
-          {
-            name: "纽约",
-            value: [-73.878625, 40.859843],
+            name: "北京",
+            value: [116.404844, 39.913385],
             label: {
               normal: {
                 position: "right",
@@ -319,8 +280,10 @@ export default {
       return res;
     },
     initEarth() {
-      // this.putScatters(world);
-      // this.putFlags();
+      this.putScatters();
+      console.log("dser");
+      console.log(this.dser);
+      this.putFlags();
       this.initMap();
       this.initBall();
     },
@@ -387,8 +350,24 @@ export default {
       this.myChart.setOption(this.earthOption, true);
     },
   },
-  created() { },
-  mounted() {
+  created() {},
+  async mounted() {
+    let res = await getMainpage.getIps();
+    let data = res.data[0].value;
+    console.log(data);
+    console.log(JSON.parse(JSON.stringify(data)));
+    this.mapData = JSON.parse(JSON.stringify(res.data));
+    console.log(res.data);
+    this.mapData[0].value = [130.89422, -12.426839];
+    console.log(this.mapData[0].value);
+    this.mapData.forEach((item) => {
+      this.scatterData.push({
+        name: item.name,
+        value: item.value,
+        symbolSize: 2,
+      });
+    });
+    console.log(this.scatterData);
     this.initEarth();
   },
 };
