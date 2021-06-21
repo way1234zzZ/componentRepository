@@ -17,7 +17,7 @@
             </el-option>
           </el-select>
         </div>
-        <!-- <div id="lineSwitch">
+        <div id="lineSwitch">
           <label @click.stop>
             <el-switch
               v-model="switchLine"
@@ -28,7 +28,7 @@
             >
             </el-switch>
           </label>
-        </div> -->
+        </div>
         <targetScroll />
       </el-aside>
       <el-main>
@@ -182,30 +182,28 @@ export default {
   },
   methods: {
     putScatters() {
-      [this.scatterData].forEach((item) => {
-        this.dser.push({
-          // 散点效果
-          type: "effectScatter",
-          //type: 'scatter',
-          coordinateSystem: "geo", // 表示使用的坐标系为地理坐标系
-          // rippleEffect: {
-          // 	brushType: 'stroke' // 波纹绘制效果
-          // },
-          label: {
-            normal: {
-              // 默认的文本标签显示样式
-              show: true,
-              position: "left", // 标签显示的位置
-              formatter: "{b}", // 标签内容格式器
-            },
+      this.dser.push({
+        // 散点效果
+        type: "effectScatter",
+        //type: 'scatter',
+        coordinateSystem: "geo", // 表示使用的坐标系为地理坐标系
+        // rippleEffect: {
+        // 	brushType: 'stroke' // 波纹绘制效果
+        // },
+        label: {
+          normal: {
+            // 默认的文本标签显示样式
+            show: true,
+            position: "left", // 标签显示的位置
+            formatter: "{b}", // 标签内容格式器
           },
-          itemStyle: {
-            normal: {
-              color: "#fff",
-            },
+        },
+        itemStyle: {
+          normal: {
+            color: "#fff",
           },
-          data: item,
-        });
+        },
+        data: this.mapData,
       });
     },
     putFlags() {
@@ -261,19 +259,17 @@ export default {
         this.myChart.resize();
       });
     },
-    convertData(data) {
+    convertData(mapData) {
       var res = [];
-      for (var i = 0; i < data.length; i++) {
-        var dataItem = data[i];
-        var fromCoord = geoCoordMap[dataItem[0].name];
-        var toCoord = geoCoordMap[dataItem[1].name];
-
+      for (var i = 0; i < mapData.length; i++) {
+        var fromCoord = mapData[i].value;
+        var toCoord = [116.415687, 39.91026];
         if (fromCoord && toCoord) {
           res.push({
-            fromName: dataItem[0].name,
-            toName: dataItem[1].name,
+            fromName: mapData[i].name,
+            toName: "北京",
             coords: [fromCoord, toCoord],
-            value: dataItem[1].value,
+            value: 30,
           });
         }
       }
@@ -281,8 +277,6 @@ export default {
     },
     initEarth() {
       this.putScatters();
-      console.log("dser");
-      console.log(this.dser);
       this.putFlags();
       this.initMap();
       this.initBall();
@@ -305,7 +299,7 @@ export default {
             width: 1,
             opacity: 0.6,
           },
-          data: this.convertData(this.attackMap[this.value]), // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
+          data: this.convertData(this.mapData), // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
         });
         this.$set(this.earthOption, "series", series);
         //this.earthOption.series = series;
@@ -353,21 +347,13 @@ export default {
   created() {},
   async mounted() {
     let res = await getMainpage.getIps();
-    let data = res.data[0].value;
-    console.log(data);
-    console.log(JSON.parse(JSON.stringify(data)));
-    this.mapData = JSON.parse(JSON.stringify(res.data));
-    console.log(res.data);
-    this.mapData[0].value = [130.89422, -12.426839];
-    console.log(this.mapData[0].value);
-    this.mapData.forEach((item) => {
-      this.scatterData.push({
+    this.mapData = res.data;
+    this.mapData.map((item) => {
+      return {
         name: item.name,
-        value: item.value,
-        symbolSize: 2,
-      });
+        value: item.value.reverse(),
+      };
     });
-    console.log(this.scatterData);
     this.initEarth();
   },
 };
@@ -401,7 +387,7 @@ export default {
   right: 5%;
   top: 2%;
 }
-.el-switch__label * {
+.el-switch /deep/ .el-switch__label * {
   color: #fff;
 }
 #selections /deep/ .el-input__inner {

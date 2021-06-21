@@ -55,6 +55,7 @@ export default {
         yAxis: {
           type: "value",
           name: "采集数量(条)",
+          minInterval: 1,
           scale: true,
           splitLine: {
             show: false,
@@ -113,6 +114,7 @@ export default {
         },
 
         yAxis: {
+          name: "新增任务(个)",
           scale: true,
           type: "value",
           minInterval: 1,
