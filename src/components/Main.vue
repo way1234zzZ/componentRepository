@@ -1,14 +1,40 @@
 <template>
   <div id="main">
-    <div class="top">
-      <div class="left topWrapper">
-        <div class="title1">近七天采集数量</div>
-        <div class="chart1" ref="taskNum"></div>
+    <div class="top wrapper">
+      <div class="title">
+        <span>采集数量趋势</span>
+        <el-date-picker
+          v-model="value1"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+          @change="getCollectionNum"
+        >
+        </el-date-picker>
       </div>
+      <div class="chart" ref="taskNum"></div>
     </div>
-    <div class="bottom">
-      <div class="title">14天内新增任务</div>
-      <div class="chart" ref="tasks"></div>
+    <div class="bottom wrapper">
+      <div class="title">
+        <span>累计采集数量</span>
+        <el-date-picker
+          v-model="value2"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+          @change="getTotalCollectionNum"
+        >
+        </el-date-picker>
+      </div>
+      <div class="chart" ref="totalTasks"></div>
     </div>
   </div>
 </template>
@@ -19,6 +45,39 @@ import getTarget from "@/https/target.js";
 export default {
   data() {
     return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
+      value1: "",
+      value2: "",
       date: [],
       count: [],
       sevenDate: [],
@@ -49,7 +108,7 @@ export default {
           },
         },
         grid: {
-          top: "30%",
+          top: "10%",
           bottom: 30,
         },
         yAxis: {
@@ -94,7 +153,7 @@ export default {
         },
         grid: {
           right: "10%",
-          top: "30%",
+          top: "10%",
           bottom: 40,
         },
         xAxis: {
@@ -114,7 +173,7 @@ export default {
         },
 
         yAxis: {
-          name: "新增任务(个)",
+          name: "累计采集数量(条)",
           scale: true,
           type: "value",
           minInterval: 1,
@@ -148,7 +207,58 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    async getCollectionNum() {
+      this.taskNum = [];
+      this.sevenDate1 = [];
+      this.initLineChart(
+        this.$moment(this.value1[0]).format("YYYY-MM-DD"),
+        this.$moment(this.value1[1]).format("YYYY-MM-DD"),
+        this.$route.params.country,
+        this.$route.params.project
+      );
+    },
+    getTotalCollectionNum() {
+      this.date = [];
+      this.count = [];
+      this.initBarChart(
+        this.$moment(this.value2[0]).format("YYYY-MM-DD"),
+        this.$moment(this.value2[1]).format("YYYY-MM-DD"),
+        this.$route.params.country,
+        this.$route.params.project
+      );
+    },
+    async initLineChart(from, to, terr, project) {
+      var myChart = echarts.init(this.$refs.taskNum);
+      let res = await getTarget.getCollectionNum(from, to, terr, project);
+      res.data.forEach((item) => {
+        this.taskNum.push(item.num);
+        this.sevenDate1.push(
+          this.$moment(item.createtime).format("YYYY-MM-DD")
+        );
+      });
+      this.$set(this.option1.series[0], "data", this.taskNum);
+      this.$set(this.option1.xAxis, "data", this.sevenDate1);
+      myChart.setOption(this.option1);
+      window.addEventListener("resize", function() {
+        myChart.resize();
+      });
+    },
+    async initBarChart(from, to, terr, project) {
+      var myChart = echarts.init(this.$refs.totalTasks);
+      let res = await getTarget.getSumCollectionNum(from, to, terr, project);
+      res.data.forEach((item) => {
+        this.count.push(item.num);
+        this.date.push(this.$moment(item.createtime).format("YYYY-MM-DD"));
+      });
+      this.$set(this.option2.xAxis, "data", this.date);
+      this.$set(this.option2.series[0], "data", this.count);
+      myChart.setOption(this.option2);
+      window.addEventListener("resize", function() {
+        myChart.resize();
+      });
+    },
+  },
   computed: {
     optionSetting() {
       return {
@@ -163,93 +273,52 @@ export default {
       };
     },
   },
-  mounted() {
-    var myChart1 = echarts.init(this.$refs.taskNum);
-    getTarget
-      .getCollectionNum(this.$route.params.country, this.$route.params.project)
-      .then((res) => {
-        res.data.forEach((item) => {
-          this.taskNum.push(item.num);
-          this.sevenDate1.push(item.sDate);
-        });
-        this.taskNum.reverse();
-        this.sevenDate1.reverse();
-        this.$set(this.option1.series[0], "data", this.taskNum);
-        this.$set(this.option1.xAxis, "data", this.sevenDate1);
-        myChart1.setOption(this.option1);
-        window.addEventListener("resize", function() {
-          myChart1.resize();
-        });
-      });
-    var myChart2 = echarts.init(this.$refs.tasks);
-    getTarget
-      .getNewTask(this.$route.params.country, this.$route.params.project)
-      .then((res) => {
-        res.data.forEach((item) => {
-          this.date.push(item.sDate);
-          this.count.push(item.count);
-        });
-        this.date.reverse();
-        this.count.reverse();
-        this.$set(this.option2.xAxis, "data", this.date);
-        this.$set(this.option2.series[0], "data", this.count);
-        myChart2.setOption(this.option2);
-        window.addEventListener("resize", function() {
-          myChart2.resize();
-        });
-      });
+  async mounted() {
+    this.initLineChart(
+      "",
+      "",
+      this.$route.params.country,
+      this.$route.params.project
+    );
+    this.initBarChart(
+      "",
+      "",
+      this.$route.params.country,
+      this.$route.params.project
+    );
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.el-date-editor /deep/ .el-range-separator {
+  width: 10% !important;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.0625rem;
+  .chart {
+    flex: 4;
+  }
+  .title {
+    flex: 1;
+    font-size: 25px;
+    color: #fff;
+    display: flex;
+    gap: 0.1875rem;
+    align-items: center;
+  }
+}
 #main {
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  .top {
+
+  .wrapper {
     flex: 1;
-    display: flex;
-    gap: 5px;
-    .topWrapper {
-      position: relative;
-      .chart1 {
-        height: 100%;
-      }
-      .title1 {
-        position: absolute;
-        font-size: 23px;
-        height: 0.25rem;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        right: 0.25rem;
-        top: 0.3125rem;
-      }
-    }
-    .left {
-      flex: 1;
-      border: 2px solid rgba(20, 20, 20, 1);
-    }
-  }
-  .bottom {
-    flex: 1;
-    border: 2px solid rgba(20, 20, 20, 1);
-    position: relative;
-    .chart {
-      height: 95%;
-    }
-    .title {
-      position: absolute;
-      font-size: 25px;
-      height: 0.25rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      right: 0.25rem;
-      top: 0.3125rem;
-    }
+    border: 2px solid rgba(255, 255, 255, 0.2);
   }
 }
 </style>

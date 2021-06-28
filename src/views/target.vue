@@ -35,7 +35,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background: rgba(29, 32, 38, 1);
+  background: url(../../public/bgg.jpg) no-repeat 100%;
+  background-size: 100% 100%;
   #main {
     flex: 1;
   }

@@ -17,10 +17,22 @@ const getTarget = {
       }
     })
   },
-  getNewTask(country,project){
-    return Vue.$http.get('/getNewTask',{
+  getCollectionNum(from,to,terr,project){
+    return Vue.$http.get('/getCollectionNum',{
       params:{
-        'terr':country,
+        'from':from,
+        'to':to,
+        'terr':terr,
+        'project':project
+      }
+    })
+  },
+  getSumCollectionNum(from,to,terr,project){
+    return Vue.$http.get('/getSumCollectionNum',{
+      params:{
+        'from':from,
+        'to':to,
+        'terr':terr,
         'project':project
       }
     })
@@ -33,14 +45,7 @@ const getTarget = {
       }
     })
   },
-  getCollectionNum(country,project){
-    return Vue.$http.get('/getCollectionNum',{
-      params:{
-        'terr':country,
-        'project':project
-      }
-    })
-  },
+
   getRunningCount(country,project){
     return Vue.$http.get('/getRunningCount',{
       params:{

@@ -8,9 +8,18 @@
         }}</span>
       </div>
       <div class="seamless-warp">
-        <vue-seamless-scroll :data="rightContents" :class-option="optionSetting" class="rightContents" ref="seamless">
+        <vue-seamless-scroll
+          :data="rightContents"
+          :class-option="optionSetting"
+          class="rightContents"
+          ref="seamless"
+        >
           <ul class="item">
-            <li v-for="(item, index) in rightContents" :key="index" class="itemLi">
+            <li
+              v-for="(item, index) in rightContents"
+              :key="index"
+              class="itemLi"
+            >
               <span v-text="item.taskName"></span>
               <span v-text="item.projectName"></span>
               <span v-text="item.dataCapacity"></span>
@@ -122,6 +131,10 @@ h2 {
   font-size: 16px;
   font-family: "KaiTi";
 }
+
+.titles:nth-child(1) {
+  flex: 2;
+}
 .titles:nth-child(1),
 .titles:nth-child(2) {
   text-align: left;
@@ -147,6 +160,9 @@ h2 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.itemLi span:nth-child(1) {
+  flex: 2;
 }
 .itemLi span:nth-child(1),
 .itemLi span:nth-child(2) {

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import qs from 'querystring'
 const getMainpage = {
-  getProjects(params){
-    return Vue.$http.get('/getProjects?terr='+params)
+  getProjects(country,project){
+    return Vue.$http.get('/getProjects?terr='+country+'&project='+project)
   },
   getAccount(){
     return Vue.$http.get('/getAccount')
@@ -21,6 +21,9 @@ const getMainpage = {
   },
   getIps(){
     return Vue.$http.get('/getIps?')
+  },
+  getProjectList(params){
+    return Vue.$http.get('/getProjectList?terr='+params)
   }
 }
 export default getMainpage

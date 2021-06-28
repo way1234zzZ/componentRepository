@@ -17,12 +17,20 @@
     </div>
     <div id="state" ref="chart"></div>
     <div id="hiddenDom">
-      <span style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;">{{ `平均存活时长：${lifeTime}h` }}</span>
-      <!-- <i
+      <span
+        style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;"
+        >{{ `平均存活时长：${lifeTime}` }}</span
+      >
+      <i
+        v-if="compare >= 0"
         class="el-icon-top"
         style="color: red;font-size: 0.3rem; font-weight: bolder;"
-        onclick="trend1()"
-      ></i> -->
+      ></i>
+      <i
+        v-else
+        class="el-icon-bottom"
+        style="color: green;font-size: 0.3rem; font-weight: bolder;"
+      ></i>
     </div>
   </div>
 </template>
@@ -35,6 +43,7 @@ export default {
     return {
       accountData: {},
       lifeTime: 0,
+      compare: undefined,
       myChart: "",
       needleOption: {
         animation: true,
@@ -188,10 +197,11 @@ export default {
   mounted() {
     this.initChart();
     getMainpage.getLiveTime().then((response) => {
-      this.lifeTime = response.data.liveTime;
+      this.lifeTime = response.data.stringtime;
+      this.compare = response.data.compare;
     });
   },
-  created() { },
+  created() {},
 };
 </script>
 

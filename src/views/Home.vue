@@ -75,7 +75,7 @@ export default {
       dser: [],
       mapChart: "",
       myChart: "",
-      switchLine: false,
+      switchLine: true,
       options: [
         {
           value: "全球",
@@ -280,6 +280,7 @@ export default {
       this.putFlags();
       this.initMap();
       this.initBall();
+      this.switchLines();
     },
     switchLines() {
       let series = [];
@@ -302,11 +303,42 @@ export default {
           data: this.convertData(this.mapData), // 特效的起始、终点位置，一个二维数组，相当于coords: convertData(item[1])
         });
         this.$set(this.earthOption, "series", series);
+        if (this.value === "全球") {
+          this.earthOption.globe.viewControl = {
+            autoRotate: false,
+            targetCoord: [104.195397, 35.86166],
+            distance: 200,
+            autoRotateSpeed: 0,
+          };
+        } else {
+          this.earthOption.globe.viewControl = {
+            autoRotate: false,
+            targetCoord: worldGeoCoordMap[nameMap[this.value]],
+            distance: 150,
+            autoRotateSpeed: 0,
+          };
+        }
         //this.earthOption.series = series;
       } else {
         this.$set(this.earthOption, "series", []);
         //this.earthOption.series = [];
+        if (this.value === "全球") {
+          this.earthOption.globe.viewControl = {
+            autoRotate: true,
+            targetCoord: [104.195397, 35.86166],
+            distance: 200,
+            autoRotateSpeed: 5,
+          };
+        } else {
+          this.earthOption.globe.viewControl = {
+            autoRotate: false,
+            targetCoord: worldGeoCoordMap[nameMap[this.value]],
+            distance: 150,
+            autoRotateSpeed: 0,
+          };
+        }
       }
+
       this.myChart.clear();
       this.myChart.setOption(this.earthOption, true);
     },
@@ -332,14 +364,22 @@ export default {
         };
       } else {
         this.$set(this.pOp.geo, "regions", []);
-        this.earthOption.globe.viewControl = {
-          autoRotate: true,
-          targetCoord: [104.195397, 35.86166],
-          distance: 200,
-          autoRotateSpeed: 5,
-        };
+        if (this.switchLine) {
+          this.earthOption.globe.viewControl = {
+            autoRotate: false,
+            targetCoord: [104.195397, 35.86166],
+            distance: 200,
+            autoRotateSpeed: 0,
+          };
+        } else {
+          this.earthOption.globe.viewControl = {
+            autoRotate: true,
+            targetCoord: [104.195397, 35.86166],
+            distance: 200,
+            autoRotateSpeed: 5,
+          };
+        }
       }
-      this.switchLines();
       this.mapChart.setOption(this.pOp, true);
       this.myChart.setOption(this.earthOption, true);
     },

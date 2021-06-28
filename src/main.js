@@ -12,10 +12,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import scroll from 'vue-seamless-scroll'
 import pluginaxios from '@/config/axiosConfig.js'
 import * as utils from './utils/index'
+import Moment from 'moment'
 Vue.config.productionTip = false
 Vue.use(pluginaxios)
 Vue.prototype.$utils = utils
 Vue.use(scroll)
+Vue.prototype.$moment = Moment;
 //import 'lib-flexible/flexible'
 
 Vue.use(ElementUI)

@@ -8,10 +8,19 @@
         <span>采集数量(个)</span>
       </div>
       <div id="scrollArea">
+        <ul class="item" v-if="listData.length <= 16">
+          <li :key="item + key" v-for="(item, key) in listData" class="itemLi">
+            <span v-text="item.taskName"></span>
+            <span v-text="item.terr"></span>
+            <span v-text="item.cap"></span>
+            <span v-text="item.num"></span>
+          </li>
+        </ul>
         <vue-seamless-scroll
           :class-option="optionSetting"
           class="seamless-warp-aside"
           :data="listData"
+          v-else
         >
           <ul class="item">
             <li
@@ -83,7 +92,6 @@ export default {
     getTarget
       .getAITC(this.$route.params.country, this.$route.params.project)
       .then((data2) => {
-        console.log("3");
         this.ballData = data2.data;
         var myChart1 = echarts.init(document.querySelector("#probe"));
         let angle = 0; //角度，用来做简单的动画效果的
@@ -259,7 +267,6 @@ export default {
               type: "custom",
               coordinateSystem: "none",
               renderItem: function(params, api) {
-                // console.log(api.getHeight)
                 let x0 = api.getWidth() / 2;
                 let y0 = api.getHeight() / 2.05;
                 let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
@@ -591,7 +598,6 @@ export default {
               type: "custom",
               coordinateSystem: "none",
               renderItem: function(params, api) {
-                //console.log(api.getHeight)
                 let x0 = api.getWidth() / 2;
                 let y0 = api.getHeight() / 2.05;
                 let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
@@ -905,7 +911,6 @@ export default {
               type: "custom",
               coordinateSystem: "none",
               renderItem: function(params, api) {
-                //console.log(api.getHeight)
                 let x0 = api.getWidth() / 2;
                 let y0 = api.getHeight() / 2.05;
                 let r = (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.65;
@@ -1065,7 +1070,6 @@ export default {
     getTarget
       .getPageTask(this.$route.params.country, this.$route.params.project)
       .then((data1) => {
-        console.log("1");
         this.listData = data1.data;
       });
   },
@@ -1079,17 +1083,18 @@ export default {
   flex-direction: column;
 }
 #top {
-  border: 2px solid rgba(20, 20, 20, 1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 0.1875rem;
   flex: 3;
   display: flex;
   flex-direction: column;
+  padding: 0.25rem 0;
 }
 #scrollTitle {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 14%;
+  height: 10%;
   font-family: "KaiTi";
 }
 #scrollTitle span {
@@ -1102,7 +1107,7 @@ export default {
   font-size: 0.3125rem;
   font-family: "YouYuan";
   .seamless-warp-aside {
-    height: 7.877125rem;
+    height: 7.897625rem;
     overflow: hidden;
     line-height: 0.3rem;
   }
@@ -1122,10 +1127,11 @@ export default {
   text-overflow: ellipsis;
 }
 #bottom {
-  border: 2px solid rgba(20, 20, 20, 1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   font-size: 19px;
   color: aliceblue;
   flex: 1;
+  padding-bottom: 0.1875rem;
 }
 .el-row {
   height: 100%;

@@ -12,6 +12,7 @@
     "echarts": "^4.9.0",
     "echarts-gl": "^1.1.1",
     "element-ui": "^2.15.1",
+    "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-seamless-scroll": "^1.1.23",

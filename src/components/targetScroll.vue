@@ -3,6 +3,18 @@
     <div id="scrollFlow">
       <div class="scrollTitle">
         <span>目标系统</span>
+        <div id="selections">
+          <el-select
+            v-model="value"
+            placeholder="请选择"
+            @change="selectBox"
+            size="small"
+            filterable
+          >
+            <el-option v-for="item in options" :key="item" :value="item">
+            </el-option>
+          </el-select>
+        </div>
       </div>
       <ul class="demonstration">
         <span v-for="(item, index) in title" :key="index">{{ item }}</span>
@@ -51,6 +63,8 @@ export default {
   inject: ["selected"],
   data() {
     return {
+      value: "",
+      options: [],
       title: [
         "目标系统",
         "采集容量(MB)",
@@ -65,9 +79,12 @@ export default {
     vueSeamlessScroll,
   },
   methods: {
+    selectBox() {
+      this.$router.push(`/target/${countryMap[this.selected()]}/${this.value}`);
+    },
     initChart() {
       getMainpage
-        .getProjects(countryMap[this.selected()])
+        .getProjects(countryMap[this.selected()], "")
         .then((response) => {
           this.leftContents = response.data;
         })
@@ -80,19 +97,27 @@ export default {
         `/target/${countryMap[this.selected()]}/${item.projectname}`
       );
     },
+    async getProjectList(terr) {
+      let res = await getMainpage.getProjectList(terr);
+      this.options = res.data;
+    },
   },
   mounted() {
     this.initChart();
   },
+  created() {
+    this.getProjectList("全球");
+  },
   watch: {
     computedSelected() {
       this.initChart();
+      this.getProjectList(countryMap[this.selected()]);
     },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #scrollArea {
   position: absolute;
   height: 2.375rem;
@@ -126,6 +151,16 @@ export default {
 .scrollTitle {
   padding-top: 0.125rem;
   padding-left: 0.1875rem;
+  display: flex;
+  gap: 0.125rem;
+  align-items: center;
+  // .el-select {
+  //   height: 0.3125rem;
+  //   /deep/ .el-input,
+  //   /deep/ .el-input__innner {
+  //     height: 0.3125rem;
+  //   }
+  // }
 }
 .scrollTitle span {
   font-size: 0.3125rem;
@@ -147,7 +182,7 @@ export default {
   font-family: "KaiTi";
 }
 .leftContents {
-  height: 1.3rem;
+  height: 1.25rem;
   line-height: 0.3rem;
   overflow: hidden;
 }
