@@ -1,6 +1,16 @@
 <template>
   <div id="scrollArea" class="block">
-    <h2>采集任务（个）：{{ dataNums.task }}</h2>
+    <div class="title">
+      <h2>采集任务（个）：{{ dataNums.task }}</h2>
+      <span>正在运行的任务数：{{ this.activeCount }}个</span>
+      <el-switch
+        v-model="activeTask"
+        active-text="正在运行的任务"
+        active-color="#13ce66"
+        @change="showActiveTask"
+      >
+      </el-switch>
+    </div>
     <div id="scrollFlow" ref="scrollFlow">
       <div class="demonstration" ref="demonstration">
         <span v-for="(item, index) in title" :key="index" class="titles">{{
@@ -8,15 +18,56 @@
         }}</span>
       </div>
       <div class="seamless-warp">
+        <ul class="item" v-if="!activeTask && rightContents.length <= 6">
+          <li
+            v-for="(item, index) in rightContents"
+            :key="index"
+            class="itemLi"
+          >
+            <span v-text="item.taskName"></span>
+            <span v-text="item.projectName"></span>
+            <span v-text="item.dataCapacity"></span>
+            <span v-text="item.dataNum"></span>
+          </li>
+        </ul>
         <vue-seamless-scroll
           :data="rightContents"
           :class-option="optionSetting"
           class="rightContents"
           ref="seamless"
+          v-if="!activeTask && rightContents.length > 6"
         >
           <ul class="item">
             <li
               v-for="(item, index) in rightContents"
+              :key="index"
+              class="itemLi"
+            >
+              <span v-text="item.taskName"></span>
+              <span v-text="item.projectName"></span>
+              <span v-text="item.dataCapacity"></span>
+              <span v-text="item.dataNum"></span>
+            </li>
+          </ul>
+        </vue-seamless-scroll>
+        <ul class="item active" v-if="activeTask && activeTasks.length <= 6">
+          <li v-for="(item, index) in activeTasks" :key="index" class="itemLi">
+            <span v-text="item.taskName"></span>
+            <span v-text="item.projectName"></span>
+            <span v-text="item.cap"></span>
+            <span v-text="item.num"></span>
+          </li>
+        </ul>
+        <vue-seamless-scroll
+          :data="rightContents"
+          :class-option="optionSetting"
+          class="rightContents"
+          ref="seamless"
+          v-if="activeTask && activeTasks.length > 6"
+        >
+          <ul class="item active">
+            <li
+              v-for="(item, index) in activeTasks"
               :key="index"
               class="itemLi"
             >
@@ -57,6 +108,8 @@ export default {
   inject: ["selected"],
   data() {
     return {
+      activeTask: false,
+      activeCount: undefined,
       dataNums: [],
       title: ["任务名称", "目标系统", "数据容量(MB)", "数据数量(条)"],
       numTemp: {
@@ -68,9 +121,21 @@ export default {
         中国: 74553,
       },
       rightContents: [],
+      activeTasks: [],
     };
   },
   methods: {
+    async showActiveTask() {
+      if (this.activeTask) {
+        let res = await getMainpage.getRunningTask(
+          countryMap[this.selected()],
+          ""
+        );
+        this.activeTasks = res.data;
+      } else {
+        this.initChart();
+      }
+    },
     initChart() {
       getMainpage.getTasks(countryMap[this.selected()]).then((response) => {
         this.rightContents = response.data;
@@ -85,8 +150,15 @@ export default {
   // components: {
   //   vueSeamlessScroll,
   // },
-  mounted() {
+  async mounted() {
     this.initChart();
+  },
+  async created() {
+    let res = await getMainpage.getRunningCount(
+      countryMap[this.selected()],
+      ""
+    );
+    this.activeCount = res.data.cou;
   },
   watch: {
     computedSelected() {
@@ -96,17 +168,24 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  //padding-top: 0.05rem;
+  color: #fff;
+  .el-switch /deep/ .el-switch__label * {
+    color: #fff;
+  }
+}
 h2 {
   position: relative;
-  height: 0.5rem;
-  top: 0.05rem;
   left: 0.2rem;
   line-height: 0.5rem;
   color: #fff;
   font-size: 0.25rem;
   font-weight: 400;
-  width: 50%;
 }
 #scrollArea {
   height: 100%;
@@ -154,7 +233,8 @@ h2 {
   flex: 1;
   color: #fff;
   padding-top: 0.1875rem;
-  font-size: 0.1875rem;
+  font-size: 15px;
+  line-height: 0.3rem;
   text-align: center;
   font-family: "YouYuan";
   white-space: nowrap;

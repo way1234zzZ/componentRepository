@@ -1126,6 +1126,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.itemLi span:nth-child(1) {
+  text-align: left;
+}
 #bottom {
   border: 2px solid rgba(255, 255, 255, 0.2);
   font-size: 19px;

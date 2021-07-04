@@ -24,6 +24,12 @@ const getMainpage = {
   },
   getProjectList(params){
     return Vue.$http.get('/getProjectList?terr='+params)
-  }
+  },
+  getRunningTask(terr,project){
+    return Vue.$http.get('/getRunningTask?terr='+terr+'&project='+project)
+  },
+  getRunningCount(terr,project){
+    return Vue.$http.get('/getRunningCount?terr='+terr+'&project='+project)
+  },
 }
 export default getMainpage

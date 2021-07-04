@@ -80,7 +80,16 @@ export default {
   },
   methods: {
     selectBox() {
-      this.$router.push(`/target/${countryMap[this.selected()]}/${this.value}`);
+      // if (this.value.indexOf("http") >= 0 || this.value.indexOf("https") >= 0) {
+      //   console.log("http");
+      //   this.value.replace("/", "%2F");
+      //   console.log(this.value);
+      // }
+      this.$router.push(
+        `/target/${countryMap[this.selected()]}/${encodeURIComponent(
+          this.value
+        )}`
+      );
     },
     initChart() {
       getMainpage
