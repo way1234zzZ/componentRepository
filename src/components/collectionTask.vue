@@ -73,8 +73,8 @@
             >
               <span v-text="item.taskName"></span>
               <span v-text="item.projectName"></span>
-              <span v-text="item.dataCapacity"></span>
-              <span v-text="item.dataNum"></span>
+              <span v-text="item.cap"></span>
+              <span v-text="item.num"></span>
             </li>
           </ul>
         </vue-seamless-scroll>
