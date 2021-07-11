@@ -45,6 +45,14 @@ const getTarget = {
       }
     })
   },
+  getRunningList(country,project){
+    return Vue.$http.get('/getRunningList',{
+      params:{
+        'terr':country,
+        'project':project
+      }
+    })
+  },
 
   getRunningCount(country,project){
     return Vue.$http.get('/getRunningCount',{

@@ -400,7 +400,7 @@ export default {
 </script>
 <style scoped>
 #mainpage {
-  height: 100vh;
+  min-height: 100vh;
   background: url(../../public/bgg.jpg) no-repeat 100%;
   background-size: 100% 100%;
 }

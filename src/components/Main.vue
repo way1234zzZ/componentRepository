@@ -1,40 +1,48 @@
 <template>
   <div id="main">
     <div class="top wrapper">
-      <div class="title">
-        <span>采集数量趋势</span>
-        <el-date-picker
-          v-model="value1"
-          type="daterange"
-          align="right"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions"
-          @change="getCollectionNum"
-        >
-        </el-date-picker>
+      <div class="left">
+        <div class="title">
+          <span>采集数量趋势</span>
+          <el-date-picker
+            v-model="value1"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+            @change="getCollectionNum"
+          >
+          </el-date-picker>
+        </div>
+        <div class="chart" ref="taskNum"></div>
       </div>
-      <div class="chart" ref="taskNum"></div>
+      <div class="right">
+        <div class="title">
+          <span>累计采集数量</span>
+          <el-date-picker
+            v-model="value3"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+            @change="getCollectionNum"
+          >
+          </el-date-picker>
+        </div>
+        <div class="chart" ref="totalTasks"></div>
+      </div>
     </div>
     <div class="bottom wrapper">
       <div class="title">
-        <span>累计采集数量</span>
-        <el-date-picker
-          v-model="value2"
-          type="daterange"
-          align="right"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions"
-          @change="getTotalCollectionNum"
-        >
-        </el-date-picker>
+        <span>近24h活跃任务数</span>
       </div>
-      <div class="chart" ref="totalTasks"></div>
+      <div class="chart" ref="aliveTasks"></div>
     </div>
   </div>
 </template>
@@ -78,12 +86,15 @@ export default {
       },
       value1: "",
       value2: "",
+      value3: "",
       date: [],
       count: [],
       sevenDate: [],
       sevenDate1: [],
       capData: [],
       taskNum: [],
+      aliveTaskNum: [],
+      aliveTaskDate: [],
       option1: {
         xAxis: {
           type: "category",
@@ -109,7 +120,7 @@ export default {
         },
         grid: {
           top: "10%",
-          bottom: 30,
+          bottom: "10%",
         },
         yAxis: {
           type: "value",
@@ -153,9 +164,8 @@ export default {
           },
         },
         grid: {
-          right: "10%",
           top: "10%",
-          bottom: 40,
+          bottom: "10%",
         },
         xAxis: {
           type: "category",
@@ -203,6 +213,60 @@ export default {
               color: "rgba(236, 126, 48 ,1)",
               barBorderRadius: [7, 7, 0, 0],
             },
+          },
+        ],
+      },
+      option3: {
+        xAxis: {
+          type: "category",
+          axisTick: {
+            interval: 0,
+            alignWithLabel: true,
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ffffff",
+            },
+          },
+          data: [],
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            label: {
+              show: false,
+            },
+            type: "cross",
+          },
+        },
+        grid: {
+          top: "10%",
+          bottom: "10%",
+        },
+        yAxis: {
+          type: "value",
+          name: "近24h活跃任务(个)",
+          minInterval: 1,
+          scale: true,
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ffffff",
+            },
+          },
+        },
+        series: [
+          {
+            lineStyle: {
+              color: "rgb(51, 153, 255)",
+              width: 4,
+            },
+            data: [],
+            smooth: true,
+            smoothMonotone: "x",
+            type: "line",
           },
         ],
       },
@@ -259,6 +323,20 @@ export default {
         myChart.resize();
       });
     },
+    async initAliveTasks(country, project) {
+      var myChart = echarts.init(this.$refs.aliveTasks);
+      let res = await getTarget.getRunningList(country, project);
+      res.data.forEach((item) => {
+        this.aliveTaskNum.push(item.num);
+        this.aliveTaskDate.push(this.$moment(item.date).format("MM-DD HH"));
+      });
+      this.$set(this.option3.xAxis, "data", this.aliveTaskDate);
+      this.$set(this.option3.series[0], "data", this.aliveTaskNum);
+      myChart.setOption(this.option3);
+      window.addEventListener("resize", function() {
+        myChart.resize();
+      });
+    },
   },
   computed: {
     optionSetting() {
@@ -287,6 +365,7 @@ export default {
       this.$route.params.country,
       this.$route.params.project
     );
+    this.initAliveTasks(this.$route.params.country, this.$route.params.project);
   },
 };
 </script>
@@ -295,7 +374,19 @@ export default {
 .el-date-editor /deep/ .el-range-separator {
   width: 10% !important;
 }
-.wrapper {
+.top {
+  display: flex;
+  gap: 0.0625rem;
+  .left,
+  .right {
+    flex: 1;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+.bottom,
+.left,
+.right {
   display: flex;
   flex-direction: column;
   gap: 0.0625rem;
@@ -319,6 +410,8 @@ export default {
 
   .wrapper {
     flex: 1;
+  }
+  .bottom {
     border: 2px solid rgba(255, 255, 255, 0.2);
   }
 }
