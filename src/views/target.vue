@@ -30,7 +30,8 @@ export default {
 
 <style lang="scss" scoped>
 #el-container {
-  height: 100vh;
+  position: relative;
+  min-height: 100vh;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,9 +42,8 @@ export default {
     flex: 1;
   }
 }
-aside {
+#aside {
   width: 8rem !important;
-  height: 100%;
 }
 .el-main {
   padding: 0 5px;

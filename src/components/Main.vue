@@ -97,6 +97,7 @@ export default {
       aliveTaskDate: [],
       option1: {
         xAxis: {
+          name: "日期",
           type: "category",
           axisTick: {
             interval: 0,
@@ -119,7 +120,7 @@ export default {
           },
         },
         grid: {
-          top: "10%",
+          top: "15%",
           bottom: "10%",
         },
         yAxis: {
@@ -164,10 +165,11 @@ export default {
           },
         },
         grid: {
-          top: "10%",
+          top: "15%",
           bottom: "10%",
         },
         xAxis: {
+          name: "日期",
           type: "category",
           axisTick: {
             show: true,
@@ -218,6 +220,7 @@ export default {
       },
       option3: {
         xAxis: {
+          name: "日期",
           type: "category",
           axisTick: {
             interval: 0,
@@ -240,8 +243,10 @@ export default {
           },
         },
         grid: {
-          top: "10%",
+          top: "15%",
           bottom: "10%",
+          left: "8%",
+          right: "8%",
         },
         yAxis: {
           type: "value",
@@ -328,7 +333,7 @@ export default {
       let res = await getTarget.getRunningList(country, project);
       res.data.forEach((item) => {
         this.aliveTaskNum.push(item.num);
-        this.aliveTaskDate.push(this.$moment(item.date).format("MM-DD HH"));
+        this.aliveTaskDate.push(this.$moment(item.date).format("MM-DD HH:00"));
       });
       this.$set(this.option3.xAxis, "data", this.aliveTaskDate);
       this.$set(this.option3.series[0], "data", this.aliveTaskNum);
@@ -395,7 +400,7 @@ export default {
   }
   .title {
     flex: 1;
-    font-size: 25px;
+    font-size: 20px;
     color: #fff;
     display: flex;
     gap: 0.1875rem;
@@ -404,6 +409,7 @@ export default {
 }
 #main {
   height: 100%;
+  width: 99%;
   display: flex;
   flex-direction: column;
   gap: 5px;

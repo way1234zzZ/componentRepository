@@ -8,7 +8,7 @@
         <span>采集数量(个)</span>
       </div>
       <div id="scrollArea">
-        <ul class="item" v-if="listData.length <= 16">
+        <ul class="item .noscroll" v-if="listData.length <= 16">
           <li :key="item + key" v-for="(item, key) in listData" class="itemLi">
             <span v-text="item.taskName"></span>
             <span v-text="item.terr"></span>
@@ -1145,6 +1145,7 @@ export default {
   flex-direction: column;
   .circles {
     flex: 1;
+    flex-basis: 1.975rem;
   }
   .midAligned {
     height: 22px;
