@@ -4,13 +4,7 @@
       <div class="scrollTitle">
         <span>目标系统</span>
         <div id="selections">
-          <el-select
-            v-model="value"
-            placeholder="请选择"
-            @change="selectBox"
-            size="small"
-            filterable
-          >
+          <el-select v-model="value" placeholder="请选择" @change="selectBox" size="small" filterable>
             <el-option v-for="item in options" :key="item" :value="item">
             </el-option>
           </el-select>
@@ -19,11 +13,7 @@
       <ul class="demonstration">
         <span v-for="(item, index) in title" :key="index">{{ item }}</span>
       </ul>
-      <vue-seamless-scroll
-        :data="leftContents"
-        class="leftContents"
-        :class-option="optionSetting"
-      >
+      <vue-seamless-scroll :data="leftContents" class="leftContents" :class-option="optionSetting">
         <ul class="item">
           <li v-for="(item, index) in leftContents" :key="index" class="itemLi">
             <span v-text="item.projectname" @click="goToTarget(item)"></span>
@@ -103,7 +93,7 @@ export default {
     },
     goToTarget(item) {
       this.$router.push(
-        `/target/${countryMap[this.selected()]}/${item.projectname}`
+        `/target/${countryMap[this.selected()]}/${encodeURIComponent(item.projectname)}`
       );
     },
     async getProjectList(terr) {
@@ -191,7 +181,7 @@ export default {
   font-family: "KaiTi";
 }
 .leftContents {
-  height: 1.25rem;
+  height: 1.2rem;
   line-height: 0.3rem;
   overflow: hidden;
 }

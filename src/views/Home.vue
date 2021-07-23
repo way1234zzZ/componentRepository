@@ -8,24 +8,13 @@
         <div id="earth"></div>
         <div id="selections">
           <el-select v-model="value" placeholder="全球" @change="selectBox">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </div>
         <div id="lineSwitch">
           <label @click.stop>
-            <el-switch
-              v-model="switchLine"
-              active-text="飞线开关"
-              active-color="#00e600"
-              inactive-color="#d1e0e0"
-              @change="switchLines"
-            >
+            <el-switch v-model="switchLine" active-text="飞线开关" active-color="#00e600" inactive-color="#d1e0e0" @change="switchLines">
             </el-switch>
           </label>
         </div>
@@ -51,14 +40,7 @@ var echarts = require("echarts/lib/echarts");
 import "echarts-gl";
 import "echarts/map/js/world.js";
 import { heightTextureImg } from "@/assets/js/variables.js";
-import regions from "@/assets/json/regions.json";
-import world from "@/assets/json/world.json";
 import HongKong from "@/assets/json/HongKong.json";
-import London from "@/assets/json/London.json";
-import Melbourne from "@/assets/json/Melbourne.json";
-import NewYork from "@/assets/json/NewYork.json";
-import Tokyo from "@/assets/json/Tokyo.json";
-import geoCoordMap from "@/assets/json/geoCoordMap.json";
 import nameMap from "@/assets/json/nameMap.json";
 import targetScroll from "@/components/targetScroll.vue";
 import worldGeoCoordMap from "@/assets/json/worldGeoCoordMap.json";
@@ -86,14 +68,6 @@ export default {
           label: "G国",
         },
       ],
-      attackMap: {
-        中国: HongKong,
-        英国: London,
-        美国: NewYork,
-        日本: Tokyo,
-        澳大利亚: Melbourne,
-        全球: world,
-      },
       value: "全球",
       flag:
         "path://M169.06,27.19c-37.81-13.75-61.87-8.44-85-3.13l-3.44.63c-17.61,3.82-30-.92-35.82-4.1a11.08,11.08,0,1,0-8.86,1V200h6.25V104.69c11.87,7.5,31.25,7.81,58.12,1.56,30.94-7.19,65.94,9.06,66.25,9.06l4.38,2.19V27.81l-1.88-.62Zm-3.75,80.93H165c-10.63-4.37-39.06-14.06-65.94-7.81-28.44,6.56-46.87,5.63-56.56-3.44V26.25C49.37,30,63.12,35,82.19,30.62L85.62,30c22.82-5,44.69-10,79.69,2.19v75.93Z,M85.62,30l-3.43.63C63.12,35,49.37,30,42.5,26.25V96.88c9.69,9.06,28.12,10,56.56,3.43,26.88-6.25,55.32,3.44,65.94,7.81h.31V32.19C130.31,20,108.44,25,85.62,30Z",
@@ -384,7 +358,7 @@ export default {
       this.myChart.setOption(this.earthOption, true);
     },
   },
-  created() {},
+  created() { },
   async mounted() {
     let res = await getMainpage.getIps();
     this.mapData = res.data;
@@ -396,6 +370,10 @@ export default {
     });
     this.initEarth();
   },
+  beforeDestroy() {
+    this.mapChart.clear()
+    this.myChart.clear()
+  }
 };
 </script>
 <style scoped>

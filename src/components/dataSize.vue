@@ -118,6 +118,9 @@ export default {
       this.initChart();
     },
   },
+  beforeDestroy() {
+    this.myChart.clear()
+  }
 };
 </script>
 

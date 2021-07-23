@@ -17,20 +17,9 @@
     </div>
     <div id="state" ref="chart"></div>
     <div id="hiddenDom">
-      <span
-        style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;"
-        >{{ `平均存活时长：${lifeTime}` }}</span
-      >
-      <i
-        v-if="compare >= 0"
-        class="el-icon-top"
-        style="color: red;font-size: 0.3rem; font-weight: bolder;"
-      ></i>
-      <i
-        v-else
-        class="el-icon-bottom"
-        style="color: green;font-size: 0.3rem; font-weight: bolder;"
-      ></i>
+      <span style="color: aliceblue; height: 0.22rem; margin-left: 0.2rem; font-size: 0.25rem;">{{ `平均存活时长：${lifeTime}` }}</span>
+      <i v-if="compare >= 0" class="el-icon-top" style="color: red;font-size: 0.3rem; font-weight: bolder;"></i>
+      <i v-else class="el-icon-bottom" style="color: green;font-size: 0.3rem; font-weight: bolder;"></i>
     </div>
   </div>
 </template>
@@ -201,7 +190,10 @@ export default {
       this.compare = response.data.compare;
     });
   },
-  created() {},
+  created() { },
+  beforeDestroy() {
+    this.myChart.clear()
+  }
 };
 </script>
 
