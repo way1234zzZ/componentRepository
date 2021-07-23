@@ -40,7 +40,6 @@ var echarts = require("echarts/lib/echarts");
 import "echarts-gl";
 import "echarts/map/js/world.js";
 import { heightTextureImg } from "@/assets/js/variables.js";
-import HongKong from "@/assets/json/HongKong.json";
 import nameMap from "@/assets/json/nameMap.json";
 import targetScroll from "@/components/targetScroll.vue";
 import worldGeoCoordMap from "@/assets/json/worldGeoCoordMap.json";
