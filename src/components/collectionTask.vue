@@ -3,7 +3,12 @@
     <div class="title">
       <h2>采集任务（个）：{{ dataNums.task }}</h2>
       <span>正在运行的任务数：{{ this.activeCount }}个</span>
-      <el-switch v-model="activeTask" active-text="正在运行的任务" active-color="#13ce66" @change="showActiveTask">
+      <el-switch
+        v-model="activeTask"
+        active-text="正在运行的任务"
+        active-color="#13ce66"
+        @change="showActiveTask"
+      >
       </el-switch>
     </div>
     <div id="scrollFlow" ref="scrollFlow">
@@ -14,17 +19,31 @@
       </div>
       <div class="seamless-warp">
         <ul class="item" v-if="!activeTask && rightContents.length <= 6">
-          <li v-for="(item, index) in rightContents" :key="index" class="itemLi">
-            <span v-text="item.taskName"></span>
+          <li
+            v-for="(item, index) in rightContents"
+            :key="index"
+            class="itemLi"
+          >
+            <span v-text="item.taskName" :title="item.taskName"></span>
             <span v-text="item.projectName"></span>
             <span v-text="item.dataCapacity"></span>
             <span v-text="item.dataNum"></span>
           </li>
         </ul>
-        <vue-seamless-scroll :data="rightContents" :class-option="optionSetting" class="rightContents" ref="seamless" v-if="!activeTask && rightContents.length > 6">
+        <vue-seamless-scroll
+          :data="rightContents"
+          :class-option="optionSetting"
+          class="rightContents"
+          ref="seamless"
+          v-if="!activeTask && rightContents.length > 6"
+        >
           <ul class="item">
-            <li v-for="(item, index) in rightContents" :key="index" class="itemLi">
-              <span v-text="item.taskName"></span>
+            <li
+              v-for="(item, index) in rightContents"
+              :key="index"
+              class="itemLi"
+            >
+              <span v-text="item.taskName" :title="item.taskName"></span>
               <span v-text="item.projectName"></span>
               <span v-text="item.dataCapacity"></span>
               <span v-text="item.dataNum"></span>
@@ -33,16 +52,26 @@
         </vue-seamless-scroll>
         <ul class="item active" v-if="activeTask && activeTasks.length <= 6">
           <li v-for="(item, index) in activeTasks" :key="index" class="itemLi">
-            <span v-text="item.taskName"></span>
+            <span v-text="item.taskName" :title="item.taskName"></span>
             <span v-text="item.projectName"></span>
             <span v-text="item.cap"></span>
             <span v-text="item.num"></span>
           </li>
         </ul>
-        <vue-seamless-scroll :data="rightContents" :class-option="optionSetting" class="rightContents" ref="seamless" v-if="activeTask && activeTasks.length > 6">
+        <vue-seamless-scroll
+          :data="rightContents"
+          :class-option="optionSetting"
+          class="rightContents"
+          ref="seamless"
+          v-if="activeTask && activeTasks.length > 6"
+        >
           <ul class="item active">
-            <li v-for="(item, index) in activeTasks" :key="index" class="itemLi">
-              <span v-text="item.taskName"></span>
+            <li
+              v-for="(item, index) in activeTasks"
+              :key="index"
+              class="itemLi"
+            >
+              <span v-text="item.taskName" :title="item.taskName"></span>
               <span v-text="item.projectName"></span>
               <span v-text="item.cap"></span>
               <span v-text="item.num"></span>

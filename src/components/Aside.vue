@@ -10,16 +10,25 @@
       <div id="scrollArea">
         <ul class="item .noscroll" v-if="listData.length <= 16">
           <li :key="item + key" v-for="(item, key) in listData" class="itemLi">
-            <span v-text="item.taskName"></span>
+            <span :title="item.taskName">{{ item.taskName }}</span>
             <span v-text="item.terr"></span>
             <span v-text="item.cap"></span>
             <span v-text="item.num"></span>
           </li>
         </ul>
-        <vue-seamless-scroll :class-option="optionSetting" class="seamless-warp-aside" :data="listData" v-else>
+        <vue-seamless-scroll
+          :class-option="optionSetting"
+          class="seamless-warp-aside"
+          :data="listData"
+          v-else
+        >
           <ul class="item">
-            <li :key="item + key" v-for="(item, key) in listData" class="itemLi">
-              <span v-text="item.taskName"></span>
+            <li
+              :key="item + key"
+              v-for="(item, key) in listData"
+              class="itemLi"
+            >
+              <span :title="item.taskName">{{ item.taskName }}</span>
               <span v-text="item.terr"></span>
               <span v-text="item.cap"></span>
               <span v-text="item.num"></span>
@@ -31,15 +40,17 @@
     <div id="bottom" class="common-color">
       <el-row>
         <el-col :span="8">
-          <div id="probe" ref="probe" class="circles">{{ballData.accounts}}</div>
+          <div id="probe" ref="probe" class="circles">
+            {{ ballData.accounts }}
+          </div>
           <div class="midAligned">探针数</div>
         </el-col>
         <el-col :span="8">
-          <div id="activeTask" ref="activeTask" class="circles">{{cou}}</div>
+          <div id="activeTask" ref="activeTask" class="circles">{{ cou }}</div>
           <div class="midAligned">正在运行任务数</div>
         </el-col>
         <el-col :span="8">
-          <div id="task" ref="task" class="circles">{{ballData.tasks}}</div>
+          <div id="task" ref="task" class="circles">{{ ballData.tasks }}</div>
           <div class="midAligned">任务数</div>
         </el-col>
       </el-row>
@@ -59,8 +70,7 @@ export default {
       interval: null,
       myChart1: null,
       myChart2: null,
-      myChart3: null
-
+      myChart3: null,
     };
   },
   computed: {
@@ -85,10 +95,8 @@ export default {
     this.cou = res.data.cou;
     /* Echarts脚本 */
     /**********************探针数*****************************/
-
   },
   created() {
-
     getTarget
       .getPageTask(this.$route.params.country, this.$route.params.project)
       .then((data1) => {
@@ -98,7 +106,7 @@ export default {
       .getAITC(this.$route.params.country, this.$route.params.project)
       .then((data2) => {
         this.ballData = data2.data;
-      })
+      });
   },
 };
 </script>
