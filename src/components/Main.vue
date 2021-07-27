@@ -4,7 +4,17 @@
       <div class="left">
         <div class="title">
           <span>采集数量趋势</span>
-          <el-date-picker v-model="value1" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" @change="getCollectionNum">
+          <el-date-picker
+            v-model="value1"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+            @change="getCollectionNum"
+          >
           </el-date-picker>
         </div>
         <div class="chart" ref="taskNum"></div>
@@ -12,7 +22,17 @@
       <div class="right">
         <div class="title">
           <span>累计采集数量</span>
-          <el-date-picker v-model="value3" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" @change="getCollectionNum">
+          <el-date-picker
+            v-model="value2"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+            @change="getTotalCollectionNum"
+          >
           </el-date-picker>
         </div>
         <div class="chart" ref="totalTasks"></div>
@@ -66,7 +86,6 @@ export default {
       },
       value1: "",
       value2: "",
-      value3: "",
       date: [],
       count: [],
       sevenDate: [],
@@ -293,7 +312,7 @@ export default {
       this.$set(this.option1.series[0], "data", this.taskNum);
       this.$set(this.option1.xAxis, "data", this.sevenDate1);
       myChart.setOption(this.option1);
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         myChart.resize();
       });
     },
@@ -307,7 +326,7 @@ export default {
       this.$set(this.option2.xAxis, "data", this.date);
       this.$set(this.option2.series[0], "data", this.count);
       myChart.setOption(this.option2);
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         myChart.resize();
       });
     },
@@ -321,7 +340,7 @@ export default {
       this.$set(this.option3.xAxis, "data", this.aliveTaskDate);
       this.$set(this.option3.series[0], "data", this.aliveTaskNum);
       myChart.setOption(this.option3);
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         myChart.resize();
       });
     },
