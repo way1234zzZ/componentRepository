@@ -35,11 +35,11 @@
           <div class="midAligned">探针数</div>
         </el-col>
         <el-col :span="8">
-          <div id="activeTask" ref="activeTask" class="circles">{{ballData.tasks}}</div>
+          <div id="activeTask" ref="activeTask" class="circles">{{cou}}</div>
           <div class="midAligned">正在运行任务数</div>
         </el-col>
         <el-col :span="8">
-          <div id="task" ref="task" class="circles">{{cou}}</div>
+          <div id="task" ref="task" class="circles">{{ballData.tasks}}</div>
           <div class="midAligned">任务数</div>
         </el-col>
       </el-row>
